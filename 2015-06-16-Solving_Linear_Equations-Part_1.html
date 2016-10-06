@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Solving Linear Equations-Part 1</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Solving Linear Equations-Part 1</h1>
+<h4 class="date"><em>2015-06-16 17:09</em></h4>
+
+</div>
+
+
+<div id="vectors-and-linear-equations" class="section level1">
+<h1>Vectors and Linear Equations</h1>
+<p>The central problem of linear algebra is to solve a system of equations. ## Two Picture <strong>Row Picture:</strong> <span class="math display">\[
+\mathbf{\text{Two equations}}\qquad x-2y=1  \\
+\mathbf{\text{Two unknows}}\qquad 3x+2u = 11
+\]</span> <img src="img/intro%20linear/figure2.1.png" alt="row picture" /> <strong>ROWS <em>The row picfure shows two lines meeting at a single point(the solution)</em>.</strong></p>
+<p><strong>Column Picture:</strong> <span class="math display">\[
+\text{Combinations equals b}\qquad x\begin{bmatrix}1\\
+3
+\end{bmatrix}+y\begin{bmatrix}-2\\
+2
+\end{bmatrix}=\begin{bmatrix}1\\
+11
+\end{bmatrix}=b
+\]</span> <img src="img/intro%20linear/figure2.2.png" alt="column picture" /> <strong>COLUMNS <em>The column picture combines the column vectors on the left side to produce the vector b on the right side</em>.</strong></p>
+<p>It is a lot easier to see a combination of four vectors in four-dimensional space, than to visualize how four hyperplanes might possibly meet at a point. (Even one hyperplane is hard enough … ) <strong>one more example:</strong> <span class="math display">\[
+\begin{array}{ccccccc}
+x &amp; + &amp; 2y &amp; + &amp; 3z &amp; = &amp; 6\\
+2x &amp; + &amp; 5y &amp; + &amp; 2z &amp; = &amp; 4\\
+6x &amp; - &amp; 3y &amp; + &amp; z &amp; = &amp; 2
+\end{array}
+\]</span> <img src="img/intro%20linear/figure2.3.png" alt="row picture" /> <img src="img/intro%20linear/figure2.4.png" alt="column picture" /></p>
+<div id="the-matrix-form-of-the-equations" class="section level2">
+<h2>The Matrix Form of the Equations</h2>
+<p><strong>The Matrix form of above equation:</strong> <span class="math display">\[
+\begin{bmatrix}1 &amp; 2 &amp; 3\\
+2 &amp; 5 &amp; 2\\
+6 &amp; -3 &amp; 1
+\end{bmatrix}
+ \begin{bmatrix}x\\
+y\\
+z
+\end{bmatrix}=\begin{bmatrix}6\\
+4\\
+2
+\end{bmatrix}
+\]</span> <strong>Dot products with rows</strong> <span class="math display">\[
+Ax=\begin{bmatrix}(row1)\centerdot x\\
+(row2)\centerdot x\\
+(row3)\centerdot x
+\end{bmatrix}
+\]</span> <strong>Combination of columns</strong> <span class="math display">\[
+Ax=x(column1)+y(column2)+z(column3)
+\]</span></p>
+</div>
+</div>
+<div id="the-idea-of-elimination" class="section level1">
+<h1>The Idea of Elimination</h1>
+<p>Elimination produces an <em>upper triangular system</em>–this is the goal.<strong>row combinations</strong>. The visualization of elimination:(let the system become triangular) <span class="math display">\[
+\text{Before}\quad \begin{array}{ccccc}
+x &amp; - &amp; 2y &amp; = &amp; 1\\
+3x &amp; + &amp; 2y &amp; = &amp; 11
+\end{array}
+\qquad \text{After} \quad \begin{array}{ccccc}
+x &amp; - &amp; 2y &amp; = &amp; 1\\
+ &amp;  &amp; 8y &amp; = &amp; 8
+\end{array}
+\]</span> <img src="img/intro%20linear/figure2.5.png" alt="elimination" /> Ask yourself how that multiplier <span class="math inline">\(l=3\)</span> was found. The first equation contains <span class="math inline">\(\mathbf{1}x\)</span>. <strong>So the first pivot was 1</strong> (the coefficient of <span class="math inline">\(x\)</span>). The second equation contains <span class="math inline">\(\mathbf{3}x\)</span>, <strong>so the multiplier was 3</strong>. Then subtraction <span class="math inline">\(3x-3x\)</span> produced the zero and the triangle. <span class="math display">\[
+\mathbf{\text{Pivot= first nonzero in the row that does the elimination}} \\
+\mathbf{\text{Multiplier = (entry to eliminate) divided by (pivot)}}
+\]</span> ## Breakdown of Elimination <strong>Example 1 <em>(Permanent failure with no solution)</em></strong>. <span class="math display">\[
+\begin{array}{ccccc}x &amp; - &amp; 2y &amp; = &amp; 1\\
+3x &amp; - &amp; 6y &amp; = &amp; 11
+\end{array}\quad\Rightarrow\quad\begin{array}{ccccc}x &amp; - &amp; 2y &amp; = &amp; 1\\
+ &amp;  &amp; 0y &amp; = &amp; 8
+\end{array}
+\]</span> <strong>Example 2 <em>(Failure with infinitely many solutions)</em></strong>. <span class="math display">\[
+\begin{array}{ccccc}x &amp; - &amp; 2y &amp; = &amp; 1\\
+3x &amp; - &amp; 6y &amp; = &amp; 3
+\end{array}\quad\Rightarrow\quad\begin{array}{ccccc}x &amp; - &amp; 2y &amp; = &amp; 1\\
+ &amp;  &amp; 0y &amp; = &amp; 0
+\end{array}
+\]</span> <strong>Example 3 <em>(Temporary failure: zero in pivot. A row exchange produces two pivots)</em></strong>. <span class="math display">\[
+\begin{array}{ccccc}0x &amp; + &amp; 2y &amp; = &amp; 4\\
+3x &amp; - &amp; 2y &amp; = &amp; 5
+\end{array}\quad\Rightarrow\quad\begin{array}{ccccc}3x &amp; - &amp; 2y &amp; = &amp; 5\\
+ &amp;  &amp; 2y &amp; = &amp; 4
+\end{array}
+\]</span></p>
+<div id="three-equations-in-three-unknowns" class="section level2">
+<h2>Three Equations in Three Unknowns</h2>
+<p><span class="math display">\[
+\begin{array}{rcccccc}
+2x &amp; + &amp; 4y &amp; - &amp; 2z &amp; = &amp; 2\\
+4x &amp; + &amp; 9y &amp; - &amp; 3z &amp; = &amp; 8\\
+-2x &amp; - &amp; 3y &amp; + &amp; 7z &amp; = &amp; 10
+\end{array}\quad\begin{array}{c}
+\\
+\mathbf{Forward}\\
+\mathbf{Forward}
+\end{array}\quad\begin{array}{ccccccc}
+2x &amp; + &amp; 4y &amp; - &amp; 2z &amp; = &amp; 2\\
+ &amp;  &amp; 1y &amp; + &amp; 1z &amp; = &amp; 4\\
+ &amp;  &amp;  &amp;  &amp; 4z &amp; = &amp; 8
+\end{array}\quad\begin{bmatrix}x\\
+y\\
+z
+\end{bmatrix}=\begin{bmatrix}1\\
+2\\
+2
+\end{bmatrix}\quad\begin{array}{c}
+\mathbf{Back}\\
+\mathbf{Back}\\
+\\
+\end{array}
+\]</span> + Column 1. Use the first equation to create zero below the first pivot. + Column 2. Use the new equation 2 to create zeros below the second pivot. + Columns 3 to n. Keep going to find all n pivots and triangular <span class="math inline">\(U\)</span>. + Apply Back substitution on <span class="math inline">\(U\)</span>.</p>
+</div>
+</div>
+<div id="elimination-using-matrices" class="section level1">
+<h1>Elimination Using Matrices</h1>
+<p>We now combine two ideas–elimination and matrices. The goal is to express all the steps of elimination (and the final result) in the clearest possible way.</p>
+<p>The <span class="math inline">\(i\)</span>th component is a dot product with row <span class="math inline">\(i\)</span> of <span class="math inline">\(A\)</span>, which is <span class="math inline">\([a_{i1} \; a_{i2} \; \dots \; a_{in}]\)</span>. <span class="math display">\[
+a_{i1}x_1+a_{i2}x_2+\dots+a_{in}x_n \quad\Rightarrow\quad \sum^n_{j=1}a_{ij}x_j
+\]</span> ## The Matrix Form of One Elimination Step What we want: <span class="math display">\[
+b=\begin{bmatrix}2\\
+8\\
+10
+\end{bmatrix} \Rightarrow b_{new}\begin{bmatrix}2\\
+4\\
+10
+\end{bmatrix}
+\]</span> <span class="math inline">\(\mathbf{row2-(2\centerdot{row1})}\)</span>:</p>
+<p><span class="math display">\[
+\begin{bmatrix}1 &amp; 0 &amp; 0\\
+-2 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 1
+\end{bmatrix}\begin{bmatrix}2\\
+8\\
+10
+\end{bmatrix}=\begin{bmatrix}2\\
+4\\
+10
+\end{bmatrix}\text{Abstract to}\begin{bmatrix}1 &amp; 0 &amp; 0\\
+-2 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 1
+\end{bmatrix}\begin{bmatrix}b_{1}\\
+b_{2}\\
+b_{3}
+\end{bmatrix}=\begin{bmatrix}b_{1}\\
+b_{2}-b_{1}\\
+b_{3}
+\end{bmatrix}=E_{21}b
+\]</span> although the operation we want is simple, but the matrix form does more. because we <strong>omit</strong> some things (the following is the whole expression): + Keep the row1 and row3 unchanged + substracts 2 time row1 from row2</p>
+<p><strong>Confession</strong> The <em>elimination matrices</em> <span class="math inline">\(E_{ij}\)</span> are greate examples, but you won’t see them later. They show how a matrix acts on rows. By taking several elimination steps, we will see <em>how to multiply matrices</em> (and the order of <span class="math inline">\(E\)</span>’s becomes important). <strong>Products and Inverses</strong> are especially clear for <span class="math inline">\(E\)</span>’s. It is those two ideas that the book will now use.</p>
+<div id="matrix-multiplication" class="section level2">
+<h2>Matrix Multiplication</h2>
+<p><span class="math display">\[
+EA=\begin{bmatrix}1 &amp; 0 &amp; 0\\
+-2 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 1
+\end{bmatrix}\begin{bmatrix}2 &amp; 4 &amp; -2\\
+4 &amp; 9 &amp; -3\\
+-2 &amp; -3 &amp; 7
+\end{bmatrix}=\begin{bmatrix}2 &amp; 4 &amp; -2\\
+\mathbf{0} &amp; \mathbf{1} &amp; \mathbf{1}\\
+-2 &amp; -3 &amp; 7
+\end{bmatrix}
+\]</span> Laws: <span class="math display">\[
+\mathbf{\text{Associative law is true} }\quad A(BC)=(AB)C \\
+\mathbf{\text{Commutative law is false}}\quad Often AB \ne BA
+\]</span></p>
+</div>
+<div id="the-matrix-p_ij-for-a-row-exchange" class="section level2">
+<h2>The Matrix <span class="math inline">\(P_{ij}\)</span> for a Row Exchange</h2>
+<p>To subtract row <span class="math inline">\(j\)</span> from row <span class="math inline">\(i\)</span> we use <span class="math inline">\(E_{ij}\)</span>. To exchange or “permute” those rows we use another matrix <span class="math inline">\(P_{ij}\)</span> <span class="math display">\[
+\begin{bmatrix}1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1\\
+0 &amp; 1 &amp; 0
+\end{bmatrix}\begin{bmatrix}2 &amp; 4 &amp; 1\\
+0 &amp; 0 &amp; 3\\
+0 &amp; 6 &amp; 5
+\end{bmatrix}=\begin{bmatrix}2 &amp; 4 &amp; 1\\
+0 &amp; 6 &amp; 5\\
+0 &amp; 0 &amp; 3
+\end{bmatrix}=P_{23}A
+\]</span></p>
+</div>
+<div id="the-augmented-matrix" class="section level2">
+<h2>The Augmented Matrix</h2>
+<p>Key idea: Elimination does the same row operations to <span class="math inline">\(A\)</span> and to <span class="math inline">\(b\)</span>. <strong>We can include <span class="math inline">\(b\)</span> as an extra column and follow it through elimination</strong>. <span class="math display">\[
+\begin{bmatrix}1 &amp; 0 &amp; 0\\
+-2 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 1
+\end{bmatrix}\begin{bmatrix}2 &amp; 4 &amp; -2 &amp; \mathbf{2}\\
+4 &amp; 9 &amp; -3 &amp; \mathbf{8}\\
+-2 &amp; -3 &amp; 7 &amp; \mathbf{10}
+\end{bmatrix}=\begin{bmatrix}2 &amp; 4 &amp; -2 &amp; \mathbf{2}\\
+0 &amp; 1 &amp; -1 &amp; \mathbf{4}\\
+-2 &amp; -3 &amp; 7 &amp; \mathbf{10}
+\end{bmatrix}
+\]</span> + <strong>ROWS</strong> Each row of <span class="math inline">\(E\)</span> acts on <span class="math inline">\([A\; b]\)</span> to give a row of <span class="math inline">\([EA\; Eb]\)</span>. + <strong>COLUMNS</strong> <span class="math inline">\(E\)</span> acts on each column of <span class="math inline">\([A\; b]\)</span> to give a column of <span class="math inline">\([EA\; Eb]\)</span>.</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>偏函数和implicit</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Hello World</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="category.html">Category</a>
+</li>
+<li>
+  <a href="tag.html">Tag</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">偏函数和implicit</h1>
+<h4 class="date"><em>2015-07-29 16:01</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a>偏函数</a><ul>
+<li><a>示例</a></li>
+<li><a href="#case">case与偏函数</a></li>
+</ul></li>
+<li><a href="#implicit"><a href="http://docs.scala-lang.org/tutorials/FAQ/finding-implicits.html"><code>implicit</code>示例</a></a><ul>
+<li><a>隐式参数类型约束</a></li>
+<li><a>隐式参数类型转换</a></li>
+<li><a href="#context-bounds">上下文约束(Context Bounds)</a></li>
+<li><a href="#implicits"><code>Implicits</code>的查找</a><ul>
+<li><a href="#explicit-imports">Explicit imports</a></li>
+<li><a href="#wildcard-imports">wildcard imports</a></li>
+<li><a href="#companion-objects-of-a-type">Companion objects of a type</a></li>
+<li><a href="#implicit-scope-of-type-arguments">Implicit scope of type arguments</a></li>
+<li><a href="#outer-objects-for-nested-types">Outer objects for nested types</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+
+<div class="section level1">
+<h1>偏函数</h1>
+<div class="section level2">
+<h2>示例</h2>
+<p>偏函数不同于currying，它表示这个函数只对某个类型下特定的值集有定义，例如：</p>
+<pre class="scala"><code>val isEven: PartialFunction[Int, String] = {
+  case x if x % 2 == 0 =&gt; x+&quot; is even&quot;
+}</code></pre>
+<p>以上的<code>isEven</code>函数只对偶数的<code>Int</code>有定义，当以<code>isEven(9)</code>调用时会报错，我们可以使用<code>isDefinedAt</code>验证是否可以调用该函数。</p>
+<pre><code>if(isEven.isDefinedAt(9))  // =&gt;  false
+  isEven(9)</code></pre>
+</div>
+<div id="case" class="section level2">
+<h2>case与偏函数</h2>
+<pre class="scala"><code>case class PhoneExt(name: String, ext: Int)
+val extensions = List(PhoneExt(&quot;steve&quot;, 100), PhoneExt(&quot;robey&quot;, 200))
+extensions.filter { case PhoneExt(name, extension) =&gt; extension &lt; 200 }</code></pre>
+<p>这里<code>filter</code>后面的部分其实是个<code>PartialFunction</code>!! <code>filter(p: (A) ⇒ Boolean)</code>，而<code>PartialFunction</code>是Function的子类型。 <strong>与中缀表达式结合</strong></p>
+<pre class="scala"><code>List(2).map{case 2 =&gt; &quot;ok&quot;}
+
+val p: PartialFunction[Int, String] = {case 2 =&gt; &quot;Ok&quot;}
+List(2).map p
+&lt;console&gt;:8: error: missing arguments for method map in class List;
+follow this method with `_&#39; if you want to treat it as a partially applied function
+              List(2).map p
+
+List(2).map(p)  // ok
+List(2) map p   // ok</code></pre>
+</div>
+</div>
+<div id="implicit" class="section level1">
+<h1><a href="http://docs.scala-lang.org/tutorials/FAQ/finding-implicits.html"><code>implicit</code>示例</a></h1>
+<div class="section level2">
+<h2>隐式参数类型约束</h2>
+<pre class="scala"><code>import scala.math._
+def foo[T](t: T)(implicit integral: Integral[T])
+  {println(integral)}
+foo(0)  //=&gt; scala.math.Numeric$IntIsIntegral$@53b97d73
+foo(0L) //=&gt; scala.math.Numeric$LongIsIntegral$@550571f6
+foo(0.09)  //=&gt; could not find implicit value for parameter integral: scala.math.Integral[Double]</code></pre>
+</div>
+<div class="section level2">
+<h2>隐式参数类型转换</h2>
+<pre class="scala"><code>&quot;abc&quot;.map(_.toInt)
+String =&gt; StringOps</code></pre>
+<p><strong>结合两者</strong></p>
+<pre class="scala"><code>def getIndex[T, CC](seq: CC, value: T)(implicit conv: CC =&gt; Seq[T]) = 
+  seq.indexOf(value)
+
+getIndex(&quot;abc&quot;, &#39;a&#39;)  //=&gt; 0
+getIndex(&quot;abc&quot;, &quot;a&quot;)  //=&gt; No implicit view available from String =&gt; Seq[String]
+
+// 语法糖写法
+def getIndex[T, CC &lt;% Seq[T]](seq: CC, value: T) = seq.indexOf(value)</code></pre>
+</div>
+<div id="context-bounds" class="section level2">
+<h2>上下文约束(Context Bounds)</h2>
+<p>隐式参数的另一个常见模式是<em>type class pattern</em>。该模式可以给没有声明它们的那些类提供一个统一的接口。</p>
+<p>示例1:</p>
+<pre class="scala"><code>def sum[T](list: List[T])(implicit integral: Integral[T]): T = {
+  import integral._   // get the implicits in question into scope
+  list.foldLeft(integral.zero)(_+_)
+}
+
+// 语法糖写法
+def sum[T: Integral](list: List[T]): T = {
+  val integral = implicitly[Integral[T]]
+  import integral._   // get the implicits in question into scope
+  list.foldLeft(integral.zero)(_+_)
+}</code></pre>
+<p>示例2:</p>
+<pre class="scala"><code>def reverseSort[T: Ordering](seq: Seq[T]) = seq.reverse.sorted</code></pre>
+</div>
+<div id="implicits" class="section level2">
+<h2><code>Implicits</code>的查找</h2>
+<ol style="list-style-type: decimal">
+<li>First look in current scope</li>
+</ol>
+<ul>
+<li>Implicits defined in current scope</li>
+<li>Explicit imports</li>
+<li>wildcard imports</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Now look at associated types in</li>
+</ol>
+<ul>
+<li>Companion objects of a type</li>
+<li>Implicit scope of an argument’s type</li>
+<li>Implicit scope of type arguments</li>
+<li>Outer objects for nested types</li>
+</ul>
+<p>示例: ### Implicits defined in current scope</p>
+<pre class="scala"><code>implicit val n: Int = 5
+def add(x: Int)(implicit y: Int) = x + y
+add(5)   // takes n from the current scope</code></pre>
+<div id="explicit-imports" class="section level3">
+<h3>Explicit imports</h3>
+<pre class="scala"><code>import scala.collection.JavaConversions.mapAsScalaMap
+def env = System.getenv()  // java map
+def term = env(&quot;TERM&quot;)  // implicit conversion from Java Map to Scala Map
+// Java Map not support such operations</code></pre>
+</div>
+<div id="wildcard-imports" class="section level3">
+<h3>wildcard imports</h3>
+<pre class="scala"><code>def sum[T : Integral](list: List[T]): T = {
+  val integral = implicitly[Integral[T]]
+  import integral._   // get the implicits in question into scope
+  list.foldLeft(integral.zero)(_ + _)
+}</code></pre>
+</div>
+<div id="companion-objects-of-a-type" class="section level3">
+<h3>Companion objects of a type</h3>
+<pre class="scala"><code>for{
+  x &lt;- List(1, 2, 3)
+  y &lt;- Some(&#39;x&#39;)
+} yield (x, y)</code></pre>
+<p>以上表达式将会编译成：</p>
+<pre class="scala"><code>List(1, 2, 3).flatMap(x =&gt; Some(&#39;x&#39;).map(y =&gt; (x, y)))
+//=&gt; List[(Int, Char)] = List((1,x), (2,x), (3,x))</code></pre>
+<p><code>List.flatMap(f: (A) =&gt; GenTraversableOnce[B])</code>需要一个<code>TraversableOnce</code>，但<code>Option</code>却不是， 编译器会察看<code>Option</code>的伴生对象并找到一个向<code>Iterable</code>的转换。<code>Option.map</code>生成的是一个<code>Option</code>，并不是一个<code>TraversableOnce</code>。 在文档的<code>Type Hierarchy</code>里可以看到<code>Option[A] --(implicitly)--&gt;(Iterable[A])</code>。 需要注意的是超类的伴生对象也会被察看，例如：</p>
+<pre class="scala"><code>class A(val n: Int)
+object A {
+  implicit def str(a: A): String = &quot;A: %d&quot; format a.n
+}
+class B(val x: Int, y: Int) extends A(y)
+val b = new B(5, 2)
+val s: String = b</code></pre>
+<p>这里找到的是<code>Numeric[Int]</code>并非<code>Integral[Int]</code>。 ### Implicit scope of an argument’s type</p>
+<pre class="scala"><code>class A(val n: Int) {
+  def +(other: A) = new A(n + other.n)
+}
+object A {
+  implicit def fromInt(n: Int) = new A(n)
+}
+1 + new A(1)
+// converted to this:
+A.fromInt(1) + new A(1)</code></pre>
+</div>
+<div id="implicit-scope-of-type-arguments" class="section level3">
+<h3>Implicit scope of type arguments</h3>
+<pre class="scala"><code>class A(val n: Int)
+object A{
+  implicit val ord = new Ordering[A] {
+    def compare(x: A, y: A) =
+      implicitly[Ordering[Int]].compare(x.n, y.n)
+  } 
+}
+// 以下调用将合法
+List(new A(5), new A(2)).sorted</code></pre>
+</div>
+<div id="outer-objects-for-nested-types" class="section level3">
+<h3>Outer objects for nested types</h3>
+<pre class="scala"><code>class A(val n: Int) {
+  class B(val m: Int) { require(m &lt; n) }
+}
+object A {
+  implicit def bToString(b: A#B) = &quot;B: %d&quot; format b.m
+}
+val a = new A(5)
+val b = new a.B(3)
+val s: String = b</code></pre>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

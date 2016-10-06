@@ -1,0 +1,6 @@
+#+STARTUP: showall
+
+* Tasks
+** TODO 隐式转换和类型匹配
+** TODO flatMap中的++=
+** TODO Future.sequence的实现

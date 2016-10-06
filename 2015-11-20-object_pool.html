@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>对象池、链接池</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Hello World</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="category.html">Category</a>
+</li>
+<li>
+  <a href="tag.html">Tag</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">对象池、链接池</h1>
+<h4 class="date"><em>2015-11-20 16:09</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a>首先要确定问题确实是在我这边</a></li>
+<li><a>寻找问题的原因与解决方案</a></li>
+<li><a>总结</a></li>
+</ul>
+</div>
+
+<p>起因：有同事说某个接口返回的信息不一致，作为接口的维护者我需要来修正这个问题</p>
+<p>故事是这样的：</p>
+<p>背景：今有一ruby的web项目（使用sinatra作为框架），提供了一个接口 <code>/search/:album_id</code> 根据 <code>album_id</code> 来查询一些信息（json格式）， 并且返回json中包含 <code>album_id</code></p>
+<div class="section level2">
+<h2>首先要确定问题确实是在我这边</h2>
+<p>写一个脚本，多线程来调用接口，并验证调用参数与返回参数的一致性， 1. 当使用thin来启动的时候，脚本跑下来发现提供的查询 <code>album_id</code> 和返回信息中的 <code>album_id</code> 是相同，尝试多次数据始终是一致的 2. 当使用unicorn（unicorn是用单进程的）来启动的时候，结果同上 这让我滋生了一个怀疑，问题确实是在我这边吗？</p>
+<p>我想起线上的unicorn是多进程的，所以用unicorn的多进程来起项目，再跑脚本，真相出现了，问题确实在我这边</p>
+</div>
+<div class="section level2">
+<h2>寻找问题的原因与解决方案</h2>
+<p>我将提供接口的代码反复查看，实在是没看出什么，因为代码确实很短，不到30行，打印处了返回的json， 我将搜索的 <code>album_id</code> 限定到2个的时候，这个问题依然存在，只是能确定有问题，却不知道原因， 在不清楚原因的情况下，我做起了一些假设，并添加了mutex来做同步，发现问题依然存在。</p>
+<p>几番折腾无果之后，请教身旁的主管，老大一上来就指出了一处代码的不合理</p>
+<pre class="ruby"><code># 原作
+json(pss.map{|p| p.to_json}.inject{|acc, item| acc.merge!(item); acc }, :encoder =&gt; :to_json, :content_type =&gt; :js)
+# 修改后
+json(pss.map{|p| p.to_json}.inject(:merge), :encoder =&gt; :to_json, :content_type =&gt; :js)</code></pre>
+<p>修改的原因是不immutable，虽然可能于结果没什么帮助，但确实是一处值得修改的地方。 \ 我们在代码的多处打印了进程ID（此时unicorn是用多进程模式），发现并没有出现交错的情况。 更有甚者我们在接口进入处生成一个随机函数，一番折腾但依然无果。</p>
+<p>老大又查看了unicorn的配置，数据库的配置等。没发现什么可疑之处。中间一个有趣的插曲是在出现多次的数据不一致之后，数据又一致了。 我们面面相觑。。。。</p>
+<p>接着让我在接口代码中，多处打印传入参数，返回的结果以更加暴露问题。这一打印让我们本以为数据应该一致的地方，出现了不一致。</p>
+<pre class="ruby"><code>get &#39;/search/:album_id&#39; do 
+  #1  puts params[:album_id]
+  pss = ProfitSharingScheme.where(album_id: params[:album_id]) # 会查到最多两条纪录
+  #2 puts pss.first.album_id
+  if pss.first
+    js = json(pss.map{|p| p.to_json}.inject(:merge), :encoder =&gt; :to_json, :content_type =&gt; :js)
+    if JSON.parse(js)[&quot;album_id&quot;] == params[:album_id]
+      puts &quot;#{params[:album_id]}  -- OK&quot;
+    else
+  #3  puts &quot;#{params[:album_id]}  -- #{js}&quot;
+    end
+  else
+    ...
+  end
+end</code></pre>
+<p>以上代码中 <code>#</code> 标出的地方 <code>params[:album_id], pss.first.album_id, js</code> 中的 <code>album_id</code> 这三个值有时会出现不一样的情况 由于只有两个 <code>album_id</code> 所以三处不一致还是可以表现出来。</p>
+<p>接着老大查了下sequel（使用的ORM）的文档，提出了如下修改：</p>
+<pre class="ruby"><code>pss = ProfitSharingScheme.where(album_id: params[:album_id]) # 会查到最多两条纪录
+# 改成如下
+pss = ProfitSharingScheme.where(album_id: params[:album_id]).to_a # 会查到最多两条纪录</code></pre>
+<p>原因是不加 <code>to_a</code> 的时候，数据其实没有拿出来，会导致后面的 <code>pss.first</code> 和 <code>json(pss.map.....)</code> 会查询两次数据库， （sequel并不会对结果进行缓存，两次调用）</p>
+<p>果然，修改之后的代码，数据不一致只出现在了 #1和#2处，#2和#3的 <code>album_id</code> 始终保持一致。此时距离目标似乎近了一步。</p>
+<p>老大此时我新加了一个测试，</p>
+<pre class="ruby"><code>get &quot;/search2/:album_id&quot; do
+  aid = params[:album_id].to_i
+  ds = BodyContent.where(album_id: aid)
+  datalist = ds.to_a
+  if datalist.empty?
+    puts &quot;#{aid} ... empty&quot;
+  elsif datalist[0].album_id == aid then
+    puts &quot;#{aid} ---- OK&quot;
+  else
+    puts &quot;#{aid} ....... #{datalist}  .... #{ds.inspect}&quot; 
+  end
+  %Q&lt;{&quot;album_id&quot;: #{datalist[0].album_id}}&gt;
+end</code></pre>
+<p>换了一个更简单的接口来做测试，重现问题。当然也只是再现了这个问题。</p>
+<p>老大让我对sequel直接来做测试，传入 <code>album_id</code> 验证拿出的数据的 <code>album_id</code> 和 传入的数据。</p>
+<p>结果数据是一致的，老大宣布了sequel的无罪</p>
+<p>我无意中在 <code>if</code> 之前加了一个 <code>sleep</code> 脚本的测试就通过了，试了几次之后还是OK。 这个发现报告给老大后并加以演示，在 <code>if</code> 前加了句： <code>1_000_000.times{}</code> 。<br />
+老大试着使用 <code>datalist.freeze</code> 来达到相同的效果，却不行。 之后添加了如下代码：</p>
+<pre class="ruby"><code>good_count = 100.times.map do
+  ds.all[0].album_id
+end.count {|x| x == aid}
+puts &quot;++++++++ #{aid} ++++++++ #{good_count}&quot;
+
+datalist = ds.all
+# 1_000_000.times{}</code></pre>
+<p>发现 <code>good_count</code> 的值并不总是100。我们依然无法解释这个情况。</p>
+<p>老大此时让我先把数据库的查询部分用 <code>ActiveRecord</code> 来做，再看看情况。 当我正干劲十足的改代码时，老大来了一长串话，大意就是，unicorn在fork进程的时候， 各个进程的连接池出现了混乱，才会导致数据不一致的问题，而之所以经过几次失败后好了， 可能是各个进程建立了自己的连接池。</p>
+<p>让我眼前一亮。接着在老大的指导下我修改了unicorn的配置，</p>
+<pre class="ruby"><code>before_fork do |server, worker|
+  old_pid = &quot;#{server.config[:pid]}.oldbin&quot;
+  if old_pid != server.pid
+    begin
+      sig = (worker.nr + 1) &gt;= server.worker_processes ? :QUIT : :TTOU
+      Process.kill(sig, File.read(old_pid).to_i)
+    rescue Errno::ENOENT, Errno::ESRCH
+    end
+  end
+
+  defined?(ActiveRecord::Base) and ActiveRecord::Base.connection.disconnect!
+  defined?(Copyright::DB_COPYRIGHT) and Copyright::DB_COPYRIGHT.disconnect
+  sleep 1
+end
+
+after_fork do |server, worker|
+  defined?(ActiveRecord::Base) and
+    ActiveRecord::Base.connection.reconnect!
+  defined?(Copyright::DB_COPYRIGHT) and 
+    Copyright::DB_COPYRIGHT.connect(Settings.copyright)
+end</code></pre>
+<p>在原有的 <code>ActiveRecord</code> 配置下，添加了 <code>Copyright::DB_COPYRIGHT</code> 配置。再经测试，通过！ 颇有众里寻它千百度的感觉。我问老大怎么会突然想到这个，老大说是看sequel的连接池时突然想到的。 或许这就是积累和灵感吧。</p>
+<p>之后我向老大请教了数据库连接池的问题。我听完后，感触最深的是连接池保护了数据库。我做了如下图来表示：</p>
+<pre class="ditaa"><code>    ------------------------ 
+  /   pool                  \
+ |     +--------------+      |
+ |     | object/db    |      |
+ |     +--------------+      |
+  \             pool        /        
+   -------------------------</code></pre>
+</div>
+<div class="section level2">
+<h2>总结</h2>
+<p>一番磨难之后，自己学到了很多东西。发现路还很长。</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

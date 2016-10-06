@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>scala-traits</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Hello World</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="category.html">Category</a>
+</li>
+<li>
+  <a href="tag.html">Tag</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">scala-traits</h1>
+<h4 class="date"><em>2015-05-15 14:33</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#traits">Traits</a><ul>
+<li><a href="#how-traits-work">How traits work</a></li>
+<li><a href="#thin-versus-rich-interfaces">Thin versus rich interfaces</a></li>
+<li><a href="#the-ordered-trait">The Ordered trait</a></li>
+<li><a href="#traits-as-statckable-modifications">Traits as <em>statckable</em> modifications</a></li>
+<li><a href="#why-not-multiple-inheritance">Why not multiple inheritance</a></li>
+<li><a href="#to-trait-or-not-to-trait">To trait, or not to trait?</a></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="traits" class="section level1">
+<h1>Traits</h1>
+<p>Traits are a fundamental unit of code reuse in Scala. A trait encapsulates method and field definitions, which can then be reused by mixing them into classes.</p>
+<div id="how-traits-work" class="section level2">
+<h2>How traits work</h2>
+<pre class="scala"><code>trait Philosophical {
+  def philosophize() {
+    println(&quot;I consume memory, therefore I am!&quot;)
+  }
+}
+
+class Frog extends Philosophical {
+  override def toString = &quot;green&quot;
+}</code></pre>
+<p>Once a trait is defined, it can be <em>mixed</em> in to a class using either the <code>extends</code> or <code>with</code> keywords.</p>
+<pre class="scala"><code>val frog = new Frog
+frog.philosophize()</code></pre>
+<p>A trait also defines a type. Here’s an example in which <code>Philosophical</code> is used as a type.</p>
+<pre class="scala"><code>val phil: Philosophical = frog  // here trait acts as a superclass
+phil.philosophize()</code></pre>
+<p>The type of <code>phil</code> is <code>Philosophical</code>, a trait. Thus, variable phil could have been initialized with any object whose class mixes in <code>Philosophical</code>.</p>
+<pre class="scala"><code>class Animal
+trait HasLegs
+class Frog extends Animal with Philosophical with HasLegs {
+  override def toString = &quot;green&quot;
+
+  override def philosophize() {
+    println(&quot;It ain&#39;t easy being &quot;+ toString +&quot;!&quot;)
+  }
+}
+
+val phrog: Philosophical = new Frog
+phrog.philosophize()   // =&gt; &quot;It ain&#39;t ... &quot;</code></pre>
+</div>
+<div id="thin-versus-rich-interfaces" class="section level2">
+<h2>Thin versus rich interfaces</h2>
+<p>One major use of traits is to <strong>automatically add methods to a class</strong> in terms of methods the class <strong>already has</strong>.</p>
+<pre class="scala"><code>trait CharSequence {
+  def charAt(index: Int): Char
+  def length: Int
+  def subSequence(start: Int, end: Int): CharSequence
+  def toString(): String
+}</code></pre>
+<p>You only need to implement the method once, in the trait itself, instead of needing to reimplement it for every class that mixes in the trait. ## Example: Rectanglar objects original class-version:</p>
+<pre class="scala"><code>class Point(val x: Int, val y: Int)
+class Rectangle(val topLeft: Point, val bottomRight: Point) {
+  def left = topLeft.x
+  def right = bottomRight.x
+  def width = right - left
+}
+
+abstract class Component {
+  def topLeft: Point
+  def bottomRight: Point
+  def left = topLeft.x
+  def right = bottomRight.x
+  def width = right - left
+  // and many more geometric methods...
+}</code></pre>
+<p>changed to trait-version:</p>
+<pre class="scala"><code>trait Rectangular {
+  def topLeft: Point    // abstract
+  def bottomRight: Point   // abstract
+
+  def left = topLeft.x     // concrete
+  def right = bottomRight.x   // concrete
+  def width = right - left    // concrete
+}
+
+abstract class Component extends Rectangular {
+}
+class Rectangle(val topLeft: Point, val bottomRight: Point) extends Rectangular {
+}</code></pre>
+</div>
+<div id="the-ordered-trait" class="section level2">
+<h2>The Ordered trait</h2>
+<pre class="scala"><code>class Rational(n: Int, d: Int) extends Ordered[Rational] {
+ //  ...
+ def compare(that: Rational) =
+   (this.numer * that.denom) - (that.numer * this.denom)
+
+  /// not need to define &gt;, &lt;, &lt;=, &gt;=
+}</code></pre>
+</div>
+<div id="traits-as-statckable-modifications" class="section level2">
+<h2>Traits as <em>statckable</em> modifications</h2>
+<p>Traits let you <em>modify</em> the methods of a class, and they do so in a way that allows you to <em>stack</em> those modifications with each other.</p>
+<ul>
+<li><strong>Doubling</strong>: double all integers that are put in the queue</li>
+<li><strong>Incrementing</strong>: increment all integers that are put in the queue</li>
+<li><strong>Filtering</strong>: filter out negative integers from a queue</li>
+</ul>
+<pre class="scala"><code>abstract class IntQueue {
+  def get(): Int
+  def put(x: Int)
+}
+
+import scala.collection.mutable.ArrayBuffer
+
+class BasicIntQueue extends IntQueue {
+  private val buf = new ArrayBuffer[Int]
+  def get() = buf.remove(0)
+  def put(x: Int) { buf += x }
+}
+
+trait Doubling extends IntQueue {
+  abstract override def put(x: Int) { super.put(2 * x) }
+}
+
+class MyQueue extends BasicIntQueue with Doubling
+// val queue = new BasicIntQueue with Doubling
+
+trait Incrementing extends IntQueue {
+  abstract override def put(x: Int) { super.put(x + 1) }
+}
+
+trait Filtering extends IntQueue {
+  abstract override def put(x: Int) {
+    if (x &gt;= 0) super.put(x)
+  }
+}</code></pre>
+<pre class="scala"><code>val queue = (new BasicIntQueue with Incrementing with Filtering)
+call put --&gt; Filtering --&gt; Incrementing --&gt; BasicIntQueue
+
+val queue = (new BasicIntQueue with Filtering with Incrementing)</code></pre>
+</div>
+<div id="why-not-multiple-inheritance" class="section level2">
+<h2>Why not multiple inheritance</h2>
+<p>Traits are a way to inherit from multiple class-like constructs, but they differ in important ways from the multiple inheritance present in many languages. One difference is especially important: the interpretation of <code>super</code>. With multiple inheritance, the method called by a <code>super</code> call can be determined right where the call appears. With traits, the method called is determined by a <em>linearization</em> of the classes and traits that are mixed into a class. This is the difference that enables the stacking of modifications described in the previous section.</p>
+<p>The main properties of Scala’s linearization are illustrated by the following example:</p>
+<pre class="scala"><code>class Animal
+trait Furry extends Animal
+trait HasLegs extends Animal
+trait FourLegged extends HasLegs
+class Cat extends Animal with Furry with FourLegged</code></pre>
+<p>arrows with white, triangular arrowheads indicate <em>inheritance</em>, with the arrowhead pointing to the supertype. The arrows with darkened, non-triangular arrowheads depict <em>linearization</em>. The darkened arrowheads point in the direction in which super calls will be resolved.<br />
+Each class <strong>appears only once</strong> in <code>cat</code>’s linearization.<br />
+<img src="http://images.cnblogs.com/cnblogs_com/hard-work/689518/o_cat.jpg" alt="scala_inheritance_linearization" /></p>
+</div>
+<div id="to-trait-or-not-to-trait" class="section level2">
+<h2>To trait, or not to trait?</h2>
+<p>Whenever you implement a reusable collection of behavior, you will have to decide whether you want to use a trait or an abstract class. There is no firm rule, but this section contains a few guidelines to consider:</p>
+<ul>
+<li>If the behavior will not be reused, then make it a concrete class. It is not reusable behavior after all.</li>
+<li>If it might be reused in multiple, unrelated classes, make it a trait. Only traits can be mixed into different parts of the class hierarchy.</li>
+<li>If you want to inherit from it in Java code, use an abstract class.</li>
+<li>If you plan to <em>distribute it in compiled form</em>, and you expect outside groups to write classes inheriting from it, you might lean towards using an abstract class. <strong>The issue is that when a trait gains or loses a member, any classes that inherit from it must be recompiled, even if they have not changed</strong>. <strong>If outside clients will only call into the behavior, instead of inheriting from it, then using a trait is fine</strong>.</li>
+<li>If efficiency is very important, lean towards using a class. Most Java runtimes make a virtual method invocation of a class member a faster operation than an interface method invocation. <strong>Traits get compiled to interfaces and therefore may pay a slight performance overhead</strong>. However, you should make this choice only if you know that the trait in question constitutes a performance bottleneck and have evidence that using a class instead actually solves the problem.</li>
+<li>If you still do not know, after considering the above, then start by making it as a trait. You can always change it later, and in general using a trait keeps more options open.</li>
+</ul>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

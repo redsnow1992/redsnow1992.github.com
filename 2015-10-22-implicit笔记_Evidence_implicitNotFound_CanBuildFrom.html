@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>implicit笔记_Evidence_implicitNotFound_CanBuildFrom</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Hello World</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="category.html">Category</a>
+</li>
+<li>
+  <a href="tag.html">Tag</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">implicit笔记_Evidence_implicitNotFound_CanBuildFrom</h1>
+<h4 class="date"><em>2015-10-22 17:00</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#evidence">Evidence</a></li>
+<li><a href="#-canbuildfromrepr-b-that">难啃的骨头 <code>CanBuildFrom[Repr, B, That]</code></a></li>
+<li><a href="#tips">一些tips</a></li>
+</ul>
+</div>
+
+<div id="evidence" class="section level1">
+<h1>Evidence</h1>
+<pre class="scala"><code>T =:= U   // equal 
+T &lt;:&lt; U   // a subtype of u
+T &lt;%&lt; U   // view-convertible to u</code></pre>
+<p>使用上述的类型约束的时候，还需要我们提供隐式参数，我们以 <code>&lt;:&lt;</code> 为例，有如下使用：</p>
+<pre class="scala"><code>def firstLast[A, C](it: C)(implicit ev: C &lt;:&lt; Iterable[A]) =
+  (it.head, it.last)</code></pre>
+<p>在 <code>Predef</code> Object中定义了 <code>&lt;:&lt;</code> 和其隐式值，2.11.7中定义如下：</p>
+<pre class="scala"><code>@implicitNotFound(msg = &quot;Cannot prove that ${From} &lt;:&lt; ${To}.&quot;)
+sealed abstract class &lt;:&lt;[-From, +To] extends (From =&gt; To) with Serializable
+private[this] final val singleton_&lt;:&lt; = new &lt;:&lt;[Any,Any] { def apply(x: Any): Any = x }
+// The dollar prefix is to dodge accidental shadowing of this method
+// by a user-defined method of the same name (SI-7788).
+// The collections rely on this method.
+implicit def $conforms[A]: A &lt;:&lt; A = singleton_&lt;:&lt;.asInstanceOf[A &lt;:&lt; A]</code></pre>
+<p>在2.9.3定义如下：</p>
+<pre class="scala"><code>@implicitNotFound(msg = &quot;Cannot prove that ${From} &lt;:&lt; ${To}.&quot;)
+sealed abstract class &lt;:&lt;[-From, +To] extends (From =&gt; To) with Serializable
+private[this] final val singleton_&lt;:&lt; = new &lt;:&lt;[Any,Any] { def apply(x: Any): Any = x }
+// not in the &lt;:&lt; companion object because it is also
+// intended to subsume identity (which is no longer implicit)
+implicit def conforms[A]: A &lt;:&lt; A = singleton_&lt;:&lt;.asInstanceOf[A &lt;:&lt; A]</code></pre>
+<p>从上我们可以看出这个类继承自一个单参数函数，从一定意义上讲我们可以将 <code>&lt;:&lt;</code> 的对象视做函数。 当编译器处理 <code>implicit ev: String &lt;:&lt; AnyRef</code> 这样一个约束的时候，它会在伴生对象中查找 <code>String &lt;:&lt; AnyRef</code> 的隐式对象，因为 <code>From</code> 为协变， <code>To</code> 为逆变，故而 <code>&lt;:&lt;.conforms[String]</code> 可作为 <code>String &lt;:&lt; AnyRef</code> 的实例。 而将 <code>ev</code> 称为一个 <code>evidence object</code> 是因为 <code>String</code> 很明显是 <code>AnyRef</code> 的子类型。 <code>ev</code> 的函数性体现在隐式转换中，将参数进行包裹转换（其实还是类型转换）。</p>
+<pre class="scala"><code>def firstLast[A, C](it: C)(implicit ev: C &lt;:&lt; Iterable[A]) =
+  (ev(it).head, ev(it).last)</code></pre>
+<p><a href="mailto:**@implicitNotFound标记*">**@implicitNotFound标记*</a>* 在以上代码中就有使用该标记，为了给程序员有用的错误信息。</p>
+</div>
+<div id="-canbuildfromrepr-b-that" class="section level1">
+<h1>难啃的骨头 <code>CanBuildFrom[Repr, B, That]</code></h1>
+<pre class="scala"><code>&quot;abc&quot;.map(_.toUpper) // =&gt; String
+&quot;abc&quot;.map(_.toInt) // =&gt; Vector</code></pre>
+<p>上述代码的返回类型发现变化，正是 <code>CanBuildFrom</code> 搞的鬼，具体的分析参见<a href="http://hongjiang.info/scala-canbuildfrom-detail">Here</a>。 <code>Repr</code> 被隐式转换为 <code>StringOps</code> ， <code>B</code> 为 <code>toInt</code> 的返回值， <code>That</code> 则表示 <code>map</code> 返回的类型。</p>
+<p>一个简易版本的 <code>ArrayBuffer</code> ：</p>
+<pre class="scala"><code>trait Builder[-E,+To] {
+  def +=(e: E): Unit
+  def result(): To
+}
+
+trait CanBuildFrom[-Form, -E, +To] {
+  def apply(): Builder[E, To]
+}
+
+class Buffer[E : Manifest] extends Iterable[E, Buffer[E]]
+  with Builder[E, Buffer[E]] {
+  private var elems = new Array[E](10)
+  ...
+  def iterator() = ...
+    private var i = 0
+    def hasNext = i &lt; length
+    def next() = { i += 1; elems(i - 1) }
+  }
+  def +=(e: E) = { ... }
+  def result() = this
+}
+
+object Buffer {
+  implicit def canBuildFrom[E : Manifest] = new CanBuildFrom[Buffer[_], E, Buffer[E]] {
+    def apply() = new Buffer[E]
+  }
+}</code></pre>
+</div>
+<div id="tips" class="section level1">
+<h1>一些tips</h1>
+<ol style="list-style-type: decimal">
+<li><p>要检测是否存在一个隐式对象，则可以在REPL中使用如下方法，例如：</p>
+<pre class="scala"><code>scala&gt; implicitly[String &lt;:&lt; AnyRef] 
+res0: &lt;:&lt;[String,AnyRef] = &lt;function1&gt;</code></pre></li>
+</ol>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>javascript日用代码集合（一）</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Hello World</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="category.html">Category</a>
+</li>
+<li>
+  <a href="tag.html">Tag</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">javascript日用代码集合（一）</h1>
+<h4 class="date"><em>2015-05-11 22:24</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#url">获取url参数</a></li>
+<li><a>阻止菜单提交</a></li>
+<li><a href="#ajax">发送ajax请求</a></li>
+<li><a href="#ajaxformdata">ajax上传文件（使用<a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Using_FormData_Objects">FormData</a>）</a></li>
+<li><a href="#eval">eval</a></li>
+<li><a>替换页面元素</a></li>
+</ul>
+</div>
+
+<div id="url" class="section level2">
+<h2>获取url参数</h2>
+<pre class="javascript"><code>function get_url_param(name){
+   var reg = new RegExp(&quot;(^|&amp;)&quot; + name + &quot;=([^&amp;*]+)(&amp;|$)&quot;) ;
+   var r = window.location.search.substr(1).match(reg) ;
+   if (r != null){
+     return unescape(r[2]) ;
+   }
+   else{
+     return null ;
+   }
+ }</code></pre>
+</div>
+<div class="section level2">
+<h2>阻止菜单提交</h2>
+<pre class="javascript"><code>$(&quot;form&quot;).submit(function(e){
+    e.preventDefault() ;
+});
+window.location.reload() ; // 一般还要再将页面载入一次，比如当你disable了一些控件。</code></pre>
+</div>
+<div id="ajax" class="section level2">
+<h2>发送ajax请求</h2>
+<pre class="javascript"><code>$.ajax({
+   url: &quot;&quot;,
+   type: &quot;post&quot;,
+   data: {},
+   success: function(html) {},
+   error: function(){}
+}) ;
+ajax是一个函数，参数是一个json</code></pre>
+</div>
+<div id="ajaxformdata" class="section level2">
+<h2>ajax上传文件（使用<a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Using_FormData_Objects">FormData</a>）</h2>
+<pre class="javascript"><code>var fd = new FormData($(&quot;#form1&quot;)[0]) ;
+fd.append(&#39;attachment1_path&#39;, $(&quot;[name=attachment1_path]&quot;)[0].files[0]) ;
+
+$.ajax({
+  data: fd, 
+  processData: false,  //  必须设置这两个参数
+  contentType: false, //
+}) ;
+
+ajax提交多个表单，并且上传文件时：
+var fd = new FormData($(&quot;#form3&quot;)[0]) ;
+append_formdata(fd, &quot;#form1&quot;) ;
+append_formdata(fd, &quot;#form2&quot;) ;
+fd.append(&#39;attachment1_path&#39;, $(&quot;[name=attachment1_path]&quot;)[0].files[0]) ;
+
+function append_formdata(fd, selector){
+  var form = $(selector).serializeArray() ;
+  for(var i = 0 ; i &lt; form.length ; i++){
+    fd.append(form[i].name, form[i].value) ;
+  }
+  return fd ;
+}</code></pre>
+</div>
+<div id="eval" class="section level2">
+<h2>eval</h2>
+<pre class="javascript"><code>function check(){
+  var value = arguments[0] ;
+  for(var i = 1 ; i &lt; arguments.length ; i++){
+    if (eval(eval(arguments[i])(value)) == false){
+      return false ;
+    }
+  }
+  return true ;
+}
+check(unit_price, &quot;non_empty&quot;, &quot;number&quot;, &quot;positive&quot;)
+function non_empty(){}
+function number() {}
+function positive() {}</code></pre>
+</div>
+<div class="section level2">
+<h2>替换页面元素</h2>
+<pre class="javascript"><code>var node = $(&quot;#element&quot;)[0] ;
+var p = node.parentNode ;
+var new_node = document.createTextNode(&quot;替换元素&quot;) ;
+p.replaceChild(new_node, node) ;</code></pre>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

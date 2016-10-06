@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>中医笔记 －－ 四气与五味</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Hello World</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="category.html">Category</a>
+</li>
+<li>
+  <a href="tag.html">Tag</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">中医笔记 －－ 四气与五味</h1>
+<h4 class="date"><em>2016-01-02 13:40</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a>什么是健康？</a><ul>
+<li><a>平衡就是健康</a></li>
+<li><a>不平衡就是不健康</a></li>
+</ul></li>
+<li><a>中药的性能（药性）</a></li>
+<li><a>四性及其判断</a></li>
+<li><a>五味与药物的作用规律</a></li>
+<li><a>几味药</a></li>
+</ul>
+</div>
+
+<p><a href="https://www.coursera.org/learn/zhong-yao-zhi-shi/lecture/Uo6Rt/2-1-1-zhong-yao-zhi-liao-ji-bing-de-ji-ben-yuan-li">上海中医药大学视频链接地址</a></p>
+<div class="section level1">
+<h1>什么是健康？</h1>
+<div class="section level2">
+<h2>平衡就是健康</h2>
+<ul>
+<li>体内平衡
+<ul>
+<li>脏腑</li>
+<li>气血阴阳</li>
+<li>功能物质</li>
+</ul></li>
+<li>体外平衡
+<ul>
+<li>“天人相应”</li>
+</ul></li>
+</ul>
+</div>
+<div class="section level2">
+<h2>不平衡就是不健康</h2>
+<ul>
+<li>疾病</li>
+<li>亚健康</li>
+</ul>
+<p>药物就是 <em>以偏纠偏</em></p>
+</div>
+</div>
+<div class="section level1">
+<h1>中药的性能（药性）</h1>
+<p>中药作用的基本性质和特征的高度概括</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">疾病</th>
+<th align="left">药物</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">寒／热症</td>
+<td align="left">寒凉温热（四气／四性）</td>
+</tr>
+<tr class="even">
+<td align="left">实／虚症</td>
+<td align="left">补泻（五味）</td>
+</tr>
+<tr class="odd">
+<td align="left">病位</td>
+<td align="left">归经</td>
+</tr>
+<tr class="even">
+<td align="left">病势</td>
+<td align="left">升降浮沉</td>
+</tr>
+<tr class="odd">
+<td align="left">病因</td>
+<td align="left">解表、清热、祛湿、活血、消食、化痰</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level1">
+<h1>四性及其判断</h1>
+<p>什么是四性：</p>
+<ul>
+<li>药物的 <strong>寒凉温热</strong> 即为四性，还有三性说（阴性、阳性和平性） 如何判断四性：</li>
+<li>理论依据 —&gt; 阴阳学说和寒热病症</li>
+<li>判断依据 —&gt; 药物作用于人体后所针对寒热病例变化的反应</li>
+</ul>
+<p>俗语： 用药不分寒热，上手便错<br />
+ 桂枝下咽，阳盛则毙</p>
+<p>红参：热性<br />
+西洋参：寒性</p>
+</div>
+<div class="section level1">
+<h1>五味与药物的作用规律</h1>
+<p>药物具有的 <strong>辛甘酸苦咸（淡涩）</strong> 的味道。“淡附于甘，涩附于酸”。 ## 药味的确定 + 味觉的品尝 + 药物作用规律的高度概括 ## 药味的作用</p>
+<table style="width:115%;">
+<colgroup>
+<col width="26%" />
+<col width="23%" />
+<col width="41%" />
+<col width="23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">药味</th>
+<th align="left">功效</th>
+<th align="left">具体方面</th>
+<th align="left">典型药物</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">辛</td>
+<td align="left">能行能散</td>
+<td align="left">发散解表</td>
+<td align="left">生姜、薄荷</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">行气活血</td>
+<td align="left">行气</td>
+<td align="left">木香</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">活血</td>
+<td align="left">川芎</td>
+</tr>
+<tr class="even">
+<td align="left">甘</td>
+<td align="left">补益（补性）</td>
+<td align="left"></td>
+<td align="left">甘草当归</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">调和</td>
+<td align="left">缓和药性</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">缓急（舒缓）</td>
+<td align="left">止痛</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">解毒</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">苦</td>
+<td align="left">能泻能燥（越苦越燥）</td>
+<td align="left">通泻</td>
+<td align="left">泻下药：大黄</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">清泻</td>
+<td align="left">清热药：栀子</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">降泻</td>
+<td align="left">止咳平喘：枇杷叶</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">燥湿</td>
+<td align="left">祛湿药：黄连</td>
+</tr>
+<tr class="even">
+<td align="left">酸</td>
+<td align="left">能收能涩</td>
+<td align="left">收敛固涩，治疗滑脱、遗滑病症</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">（涩味要无“生津止渴”）</td>
+<td align="left"></td>
+<td align="left">生津止渴，治疗津伤、口干</td>
+<td align="left">乌梅</td>
+</tr>
+<tr class="even">
+<td align="left">咸</td>
+<td align="left">能软能下</td>
+<td align="left">泻下通便，治疗顽固性便秘</td>
+<td align="left">芒硝</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">软坚散结，治疗有形病症（如肿块等）</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">淡</td>
+<td align="left">能渗能利</td>
+<td align="left">利水渗湿，治疗水肿，小便不利</td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level1">
+<h1>几味药</h1>
+<table>
+<thead>
+<tr class="header">
+<th align="left">药物</th>
+<th align="left">功效</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">龙骨</td>
+<td align="left">治疗神志不安（龙骨较重）</td>
+</tr>
+<tr class="even">
+<td align="left">半夏</td>
+<td align="left">燥湿化痰，降逆止呕，多吃会中毒，（可用生姜解之）</td>
+</tr>
+<tr class="odd">
+<td align="left">黄连</td>
+<td align="left">苦味 燥湿 泻火解毒，寒性 清热燥湿</td>
+</tr>
+<tr class="even">
+<td align="left">芒硝</td>
+<td align="left">咸味 泻下通便，寒性 清热消肿</td>
+</tr>
+</tbody>
+</table>
+<p>药物必有 <strong>气与味</strong> 。</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

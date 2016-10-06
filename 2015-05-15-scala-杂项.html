@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>scala-杂项</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Hello World</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="category.html">Category</a>
+</li>
+<li>
+  <a href="tag.html">Tag</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">scala-杂项</h1>
+<h4 class="date"><em>2015-05-15 14:32</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a>特殊之处</a></li>
+<li><a>读取文件</a></li>
+<li><a href="#closures">Closures</a></li>
+<li><a href="#special-function-call-forms">Special function call forms</a><ul>
+<li><a href="#repeated-parameters">Repeated parameters</a></li>
+<li><a href="#named-arguments">Named arguments</a></li>
+<li><a href="#default-parameter-values">Default parameter values</a></li>
+<li><a href="#high-order-function">High-order function</a></li>
+</ul></li>
+<li><a href="#case">Case</a><ul>
+<li><a href="#for-"><a href="http://windor.gitbooks.io/beginners-guide-to-scala/content/chp3-pattern-everywhere.html">for 语句中的模式</a></a></li>
+<li><a><a href="http://windor.gitbooks.io/beginners-guide-to-scala/content/chp4-pattern-matching-anonymous-functions.html">模式匹配与匿名函数</a></a></li>
+</ul></li>
+<li><a href="#-option"><a href="http://windor.gitbooks.io/beginners-guide-to-scala/content/chp5-the-option-type.html">类型 Option</a></a></li>
+<li><a href="#try-"><a href="http://windor.gitbooks.io/beginners-guide-to-scala/content/chp6-error-handling-with-try.html">Try 与错误处理</a></a><ul>
+<li><a href="#try-">Try 的语义</a></li>
+</ul></li>
+</ul>
+</div>
+
+<div class="section level2">
+<h2>特殊之处</h2>
+<p>In Scala assignment always results in the unit value, ()</p>
+<pre class="scala"><code>var a = 1
+(a = 2).getClass     //=&gt; Class[Unit] = void</code></pre>
+</div>
+<div class="section level2">
+<h2>读取文件</h2>
+<pre class="scala"><code>import scala.io.Source
+if(args.length &gt; 0){
+  for(line &lt;- Source.fromFile(args(0)).getLines())
+    println(line.length + &quot; &quot; + line)
+}
+else{
+  Console.err.println(&quot;Please enter filename&quot;)  
+}</code></pre>
+</div>
+<div id="closures" class="section level2">
+<h2>Closures</h2>
+<pre class="scala"><code>def inc(more: Int) = (x: Int) =&gt; x + more
+val inc1 = inc(1)
+val inc100 = inc(100)</code></pre>
+</div>
+<div id="special-function-call-forms" class="section level2">
+<h2>Special function call forms</h2>
+<div id="repeated-parameters" class="section level3">
+<h3>Repeated parameters</h3>
+<pre class="scala"><code>def echo(args: String*) =
+  for (arg &lt;- args) println(arg)
+echo: (args: String*)Unit
+echo(&quot;first&quot;, &quot;second&quot;)
+val arr = Array(&quot;What&#39;s&quot;, &quot;up&quot;, &quot;doc?&quot;)
+echo(arr: _*)</code></pre>
+</div>
+<div id="named-arguments" class="section level3">
+<h3>Named arguments</h3>
+<pre class="scala"><code>def speed(distance: Float, time: Float): Float =
+  distance/time
+speed(time = 10, distance = 100)  // diff in invoking</code></pre>
+</div>
+<div id="default-parameter-values" class="section level3">
+<h3>Default parameter values</h3>
+<pre class="scala"><code>def printTime(out: java.io.PrintStream = Console.out) =
+  out.println(&quot;time = &quot; + System.currentTimeMillis())
+def printTime2(out: java.io.PrintStream = Console.out, divisor: Int = 1) =
+  out.println(&quot;time = &quot; + System.currentTimeMillis()/divisor)
+
+printTime2(out = Console.err)
+printTime2(divisor = 1000)</code></pre>
+</div>
+<div id="high-order-function" class="section level3">
+<h3>High-order function</h3>
+<pre class="scala"><code>def filesMatching(matcher: String =&gt; Boolean) =
+  for(file &lt;- filesHere; if matcher(file.getName))
+  yield file
+
+def filesEnding(query: String) =
+  filesMatching(_.endsWith(query))</code></pre>
+</div>
+</div>
+<div id="case" class="section level2">
+<h2>Case</h2>
+<div id="for-" class="section level3">
+<h3><a href="http://windor.gitbooks.io/beginners-guide-to-scala/content/chp3-pattern-everywhere.html">for 语句中的模式</a></h3>
+<p>模式在 <code>for</code> 语句中也非常重要。 所有能在值定义的左侧使用的模式都适用于 <code>for</code> 语句的值定义。 因此，如果我们有一个球员得分集，想确定谁能进名人堂（得分超过一定上限）， 用 <code>for</code> 语句就可以解决： <code>for</code>中隐含着<code>case</code>。</p>
+<pre class="scala"><code>def gameResults(): Seq[(String, Int)] =
+  (&quot;Daniel&quot;, 3500) :: (&quot;Melissa&quot;, 13000) :: (&quot;John&quot;, 7000) :: Nil
+def hallOfFame = for {
+    result &lt;- gameResults()
+    (name, score) = result
+    if (score &gt; 5000)
+  } yield name</code></pre>
+</div>
+<div class="section level3">
+<h3><a href="http://windor.gitbooks.io/beginners-guide-to-scala/content/chp4-pattern-matching-anonymous-functions.html">模式匹配与匿名函数</a></h3>
+<pre class="scala"><code>val wordFrequencies = (&quot;habitual&quot;, 6) :: (&quot;and&quot;, 56) :: (&quot;consuetudinary&quot;, 2) ::
+  (&quot;additionally&quot;, 27) :: (&quot;homely&quot;, 5) :: (&quot;society&quot;, 13) :: Nil
+wordFrequencies.filter(wf =&gt; wf._2 &gt; 3 &amp;&amp; wf._2 &lt; 25).map(_._1)
+// =&gt; List(habitual, homely, society)
+changed to:  wordFrequencies.filter{case (_, i) =&gt; i &gt; 3 &amp;&amp; i &lt; 25}.map{case (n, _) =&gt; n}
+if we use:
+wordFrequencies.filter(case (_, i) =&gt; i &gt; 30)
+error: illegal start of simple expression  //  error !!!</code></pre>
+<p><strong>PartialFunction</strong></p>
+<pre class="scala"><code>val pf = new PartialFunction[(String, Int), String] {
+  def apply(wordFrequency: (String, Int)) = wordFrequency match {
+    case (word, freq) if freq &gt; 3 &amp;&amp; freq &lt; 25 =&gt; word
+  }
+  def isDefinedAt(wordFrequency: (String, Int)) = wordFrequency match {
+    case (word, freq) if freq &gt; 3 &amp;&amp; freq &lt; 25 =&gt; true
+    case _ =&gt; false
+  }
+}
+
+wordFrequencies.map(pf) // will throw a MatchError
+wordFrequencies.collect(pf)  // right</code></pre>
+</div>
+</div>
+<div id="-option" class="section level2">
+<h2><a href="http://windor.gitbooks.io/beginners-guide-to-scala/content/chp5-the-option-type.html">类型 Option</a></h2>
+<p><code>Option[A]</code> 是一个类型为 A 的可选值的容器： 如果值存在， <code>Option[A]</code> 就是一个 <code>Some[A]</code> ，如果不存在， <code>Option[A]</code> 就是对象 <code>None</code> 。 在类型层面上指出一个值是否存在，使用你的代码的开发者（也包括你自己）就会被编译器强制去处理这种可能性， 而不能依赖值存在的偶然性。 <code>Option</code> 是强制的！不要使用 <code>null</code> 来表示一个值是缺失的。 The most idiomatic way to use an <code>scala.Option</code> instance is to treat it as a collection or monad and use <code>map</code>,<code>flatMap</code>, <code>filter</code>, or <code>foreach</code>.</p>
+<pre class="scala"><code>val greeting: Option[String] = Some(&quot;Hello world&quot;)
+val greeting: Option[String] = None</code></pre>
+<p>在实际工作中，你不可避免的要去操作一些 Java 库， 或者是其他将 null 作为缺失值的JVM 语言的代码。 为此， <code>Option</code> 伴生对象提供了一个工厂方法，可以根据给定的参数创建相应的 <code>Option</code> ：</p>
+<pre class="scala"><code>val absentGreeting: Option[String] = Option(null) // absentGreeting will be None
+val presentGreeting: Option[String] = Option(&quot;Hello!&quot;) // presentGreeting will be Some(&quot;Hello!&quot;)</code></pre>
+<pre class="scala"><code>case class User(
+    id: Int,
+    firstName: String,
+    lastName: String,
+    age: Int,
+    gender: Option[String]
+  )
+
+val user = User(2, &quot;Johanna&quot;, &quot;Doe&quot;, 30, None)
+println(&quot;Gender: &quot; + user.gender.getOrElse(&quot;not specified&quot;)) // will print &quot;not specified&quot;
+
+val user = User(2, &quot;Johanna&quot;, &quot;Doe&quot;, 30, None)
+user.gender match {
+  case Some(gender) =&gt; println(&quot;Gender: &quot; + gender)
+  case None =&gt; println(&quot;Gender: not specified&quot;)
+}</code></pre>
+</div>
+<div id="try-" class="section level2">
+<h2><a href="http://windor.gitbooks.io/beginners-guide-to-scala/content/chp6-error-handling-with-try.html">Try 与错误处理</a></h2>
+<div id="try-" class="section level3">
+<h3>Try 的语义</h3>
+<p><code>Option[A]</code> 是一个可能有值也可能没值的容器， <code>Try[A]</code> 则表示一种计算： 这种计算在成功的情况下，返回类型为 <code>A</code> 的值，在出错的情况下，返回 <code>Throwable</code> 。 这种可以容纳错误的容器可以很轻易的在并发执行的程序之间传递。</p>
+<p><code>Try</code> 有两个子类型：</p>
+<ol style="list-style-type: decimal">
+<li><code>Success[A]</code>：代表成功的计算。</li>
+<li>封装了 <code>Throwable</code> 的 <code>Failure[A]</code>：代表出了错的计算。</li>
+</ol>
+<pre class="scala"><code>import scala.util.Try
+import java.net.URL
+def parseURL(url: String): Try[URL] = Try(new URL(url))</code></pre>
+<p><code>flatMap</code>将最后生成的嵌套值进行flat（多见于Option, Try）。 <code>Option[Option[String]]</code> =&gt; <code>Option[String]</code></p>
+<p><strong>Catching exceptions and <code>finally</code> clause</strong></p>
+<pre class="scala"><code>import java.io.FileReader
+import java.io.FileNotFoundException
+import java.io.IOException
+
+try {
+  val f = new FileReader(&quot;input.txt&quot;)
+} catch {
+  case ex: FileNotfoundexception =&gt; // 
+  case ex: IOException =&gt;   // 
+} finally {
+  f.close()
+}</code></pre>
+<p>既然 <code>Try</code> 支持 <code>flatMap</code> 、 <code>map</code> 、 <code>filter</code> ，能够使用 <code>for</code> 语句也是理所当然的事情， 而且这种情况下的代码更可读。</p>
+<pre class="scala"><code>import scala.io.Source
+def getURLContent(url: String): Try[Iterator[String]] =
+  for {
+   url &lt;- parseURL(url)
+   connection &lt;- Try(url.openConnection())
+   is &lt;- Try(connection.getInputStream)
+   source = Source.fromInputStream(is)
+  } yield source.getLines()</code></pre>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

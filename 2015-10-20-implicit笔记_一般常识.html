@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>implicit笔记_一般常识</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Hello World</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="category.html">Category</a>
+</li>
+<li>
+  <a href="tag.html">Tag</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">implicit笔记_一般常识</h1>
+<h4 class="date"><em>2015-10-20 19:01</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a>2. 作为隐式参数，传给函数</a></li>
+<li><a>3. 隐式参数的隐式转换</a></li>
+<li><a>上下文边界</a></li>
+<li><a href="#implicittips">有关implicit的一些tips</a></li>
+</ul>
+</div>
+
+<p>本篇内容摘自<Scala for the Impatient>的第21章。 # <code>implicit</code>的使用都在以下几处： ## 1. 类型之间的相互转换</p>
+<pre class="scala"><code>implicit def int2Fraction(n: Int) = Fraction(n, 1)
+val result = 3 * Fraction(4, 5) // Calls int2Fraction(3</code></pre>
+<p>可以用于扩展已有类：</p>
+<pre class="scala"><code>val contents = new File(&quot;README&quot;).read
+class RichFile(val from: File) {
+  def read = Source.fromFile(from.getPath).mkString
+}
+implicit def file2RichFile(from: File) = new RichFile(from)</code></pre>
+<div class="section level2">
+<h2>2. 作为隐式参数，传给函数</h2>
+<pre class="scala"><code>case class Delimiters(left: String, right: String)
+
+def quote(what: String)(implicit delims: Delimiters) =
+  delims.left + what + delims.right</code></pre>
+<p><code>quote</code>的调用（使用显式参数）：</p>
+<pre class="scala"><code>quote(&quot;Bonjour le monde&quot;)(Delimiters(&quot;«&quot;, &quot;»&quot;))</code></pre>
+<p>若要使用如下形式的隐式调用，则需要提供一个隐式转换，示例如下：</p>
+<pre class="scala"><code>import FrenchPunctuation.quoteDelimiters
+// or import FrenchPunctuation._
+
+quote(&quot;Bonjour le monde&quot;)</code></pre>
+<pre class="scala"><code>object FrenchPunctuation {
+  implicit val quoteDelimiters = Delimiters(&quot;«&quot;, &quot;»&quot;)
+  ...
+}</code></pre>
+<p>上例中可以看出，<code>quote</code>的隐式参数可以是多个参数，以下代码虽然可以执行，但最好不要给隐式参数使用相同的类型。</p>
+<pre class="scala"><code>def quote(what: String)(implicit left: String, right: String) // No!
+implicit def test2String = &quot;,&quot;</code></pre>
+</div>
+<div class="section level2">
+<h2>3. 隐式参数的隐式转换</h2>
+<pre class="scala"><code>def smaller[T](a: T, b: T) = if (a &lt; b) a else b</code></pre>
+<p>以上代码并不能编译通过，因为编译器不能确定<code>T</code>是不是支持<code>&lt;</code>这个运算符。 一般的隐式转换：</p>
+<pre class="scala"><code>def smaller[T](a: T, b: T)(implicit order: T =&gt; Ordered[T])
+  = if (order(a) &lt; b) a else b</code></pre>
+<p>更简洁的隐式转换：</p>
+<pre class="scala"><code>def smaller[T](a: T, b: T)(implicit order: T =&gt; Ordered[T])
+  = if (a &lt; b) a else b</code></pre>
+</div>
+<div class="section level2">
+<h2>上下文边界</h2>
+<p>在类定义中，声明一个上下文边界<code>T:M</code>就表示在当前的scope中存在一个隐式值<code>M[T]</code>，所以的当要使用这种形式的定义是，要确定有这样一个隐式值（若没有编译器会报错）。 示例：</p>
+<pre class="scala"><code>class Pair[T : Ordering](val first: T, val second: T) {
+  def smaller(implicit ord: Ordering[T]) =
+    if (ord.compare(first, second) &lt; 0) first else second
+}</code></pre>
+<p>在 <em>scala/src/library/scala/math/Ordering.scala</em> 中如下代码保证了<code>Ordering[Int]</code>：</p>
+<pre class="scala"><code>trait IntOrdering extends Ordering[Int] {
+    def compare(x: Int, y: Int) =
+      if (x &lt; y) -1
+      else if (x == y) 0
+      else 1
+  }
+implicit object Int extends IntOrdering</code></pre>
+<p><code>implicitly</code>的使用可以可以拿到ordering，代码如下：</p>
+<pre class="scala"><code>class Pair[T : Ordering](val first: T, val second: T) {
+  def smaller =
+    if (implicitly[Ordering[T]].compare(first, second) &lt; 0) first else second
+}</code></pre>
+<p><code>implicitly</code>的源码在Predef.scala中：</p>
+<pre class="scala"><code>def implicitly[T](implicit e: T) = e
+  // For summoning implicit values from the nether world</code></pre>
+<p>让我们更进一步，将ordering的部分，使用运算符替代：</p>
+<pre class="scala"><code>class Pair[T : Ordering](val first: T, val second: T) {
+  def smaller = {
+    import Ordered._  // 引入Ordering到Ordered的隐式转换
+    if (first &lt; second) first else second
+  }
+}</code></pre>
+<p>自定义一个<code>implicit value</code>：</p>
+<pre class="scala"><code>implicit object PointOrdering extends Ordering[Point] {
+  def compare(a: Point, b: Point) = ...
+}</code></pre>
+</div>
+<div id="implicittips" class="section level1">
+<h1>有关implicit的一些tips</h1>
+<ol style="list-style-type: decimal">
+<li>在REPL中，键入<code>:implicits</code>可以看到所有不是从<code>Predef</code>引入的implicit。若要看所有的implicit（包含<code>Predef</code>中的implicit），则可以使用<code>:implicits -v</code></li>
+<li>若想察看，编译器为什么没有使用你想的那个隐式转换，可以<strong>显式</strong>调用隐式转换的函数。例如：<code>fraction2Double(3) * Fraction(4, 5)</code>，看是否会报错。</li>
+<li>如果想察看某个scala代码中使用的隐式转换，可以使用<code>scalac -Xprint:typer MyProg.scala</code>看到隐式转换后的代码。</li>
+</ol>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Docker Demo</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Hello World</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="category.html">Category</a>
+</li>
+<li>
+  <a href="tag.html">Tag</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Docker Demo</h1>
+<h4 class="date"><em>2015-07-28 18:05</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#docker-commands">docker commands</a></li>
+<li><a href="#some-output">some output</a></li>
+</ul>
+</div>
+
+<p>本文所有东西都可以在docker的<a href="http://docs.docker.com/mac/started/">官网</a>上查到。</p>
+<div id="docker-commands" class="section level1">
+<h1>docker commands</h1>
+<table style="width:11%;">
+<colgroup>
+<col width="5%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">docker commands</th>
+<th align="left">meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>docker run hello-world</code></td>
+<td align="left">起一个新的container来跑名为hello-world的image，若这个image不在本地，则从docker hub上拉取。</td>
+</tr>
+<tr class="even">
+<td align="left"><code>docker images</code></td>
+<td align="left">察看本地的images</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>docker build -t  docker-whale-fortunes .</code></td>
+<td align="left">使用当前目录下的Dockerfile来生成image</td>
+</tr>
+<tr class="even">
+<td align="left"><code>docker tag 361616c40b8a redsnow1992/docker-whale-fortunes:latest</code></td>
+<td align="left">将一个image加入repo，用于之后的push</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>docker push redsnow1992/docker-whale-fortunes</code></td>
+<td align="left">将image push到个人repo</td>
+</tr>
+<tr class="even">
+<td align="left"><code>docker rmi -f docker-whale-fortunes</code></td>
+<td align="left">通过名称删除image</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>docker rmi -f 361616c40b8a</code></td>
+<td align="left">通过IMAGE ID删除image</td>
+</tr>
+<tr class="even">
+<td align="left"><code>docker pull redsnow1992/docker-whale-fortunes</code></td>
+<td align="left">从docker hub拉取image</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>docker ps</code></td>
+<td align="left">列出containers，只列出在运行的</td>
+</tr>
+<tr class="even">
+<td align="left"><code>docker ps -l</code></td>
+<td align="left">列出containers，包括没有在运行的</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>docker info</code></td>
+<td align="left">docker详细信息</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="some-output" class="section level1">
+<h1>some output</h1>
+<p><strong><code>docker images</code></strong></p>
+<pre class="bash"><code>REPOSITORY                          TAG                 IMAGE ID            CREATED              VIRTUAL SIZE
+docker-whale-fortunes               latest              361616c40b8a        About a minute ago   273.9 MB
+redsnow1992/docker-whale-fortunes   latest              361616c40b8a        About a minute ago   273.9 MB
+docker/whalesay                     latest              fb434121fc77        9 weeks ago          247 MB
+hello-world                         latest              91c95931e552        3 months ago         910 B</code></pre>
+<p><strong>Dockfile docker-whale-fortunes</strong></p>
+<pre class="bash"><code>FROM docker/whalesay:latest
+RUN apt-get -y update &amp;&amp; apt-get install -y fortunes
+CMD /usr/games/fortune -a | cowsay</code></pre>
+<p><strong><code>docker build -t  docker-whale-fortunes .</code></strong></p>
+<pre class="bash"><code>tep 0 : FROM docker/whalesay:latest
+ ---&gt; fb434121fc77
+Step 1 : RUN apt-get -y update &amp;&amp; apt-get install -y fortunes
+ ---&gt; Running in afa741e7959d
+Ign http://archive.ubuntu.com trusty InRelease
+Ign http://archive.ubuntu.com trusty-updates InRelease
+Ign http://archive.ubuntu.com trusty-security InRelease
+Hit http://archive.ubuntu.com trusty Release.gpg
+....
+Setting up fortunes (1:1.99.1-7) ...
+Processing triggers for libc-bin (2.19-0ubuntu6.6) ...
+ ---&gt; a1bc634843ce
+Removing intermediate container afa741e7959d
+Step 2 : CMD /usr/games/fortune -a | cowsay
+ ---&gt; Running in 57abc3a13d4c
+ ---&gt; 361616c40b8a
+Removing intermediate container 57abc3a13d4c
+Successfully built 361616c40b8a</code></pre>
+<p><strong><code>docker ps -l</code></strong></p>
+<pre class="bash"><code>CONTAINER ID   IMAGE                               COMMAND                CREATED         STATUS                     PORTS   NAMES
+564051841e42   redsnow1992/docker-whale-fortunes   &quot;/bin/sh -c &#39;/usr/ga   8 minutes ago   Exited (0) 8 minutes ago           happy_leakey</code></pre>
+<p><strong>Dockerfile rails</strong></p>
+<pre class="bash"><code>FROM ruby:2.2
+
+# see update.sh for why all &quot;apt-get install&quot;s have to stay as one long line
+RUN apt-get update &amp;&amp; apt-get install -y nodejs --no-install-recommends &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+# see http://guides.rubyonrails.org/command_line.html#rails-dbconsole
+RUN apt-get update &amp;&amp; apt-get install -y mysql-client postgresql-client sqlite3 --no-install-recommends &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+ENV RAILS_VERSION 4.2.3
+
+RUN gem install rails --version &quot;$RAILS_VERSION&quot;</code></pre>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

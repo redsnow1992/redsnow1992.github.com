@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>scala-case Option</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">scala-case Option</h1>
+<h4 class="date"><em>2015-05-15 14:35</em></h4>
+
+</div>
+
+
+<div id="case-class-and-pattern-matching" class="section level1">
+<h1>Case Class and Pattern Matching</h1>
+<div id="a-simple-example" class="section level2">
+<h2>A simple example</h2>
+<pre class="scala"><code>abstract class Expr
+
+case class Var(name: String) extends Expr
+case class Number(name: Double) extends Expr
+case class UnOp(operator: String, arg: Expr) extends Expr
+case class BinOp(operator: String, left: Expr, right: Expr) extends Expr
+
+val v = Var(&quot;x&quot;)                       // 1
+val op = BinOp(&quot;+&quot;, Number(1), v)      // 1
+v.name ;  op.left                      // 2
+op.right == Var(&quot;x&quot;)  // true          // 3
+op.copy(operator = &quot;-&quot;)                // 4</code></pre>
+<p>The other noteworthy thing about the declarations of above is that each subclass has a <code>case</code> modifier. Classes with such a modifier are called <em>case classes</em>. Using the modifier makes the Scala compiler add some syntactic conveniences to your class.</p>
+<ol style="list-style-type: decimal">
+<li>Adds a factory method with the name of the class.</li>
+<li>All arguments in the parameter list of a case class implicitly get a <code>val</code> prefix, so they are maintained as fields.</li>
+<li>The compiler adds “natural” implementations of methods <code>toString</code>, <code>hashCode</code> , and <code>equals</code> to your class.</li>
+<li>The compiler adds a <code>copy</code> method to your class for making modified copies.</li>
+</ol>
+<p><strong>Pattern matching</strong></p>
+<pre class="scala"><code>def simplifyTop(expr: Expr): Expr = expr match {
+  case UnOp(&quot;-&quot;, UnOp(&quot;-&quot;, e)) =&gt; e
+  case BinOp(&quot;+&quot;, e, Number(0)) =&gt; e
+  case BinOp(&quot;*&quot;, e, Number(1)) =&gt; e
+  case _ =&gt; expr
+}</code></pre>
+<p><strong>different from java <code>switch</code></strong></p>
+<ol style="list-style-type: decimal">
+<li><code>match</code> is an expression in Scala, i.e., it always results in a value.</li>
+<li>Scala’s alternative expressions never “fall through” into the next case.</li>
+<li>If none of the patterns match, an exception named <code>MatchError</code> is thrown.</li>
+</ol>
+</div>
+<div id="kinds-of-patterns" class="section level2">
+<h2>Kinds of patterns</h2>
+<p><strong>Wildcard patterns</strong></p>
+<pre class="scala"><code>expr match {
+case BinOp(_, _, _) =&gt; println(expr +&quot; is a binary operation&quot;)
+case _ =&gt; println(&quot;It&#39;s something else&quot;)
+}</code></pre>
+<p><strong>Constant patterns</strong></p>
+<pre class="scala"><code>def describe(x: Any) = x match {
+  case 5 =&gt; &quot;five&quot;
+  case true =&gt; &quot;truth&quot;
+  case &quot;hello&quot; =&gt; &quot;hi!&quot;
+  case Nil =&gt; &quot;the empty list&quot;
+  case _ =&gt; &quot;something else&quot;
+}</code></pre>
+<p><strong>Variable patterns</strong><br />
+<strong>A variable pattern matches any object, just like a wildcard</strong>. Unlike a wildcard, Scala binds the variable to whatever the object is.</p>
+<p><em>Variable or contant?</em></p>
+<pre class="scala"><code>import math.{E, Pi}
+
+E match {
+  case Pi =&gt; &quot;strange math? Pi = &quot;+ Pi
+  case _ =&gt; &quot;OK&quot;
+}
+// =&gt; OK
+
+val pi = math.Pi
+E match {
+  case pi =&gt; &quot;strange math? Pi = &quot;+ pi
+}
+// strange math? Pi = 2.718281828459045   !!!!
+
+E match {
+  case pi =&gt; &quot;strange math? Pi = &quot;+ pi
+  case _ =&gt; &quot;OK&quot;
+}
+output: 
+warning: patterns after a variable pattern cannot match (SLS 8.1.1)
+              case pi =&gt; &quot;strange math? Pi = &quot;+ pi
+                   ^
+&lt;console&gt;:12: warning: unreachable code due to variable pattern &#39;pi&#39; on line 11
+              case _ =&gt; &quot;OK&quot;
+                        ^
+&lt;console&gt;:12: warning: unreachable code
+              case _ =&gt; &quot;OK&quot;
+// `pi` would again be interpreted as a constant, not as a variable
+E match {
+  case `pi` =&gt; &quot;strange math? Pi = &quot;+ pi`
+  case _ =&gt; &quot;OK&quot;
+}
+// OK</code></pre>
+<p><strong>Constructor patterns</strong><br />
+A constructor pattern looks like <code>BinOp(&quot;+&quot;, e, Number(0))</code>. These extra patterns mean that Scala patterns support <em>deep</em> matches. Such patterns not only check the top-level object supplied, but also check the contents of the object against further patterns.</p>
+<pre class="scala"><code>expr match {
+  case BinOp(&quot;+&quot;, e, Number(0)) =&gt; println(&quot;a deep match&quot;)
+  case _ =&gt;
+}</code></pre>
+<p><strong>Sequence, Tuple, Typed patterns</strong><br />
+You can match against sequence types like List or Array just like you match against case classes. Use the same syntax, but now you can specify any number of elements within the pattern.</p>
+<pre class="scala"><code>expr match {
+  case List(0, _, _)    =&gt; println(&quot;found it&quot;)
+  case 0::_             =&gt; println(&quot;zero first list&quot;)  // List(0, _*)
+  case _                =&gt;
+}
+
+def tupleDemo(expr: Any) =
+  expr match {
+    case (a, b, c)  =&gt;  println(&quot;matched &quot;+ a + b + c)
+    case _ =&gt;
+}
+
+def generalSize(x: Any) = x match {
+  case s: String        =&gt; s.length
+  case m: Map[_, _]     =&gt; m.size
+  case _                =&gt; -1
+}</code></pre>
+<p>Note that, even though <code>s</code> and <code>x</code> refer to the same value, the type of <code>x</code> is <code>Any</code> , but the type of <code>s</code> is <code>String</code>.<br />
+<strong>But …</strong></p>
+<pre class="scala"><code>def isIntIntMap(x: Any) = x match {
+  case m: Map[Int, Int] =&gt; true
+  case _ =&gt; false
+}
+warning: non-variable type argument Int in type pattern scala.collection.immutable.Map[Int,Int] (the underlying of Map[Int,Int]) is
+unchecked since it is eliminated by erasure
+       case m: Map[Int, Int] =&gt; true
+               ^
+isIntIntMap: (x: Any)Boolean</code></pre>
+<p>Scala uses the <em>erasure</em> model of generics, just like Java does. This means that no information about type arguments is maintained at runtime. Consequently, there is no way to determine at runtime whether a given <code>Map</code> object has been created with two <code>Int</code> arguments, rather than with arguments of different types. The <strong>only exception</strong> to the erasure rule is arrays, because they are handled specially in Java as well as in Scala. The element type of an array is stored with the array value, so you can pattern match on it.</p>
+<pre class="scala"><code>def isStringArray(x: Any) = x match {
+  case a: Array[String] =&gt; &quot;yes&quot;
+  case _ =&gt; &quot;no&quot;
+}</code></pre>
+<p><strong>Variable binding</strong><br />
+In addition to the standalone variable patterns, you can also add a variable to any other pattern. You simply write the variable name, an at sign (@), and then the pattern. This gives you a variable-binding pattern. The meaning of such a pattern is to perform the pattern match as normal, and if the pattern succeeds, <strong>set the variable to the matched object just as with a simple variable pattern</strong>.</p>
+<pre class="scala"><code>expr match {
+  case UnOp(&quot;abs&quot;, e @ UnOp(&quot;abs&quot;, _)) =&gt; e
+  case _ =&gt;
+}</code></pre>
+</div>
+<div id="pattern-guards" class="section level2">
+<h2>Pattern guards</h2>
+<pre class="scala"><code>def simplifyAdd(e: Expr) = e match {
+  case BinOp(&quot;+&quot;, x, x) =&gt; BinOp(&quot;*&quot;, x, Number(2))
+  case _ =&gt; e
+
+  // pattern guard
+  case BinOp(&quot;+&quot;, x, y) if x == y =&gt;
+    BinOp(&quot;*&quot;, x, Number(2))
+}
+error: x is already defined as value x
+       case BinOp(&quot;+&quot;, x, x) =&gt; BinOp(&quot;*&quot;, x, Number(2))</code></pre>
+<p>This fails, because Scala restricts patterns to be linear: a pattern variable may only appear once in a pattern. However, you can re-formulate the match with a <code>pattern guard</code>.</p>
+</div>
+<div id="pattern-overlaps" class="section level2">
+<h2>Pattern overlaps</h2>
+<pre class="scala"><code>def simplifyAll(expr: Expr): Expr = expr match {
+  case UnOp(&quot;-&quot;, UnOp(&quot;-&quot;, e)) =&gt;
+    simplifyAll(e)
+  case BinOp(&quot;+&quot;, e, Number(0)) =&gt;
+    simplifyAll(e)
+  case BinOp(&quot;*&quot;, e, Number(1)) =&gt;
+    simplifyAll(e)
+  case UnOp(op, e) =&gt;
+    UnOp(op, simplifyAll(e))
+  case BinOp(op, l, r) =&gt;
+    BinOp(op, simplifyAll(l), simplifyAll(r))
+  case _ =&gt; expr
+}
+
+def simplifyBad(expr: Expr): Expr = expr match {
+  case UnOp(op, e) =&gt; UnOp(op, simplifyBad(e))
+  case UnOp(&quot;-&quot;, UnOp(&quot;-&quot;, e)) =&gt; e
+}
+warning: unreachable code
+       case UnOp(&quot;-&quot;, UnOp(&quot;-&quot;, e)) =&gt; e</code></pre>
+</div>
+<div id="sealed-classes" class="section level2">
+<h2>Sealed classes</h2>
+<p>Whenever you write a pattern match, you need to make sure you have covered all of the possible cases. Sometimes you can do this by adding a default case at the end of the match, but that only applies if there is a sensible default behavior. What do you do if there is no default? How can you ever feel safe that you covered all the cases?<br />
+The alternative is to make the superclass of your case classes <code>sealed</code>. A sealed class cannot have any new subclasses added except the ones in the same file.<br />
+If you match against case classes that inherit from a sealed class, the compiler will flag missing combinations of patterns with a warning message.</p>
+<pre class="scala"><code>sealed abstract class Expr
+
+case class Var(name: String) extends Expr
+case class Number(name: Double) extends Expr
+case class UnOp(operator: String, arg: Expr) extends Expr
+case class BinOp(operator: String, left: Expr, right: Expr) extends Expr</code></pre>
+<p>Now define a pattern match where some of the possible cases are left out:</p>
+<pre class="scala"><code>def describe(e: Expr): String = e match {
+  case Number(_) =&gt; &quot;a number&quot;
+  case Var(_)    =&gt; &quot;a variable&quot;
+}
+
+warning: match may not be exhaustive.
+It would fail on the following inputs: BinOp(_, _, _), UnOp(_, _)
+       def describe(e: Expr): String = e match {</code></pre>
+<p>If we don’t use <code>sealed</code>, the warning will not be reported.</p>
+<pre class="scala"><code>def describe(e: Expr): String = e match {
+  case Number(_) =&gt; &quot;a number&quot;
+  case Var(_) =&gt; &quot;a variable&quot;
+  case _ =&gt; throw new RuntimeException // Should not happen
+}
+
+def describe(e: Expr): String = (e: @unchecked) match {
+  case Number(_) =&gt; &quot;a number&quot;
+  case Var(_)    =&gt; &quot;a variable&quot;
+}</code></pre>
+</div>
+<div id="the-option-type" class="section level2">
+<h2>The <code>Option</code> type</h2>
+<p>Scala has a standard type named <code>Option</code> for optional values. Such a value can be of two forms. It can be of the form <code>Some(x)</code> where <code>x</code> is the actual value. Or it can be the <code>None</code> object, which represents <strong>a missing value</strong>.<br />
+Optional values are produced by some of the standard operations on Scala’s collections. For instance, the get method of Scala’s <code>Map</code> produces <code>Some(value)</code> if a value corresponding to a given key has been found, or <code>None</code> if the given key is not defined in the <code>Map</code>.<br />
+The most common way to take optional values apart is through a pattern match. For instance:</p>
+<pre class="scala"><code>def show(x: Option[String]) = x match {
+  case Some(s) =&gt; s
+  case None =&gt; &quot;?&quot;
+}</code></pre>
+</div>
+<div id="patterns-everywhere" class="section level2">
+<h2>Patterns everywhere</h2>
+<pre class="scala"><code>val myTuple = (123, &quot;abc&quot;)
+val (number, string) = myTuple
+
+val exp = new BinOp(&quot;*&quot;, Number(5), Number(1))
+val BinOp(op, left, right) = exp</code></pre>
+<p><strong>Case sequences as partial functions</strong></p>
+<pre class="scala"><code>val withDefault: Option[Int] =&gt; Int = {
+  case Some(x) =&gt; x
+  case None =&gt; 0
+}
+withDefault(Some(10))
+withDefault(None)
+
+val second: List[Int] =&gt; Int = {
+  case x :: y :: _ =&gt; y
+}
+warning: match may not be exhaustive.
+It would fail on the following inputs: List(_), Nil
+       val second: List[Int] =&gt; Int = {
+
+// change to
+val second: PartialFunction[List[Int],Int] = {
+  case x :: y :: _ =&gt; y
+}
+second.isDefinedAt(List(5,6,7))  // true
+second.isDefinedAt(List())       // false
+// translated to 
+new PartialFunction[List[Int], Int] {
+  def apply(xs: List[Int]) = xs match {
+    case x :: y :: _ =&gt; y
+  }
+  def isDefinedAt(xs: List[Int]) = xs match {
+    case x :: y :: _ =&gt; true
+    case _ =&gt; false
+  }
+}</code></pre>
+<p><strong>Patterns in <code>for</code> expressions</strong></p>
+<pre class="scala"><code>for ((country, city) &lt;- capitals)
+  println(&quot;The capital of &quot;+ country +&quot; is &quot;+ city)
+
+val results = List(Some(&quot;apple&quot;), None, Some(&quot;orange&quot;))
+for (Some(fruit) &lt;- results) println(fruit)
+apple
+orange</code></pre>
+<p><strong>List Match</strong></p>
+<pre class="scala"><code>def isort(xs: List[Int]): List[Int] = xs match {
+  case List() =&gt; List()
+  case x :: xs1 =&gt; insert(x, isort(xs1))
+}
+def insert(x: Int, xs: List[Int]): List[Int] = xs match {
+  case List() =&gt; List(x)
+  case y :: ys =&gt; if (x &lt;= y) x :: xs
+  else y :: insert(x, ys)
+}
+def append[T](xs: List[T], ys: List[T]): List[T] =
+  xs match {
+    case List() =&gt; ys
+    case x :: xs1 =&gt; x :: append(xs1, ys)
+  }</code></pre>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

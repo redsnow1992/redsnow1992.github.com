@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Chapter1 Introduction to Vectors</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Chapter1 Introduction to Vectors</h1>
+<h4 class="date"><em>2015-06-08 09:31</em></h4>
+
+</div>
+
+
+<div id="vectors-and-linear-combinations" class="section level1">
+<h1>Vectors and Linear Combinations</h1>
+<p>A vector is presented by two points, usually the start-point is implicitly set as (0,0), then a vector in plane is presented as <span class="math inline">\([x \; y]\)</span>. The heart of linear algebra is in two operations–both with vectors: 1. <span class="math inline">\(v+w\)</span> 2. <span class="math inline">\(cv\)</span></p>
+<p>how we can present a whole three-dimension? <strong>The number of variables deside the dimension of a space</strong>. <strong>the linear combination <span class="math inline">\(cv+dw\)</span> fills the whole two-dimensional plane</strong>.</p>
+<p>The real impressive feature of linear algebra is how smoothly it takes that step into <span class="math inline">\(n-dimensional\)</span> space. vectors basic operations: <span class="math display">\[
+\begin{bmatrix}1\\
+0\\
+3
+\end{bmatrix}+4\begin{bmatrix}1\\
+2\\
+1
+\end{bmatrix}-2\begin{bmatrix}2\\
+3\\
+-1
+\end{bmatrix}=\begin{bmatrix}1\\
+2\\
+9
+\end{bmatrix}
+\]</span></p>
+</div>
+<div id="lengths-and-dot-products" class="section level1">
+<h1>Lengths and Dot Products</h1>
+<p>How we get the length of a vector? Or in graphically, the length of a line. 0. The dot product or inner product of <span class="math inline">\(v=(v_1, v_2)\)</span> and <span class="math inline">\(w=(w_1,w_2)\)</span> is the number <span class="math inline">\(v\centerdot{w}\)</span>. <span class="math display">\[v\centerdot{w}=(v_1w_1+v_2w_2)\]</span> 1. The <em>length</em> <span class="math inline">\(\begin{Vmatrix}v\end{Vmatrix}\)</span> of a vector <span class="math inline">\(v\)</span> is the square root of <span class="math inline">\(v\centerdot{v}\)</span>: <span class="math display">\[length=\begin{Vmatrix}v\end{Vmatrix}=\sqrt{v\centerdot{v}}\]</span> example: <span class="math display">\[
+length=\sqrt{\begin{Vmatrix}x\end{Vmatrix}^{2}}=\sqrt{\begin{bmatrix}1\\
+2\\
+3
+\end{bmatrix}\centerdot\begin{bmatrix}1\\
+2\\
+3
+\end{bmatrix}}=\sqrt{14}
+\]</span></p>
+<p><strong>special case: unit vector, whose length equals one</strong>. How to get a vector’s unit vector? <span class="math display">\[
+u = v/\begin{Vmatrix}x\end{Vmatrix} \quad \text{is a unit vector in the same direction as}\; v.
+\]</span> <img src="img/intro%20linear/unit%20vector.png" alt="unit vector" /> ## The Angle Between Two Vectors <strong>perpendicular vectors, whose dot product is zero</strong>: <span class="math display">\[
+\begin{Vmatrix}v\end{Vmatrix}^{2}+\begin{Vmatrix}w\end{Vmatrix}^{2}=\begin{Vmatrix}v-w\end{Vmatrix}^{2}
+\]</span> <img src="img/intro%20linear/chapt1%20vector.png" alt="chapt1 vector" /> <strong>Pythagoras</strong> <span class="math inline">\(\qquad (v_1^2+v_2^2)+(w_1^2+w_2^2)=(v_1-w_1)^2+(v_2-w_2)^2\)</span></p>
+<p><strong>general case</strong>: <span class="math display">\[
+v\centerdot{w}=\begin{Vmatrix}v\end{Vmatrix}\begin{Vmatrix}w\end{Vmatrix}\cos{\theta}
+\]</span> <img src="img/intro%20linear/dot%20product.png" alt="dot product" /> <strong>Schwarz Inequality</strong>: <span class="math inline">\(|v\centerdot{w}|\leq\begin{Vmatrix}v\end{Vmatrix}\begin{Vmatrix}w\end{Vmatrix}\)</span> <strong>Triangle Inequality</strong>: <span class="math inline">\(\begin{Vmatrix}v+w\end{Vmatrix}\leq\begin{Vmatrix}v\end{Vmatrix}+\begin{Vmatrix}v\end{Vmatrix}\)</span> We can abstract from the above inequalities and get: <span class="math display">\[
+f(g(v, w))\leq{g(f(v),f(w))}
+\]</span></p>
+</div>
+<div id="matrices" class="section level1">
+<h1>Matrices</h1>
+<p>from linear combination to matrix: <span class="math display">\[
+c\begin{bmatrix}1\\
+-1\\
+0
+\end{bmatrix}+d\begin{bmatrix}0\\
+1\\
+-1
+\end{bmatrix}+e\begin{bmatrix}0\\
+0\\
+1
+\end{bmatrix}=\begin{bmatrix}c\\
+d-c\\
+e-d
+\end{bmatrix}
+ \Leftrightarrow\begin{bmatrix}1 &amp; 0 &amp; 0\\
+-1 &amp; 1 &amp; 0\\
+0 &amp; -1 &amp; 1
+\end{bmatrix}\begin{bmatrix}c\\
+d\\
+e
+\end{bmatrix} \\
+Ax=\begin{bmatrix}\\
+u &amp; v &amp; w\\
+\\
+\end{bmatrix}\begin{bmatrix}c\\
+d\\
+e
+\end{bmatrix}=cu+dv+ew
+\]</span></p>
+<p><strong>Dot products with rows</strong>: <span class="math display">\[
+Ax=\begin{bmatrix}1 &amp; 0 &amp; 0\\
+-1 &amp; 1 &amp; 0\\
+0 &amp; -1 &amp; 1
+\end{bmatrix}\begin{bmatrix}x_{1}\\
+x_{2}\\
+x_{3}
+\end{bmatrix}=\begin{bmatrix}(1,0,0)\centerdot(x_{1},x_{2},x_{3})\\
+(-1,1,0)\centerdot(x_{1},x_{2},x_{3})\\
+(0,-1,1)\centerdot(x_{1},x_{2},x_{3})
+\end{bmatrix}=b
+\]</span></p>
+<div id="linear-equations" class="section level2">
+<h2>Linear Equations</h2>
+<p><em>Old question: </em>Compute the linear combination <span class="math inline">\(x_1{u}+x_2{v}+x_3{w}\)</span> to find <span class="math inline">\(b\)</span>. <em>New question: </em>Which combination fo <span class="math inline">\(u,v,w\)</span> produces a particular vector <span class="math inline">\(b\)</span>?</p>
+<p><span class="math display">\[
+Ax=b\quad\begin{array}{lll}
+x_{1}\\
+-x_{1} &amp; +x_{2}\\
+ &amp; -x_{2} &amp; +x_{3}
+\end{array}=\begin{array}{c}
+b_{1}\\
+b_{2}\\
+b_{3}
+\end{array}\quad Solution\;\begin{array}{l}
+x_{1}=b\\
+x_{2}=b_{1}+b_{2}\\
+x_{3}=b_{1}+b_{2}+b_{3}
+\end{array}
+\]</span></p>
+</div>
+<div id="the-inverse-matrix" class="section level2">
+<h2>The Inverse Matrix</h2>
+<p><span class="math display">\[
+Ax=b\;\text{is solved by }\begin{bmatrix}x_{1}\\
+x_{2}\\
+x_{3}
+\end{bmatrix}=\begin{bmatrix}b_{1}\\
+b_{1}+b_{2}\\
+b_{1}+b_{2}+b_{3}
+\end{bmatrix}=\begin{bmatrix}1 &amp; 0 &amp; 0\\
+1 &amp; 1 &amp; 0\\
+1 &amp; 1 &amp; 1
+\end{bmatrix}\begin{bmatrix}b_{1}\\
+b_{2}\\
+b_{3}
+\end{bmatrix}
+\]</span> That is <span class="math inline">\(Ax=b \Leftrightarrow x=Sb=A^{-1}b\)</span>. <strong>Connection with Calculus</strong>: example 1: <span class="math inline">\(Ax=b \text{ and } x=Sb \qquad \frac{dx}{dt}=b \text{ and } x(t)=\int_0^t{b}\)</span> Integration <span class="math inline">\(S\)</span> is the inverse of differentiation <span class="math inline">\(A\)</span>. example 2: <span class="math display">\[
+\text{one-sided &quot;backward differences&quot;} \qquad x(t)-x(t-1)=t^2-(t-1)^2=2t-1\\
+\text{Centered difference of  }x(t)=t^2 \qquad \frac{(t+1)^2-(t-1)^2}{2}=2t 
+\quad exactly.
+\]</span> Difference matrices are great. Centered is best.</p>
+</div>
+<div id="cyclic-differences" class="section level2">
+<h2>Cyclic Differences</h2>
+<p><span class="math display">\[ 
+\text{Cyclic} \qquad Cx=\begin{bmatrix}1 &amp; 0 &amp; -1\\
+-1 &amp; 1 &amp; 0 \\
+0 &amp; -1 &amp; 1 
+\end{bmatrix}\begin{bmatrix}x_{1}\\
+x_{2}\\
+x_{3}
+\end{bmatrix}=\begin{bmatrix}x_{1}-x_{3}\\
+x_{2}-x_{1}\\
+x_{3}-x_{2}
+\end{bmatrix}=b
+\]</span> The three equations either have <strong>infinitely many solutions</strong> or else <strong>no solution</strong>.</p>
+</div>
+<div id="independence-and-dependence" class="section level2">
+<h2>Independence and Dependence</h2>
+<p><img src="img/intro%20linear/dependence.png" alt="dependence" /> <strong>Independence </strong> <span class="math inline">\(w\)</span> is not in the plane of <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span>. <strong>Dependence </strong> <span class="math inline">\(w^{*}\)</span> is in the plane of <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span>.</p>
+<p><span class="math inline">\(u,v,w\)</span> are independent. No combination except $0u+0v+0w=0 $gives <span class="math inline">\(b=0\)</span>. <span class="math inline">\(u,v,w^{\*}\)</span> are dependent. Other combinations (specifically <span class="math inline">\(u + v + w^{*}\)</span>) give <span class="math inline">\(b=0\)</span>.</p>
+<p>Independent columns: <span class="math inline">\(Ax = 0\)</span> has one solution. <span class="math inline">\(A\)</span> is an <strong>invertible matrix</strong>. Dependent columns: <span class="math inline">\(Ax = 0\)</span> has many solutions. <span class="math inline">\(A\)</span> is a <strong>singular matrix</strong>.</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

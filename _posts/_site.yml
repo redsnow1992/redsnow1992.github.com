@@ -1,0 +1,19 @@
+navbar:
+  title: "Hello World"
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "Category"
+      href: category.html
+    - text: "Tag"
+      href: tag.html
+    - text: "About"
+      href: about.html
+output:
+  html_document:
+    toc: true
+    include:
+      after_body: footer.html
+    css: style.css
+
+output_dir: "../_site"

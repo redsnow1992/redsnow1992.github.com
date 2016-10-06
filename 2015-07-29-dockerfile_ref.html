@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Dockerfile reference</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Hello World</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="category.html">Category</a>
+</li>
+<li>
+  <a href="tag.html">Tag</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Dockerfile reference</h1>
+<h4 class="date"><em>2015-07-29 09:10</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a>环境替换</a></li>
+<li><a href="#from"><code>FROM</code></a></li>
+<li><a href="#maintainer"><code>MAINTAINER</code></a></li>
+<li><a href="#run"><code>RUN</code>(<a href="https://docs.docker.com/reference/run/">详细</a>)</a></li>
+<li><a href="#cmd"><code>CMD</code></a></li>
+<li><a href="#label"><code>LABEL</code></a></li>
+<li><a href="#env"><code>ENV</code></a></li>
+<li><a href="#add"><code>ADD</code></a></li>
+<li><a href="#entrypoint"><code>ENTRYPOINT</code></a></li>
+</ul>
+</div>
+
+<p>本文所有东西都可以在docker的<a href="http://docs.docker.com/reference/builder/">官网</a>上查到。</p>
+<div class="section level1">
+<h1>环境替换</h1>
+<p>相关指令： + <code>ENV</code> + <code>ADD</code> + <code>COPY</code> + <code>WORKDIR</code> + <code>EXPOSE</code> + <code>VOLUME</code> + <code>USER</code></p>
+<p>example:</p>
+<pre class="bash"><code>FROM busybox
+ENV foo /bar
+WORKDIR ${foo}   # WORKDIR /bar
+ADD . $foo       # ADD . /bar
+COPY \$foo /quux # COPY $foo /quux</code></pre>
+<p>pitfall:</p>
+<pre class="bash"><code>ENV abc=hello
+ENV abc=bye def=$abc
+ENV ghi=$abc</code></pre>
+<p>在整个一条命令中，环境变量替换时将对每个变量使用相同的值，所以<code>def</code>的值为<code>hello</code>，而<code>ghi</code>为<code>bye</code>。</p>
+</div>
+<div id="from" class="section level1">
+<h1><code>FROM</code></h1>
+<pre class="bash"><code>FROM &lt;image&gt;
+FROM &lt;image&gt;:&lt;tag&gt;
+FROM &lt;iamge&gt;@&lt;digest&gt;</code></pre>
+<p><strong>Dockerfile的第一个指令必须是<code>FROM</code>来指定基础image。</strong></p>
+</div>
+<div id="maintainer" class="section level1">
+<h1><code>MAINTAINER</code></h1>
+<pre class="bash"><code>MAINTAINER &lt;name&gt;</code></pre>
+</div>
+<div id="run" class="section level1">
+<h1><code>RUN</code>(<a href="https://docs.docker.com/reference/run/">详细</a>)</h1>
+<ol style="list-style-type: decimal">
+<li><code>RUN &lt;command&gt;</code>(run in a shell <code>/bin/sh -c</code> <em>shell form</em>)</li>
+<li><code>RUN [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</code>(<em>exec form</em>)</li>
+</ol>
+<p><strong>Note:</strong> + 如果想使用一个不同的shell可以用第二种形式<code>RUN [&quot;/bin/bash&quot;, &quot;-c&quot; &quot;echo hello&quot;]</code> + 第二种形式将会解析成json数组，所以要用<code>&quot;</code>而不是<code>'</code> + 第二种形式不会引发一个shell命令，所以要用shell命令，可以直接用第一种形式。</p>
+</div>
+<div id="cmd" class="section level1">
+<h1><code>CMD</code></h1>
+<ol style="list-style-type: decimal">
+<li><code>CMD [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</code>(<em>exec form</em>)</li>
+<li><code>CMD [&quot;param1&quot;, &quot;param2&quot;]</code>(<em>as default parameters to ENTRYPOINT</em>)</li>
+<li><p><code>CMD command param1 param2</code>(<em>shell form</em>)</p>
+<pre class="bash"><code>FROM ubuntu
+CMD echo &quot;This is a test&quot; | wc -</code></pre>
+<p><strong>Note:</strong></p></li>
+</ol>
+<ul>
+<li>在一个Dockfile种只能有一个<code>CMD</code>命令，如果有多个将执行最后一个。</li>
+<li><code>CMD</code>最主要的作用是给一个可执行的container一个默认项。</li>
+<li><code>RUN</code>是真正执行一个命令，并且提交这个结果，而<code>CMD</code>在build time并不执行任何命令，只是指定对于该image所希望的命令。 我认为<code>RUN</code>指定build time，<code>CMD</code>指定run time。</li>
+</ul>
+</div>
+<div id="label" class="section level1">
+<h1><code>LABEL</code></h1>
+<pre class="bash"><code>LABEL &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt;</code></pre>
+<p>多行形式：</p>
+<blockquote>
+<p>LABEL com.example.label-with-value=“foo” LABEL version=“1.0” LABEL description=“This text illustrates<br />
+ that label-values can span multiple lines.”</p>
+</blockquote>
+<p>单行形式：</p>
+<blockquote>
+<p>LABEL multi.label1=“value1” multi.label2=“value2” other=“value3”</p>
+</blockquote>
+<p>通过<code>docker inspect &lt;image&gt;</code>可以察看一个image的label：</p>
+<pre class="bash"><code>&quot;Labels&quot;: {
+    &quot;com.example.vendor&quot;: &quot;ACME Incorporated&quot;
+    &quot;com.example.label-with-value&quot;: &quot;foo&quot;,
+    &quot;version&quot;: &quot;1.0&quot;,
+    &quot;description&quot;: &quot;This text illustrates that label-values can span multiple lines.&quot;,
+    &quot;multi.label1&quot;: &quot;value1&quot;,
+    &quot;multi.label2&quot;: &quot;value2&quot;,
+    &quot;other&quot;: &quot;value3&quot;
+},</code></pre>
+</div>
+<div id="env" class="section level1">
+<h1><code>ENV</code></h1>
+<p>当一个container跑一个image时，使用<code>ENV</code>设置的环境变量是一直有效的。<br />
+<code>docker run --env &lt;key&gt;=&lt;value&gt;</code>可以在运行时修改这些参数。</p>
+</div>
+<div id="add" class="section level1">
+<h1><code>ADD</code></h1>
+<ol style="list-style-type: decimal">
+<li><code>ADD &lt;src&gt; ... &lt;dest&gt;</code></li>
+<li><code>ADD [&quot;&lt;src&gt;&quot;,... &quot;&lt;dest&gt;&quot;]</code></li>
+</ol>
+<ul>
+<li>该指令用于从<code>&lt;src&gt;</code>拷贝新文件、目录或远端文件url到container文件系统下的<code>&lt;dest&gt;</code>路径。</li>
+<li><code>&lt;src&gt;</code>指定的文件或目录使用的是相对于build时的目录</li>
+<li><code>&lt;src&gt;</code>使用GO的<code>filepath.Match</code>来匹配文件、目录。</li>
+<li><code>&lt;dest&gt;</code>是绝对路径或者相对于<code>WORKDIR</code>的路径</li>
+</ul>
+<pre class="bash"><code>ADD hom* /mydir/        # adds all files starting with &quot;hom&quot;
+ADD hom?.txt /mydir/    # ? is replaced with any single character
+ADD test aDir/          # adds &quot;test&quot; to `WORKDIR`/aDir/</code></pre>
+</div>
+<div id="entrypoint" class="section level1">
+<h1><code>ENTRYPOINT</code></h1>
+<ol style="list-style-type: decimal">
+<li><code>ENTRYPOINT [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</code></li>
+<li><code>ENTRYPOINT command param1 param2</code></li>
+</ol>
+<p><code>ENTRYPOINT</code>将把一个container配置成可执行的。</p>
+<p>示例：</p>
+<pre class="bash"><code># Dockerfile: 
+FROM ubuntu
+ENTRYPOINT [&quot;top&quot;, &quot;-b&quot;]
+CMD [&quot;-c&quot;]</code></pre>
+<ol style="list-style-type: decimal">
+<li><code>docker build -t test_entrypoint .</code></li>
+<li><p><code>docker run -it --rm --name test  test_entrypoint -H</code>(设置container的名称为test，并在其退出的时候自动移除) ```bash top - 02:37:51 up 1:49, 0 users, load average: 0.27, 0.25, 0.28 Threads: 1 total, 1 running, 0 sleeping, 0 stopped, 0 zombie %Cpu(s): 2.9 us, 2.4 sy, 0.1 ni, 90.3 id, 4.3 wa, 0.0 hi, 0.0 si, 0.0 st KiB Mem: 3997276 total, 3846216 used, 151060 free, 70740 buffers KiB Swap: 4142076 total, 211320 used, 3930756 free. 829988 cached Mem</p>
+PID USER PR NI VIRT RES SHR S %CPU %MEM TIME+ COMMAND 1 root 20 0 19744 2276 2020 R 0.0 0.1 0:00.01 top ```</li>
+<li><code>docker exec -it test ps aux</code>(top的参数变成了<code>-b -H</code>，而不是<code>-b -c</code>， 并且PID为1) <code>bash    USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND    root         1  0.2  0.0  19752  2392 ?        Ss+  02:39   0:00 top -b -H    root         5  0.0  0.0  15572  2160 ?        Rs+  02:40   0:00 ps aux</code></li>
+<li><p><code>docker stop test</code></p></li>
+</ol>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

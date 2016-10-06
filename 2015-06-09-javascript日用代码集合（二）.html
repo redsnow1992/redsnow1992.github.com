@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>javascript日用代码集合（二）</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Hello World</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="category.html">Category</a>
+</li>
+<li>
+  <a href="tag.html">Tag</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">javascript日用代码集合（二）</h1>
+<h4 class="date"><em>2015-06-09 19:21</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#javascript">Javascript自动补全</a></li>
+<li><a href="#jquery-have-event-handler-in-onclick-function"><a href="https://forum.jquery.com/topic/how-to-pass-event-target-to-a-function">jquery have event <code>handler</code> in onclick function</a></a></li>
+</ul>
+</div>
+
+<div id="javascript" class="section level1">
+<h1>Javascript自动补全</h1>
+<ol style="list-style-type: decimal">
+<li>在html上设置补全信息显示的地方（place）</li>
+<li>设置place的样式</li>
+<li>js发送ajax请求，获取数据，置空并填充place，一般为一个列表链结（list）</li>
+<li>点击list中的某项，隐藏place，填充真正的field</li>
+</ol>
+<pre class="erb"><code>&lt;div class=&quot;control-group&quot;&gt;
+  &lt;%= label_tag :content, &quot;渠道编号&quot;, class: &quot;control-label&quot; %&gt;
+  &lt;div class=&quot;controls&quot;&gt;
+    &lt;%= text_field_tag(:channel, params[:channel] || @partner.channel, class: &quot;input-medium&quot;, onkeyup: &quot;show_channel_hint(this.value)&quot;) %&gt;
+  &lt;/div&gt;
+  &lt;%= hidden_field_tag(:partner_id, params[:partner_id] || @partner.id) %&gt;
+  
+  &lt;span id=&quot;msg_channel&quot; style=&quot;color:red;&quot;&gt;&lt;/span&gt;
+  &lt;div id=&quot;search_channel&quot;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<pre class="css"><code> #search_channel{
+   display:none;
+   position: relative;
+   margin-top: -1px;
+   width: 162px;
+   padding-top: 1px;
+   border: 1px solid #369;
+   border-top: 0 none;
+   border-radius: 4px;
+   box-shadow: inset 0 0 2px #999;
+   overflow: hidden;
+   left: 20px;
+ }
+ #search_channel a { 
+   display:block; 
+   color:#f00;
+   height:24px;
+   line-height:24px;
+   text-decoration:none; 
+   padding:0 4px;
+ }</code></pre>
+<pre class="javascript"><code>function show_channel_hint(text){
+  $.ajax({
+    url: &quot;/admin/payment_template/search_channel&quot;,
+    type: &#39;post&#39;,
+    data: {text: text},
+    success: function(data){
+      $(&quot;#search_channel&quot;).css(&quot;display&quot;, &quot;none&quot;) ; // 隐藏
+      $(&quot;#search_channel&quot;).empty() ;                // 置空
+      if(data[&#39;channels_info&#39;].length &gt; 0){
+        for(var i = 0 ; i &lt; data[&#39;channels_info&#39;].length ; i++){
+          $(&quot;#search_channel&quot;).append(&quot;&lt;a href=&#39;javascript:void(0);&#39; channel=&#39;&quot; + data[&quot;channels_info&quot;][i][0] + &quot;&#39; partner_id=&#39;&quot; + data[&quot;channels_info&quot;][i][1]+ &quot;&#39; onclick=&#39;search_partner(this)&#39;&gt;&quot; + data[&quot;channels_info&quot;][i][0] + &quot;&lt;/a&gt;&quot;) ;
+        }
+        $(&quot;#search_channel&quot;).css(&quot;display&quot;, &quot;block&quot;) ;  // 显示
+      }
+      if($(&quot;#search_channel&quot;).css(&quot;display&quot;) == &quot;none&quot;){
+        $(&quot;#msg_channel&quot;).html(&quot;渠道编号不存在，请先新建渠道&quot;) ;
+      }
+      else{
+        $(&quot;#msg_channel&quot;).html(&quot;&quot;) ;
+      }
+    },
+    error: function(){
+      alert(&quot;请求出错，请稍后再试！&quot;) ;
+      return false ;
+    }
+  }) ;
+}</code></pre>
+<pre class="javascript"><code>function search_partner(a){
+  var channel = $(a).attr(&#39;channel&#39;) ;
+  var partner_id = $(a).attr(&#39;partner_id&#39;) ;
+  $.ajax({
+    url: &#39;/admin/payment_template/search_partner&#39;,
+    type: &#39;post&#39;,
+    data: {partner_id: partner_id},
+    success: function(data){
+      $(&quot;#channel&quot;).val(channel) ;
+      $(&quot;#search_channel&quot;).css(&quot;display&quot;, &quot;none&quot;) ;
+      $(&quot;#name&quot;).val(data[&#39;name&#39;]) ;
+      $(&quot;#partner_id&quot;).val(data[&#39;partner_id&#39;]) ;
+      return true ;
+    },
+    error: function(){
+      alert(&quot;请求出错，请稍后再试！&quot;) ;
+      return false ;
+    }     
+  }) ;
+}</code></pre>
+</div>
+<div id="jquery-have-event-handler-in-onclick-function" class="section level1">
+<h1><a href="https://forum.jquery.com/topic/how-to-pass-event-target-to-a-function">jquery have event <code>handler</code> in onclick function</a></h1>
+<pre class="javascript"><code>onclick=&quot;dosomething.call(this, event, other_args)&quot;
+
+function dosomething(event, other_args){
+  ... // use event
+}</code></pre>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

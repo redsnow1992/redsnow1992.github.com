@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>sequel注意点</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Hello World</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="category.html">Category</a>
+</li>
+<li>
+  <a href="tag.html">Tag</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">sequel注意点</h1>
+<h4 class="date"><em>2015-07-14 14:53</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#sequel">sequel关联对象的更新问题</a></li>
+<li><a href="#sequel-uses-raw-sql">sequel uses raw sql</a></li>
+<li><a href="#sequel-virtual-row">sequel virtual row</a></li>
+</ul>
+</div>
+
+<div id="sequel" class="section level1">
+<h1>sequel关联对象的更新问题</h1>
+<p>数据库中的对象 vs 内存中的对象(正确性 vs 效率)</p>
+<pre class="ruby"><code># in controller
+@basic_content.update(name: params[:name])
+@copyright.to_topic_hash
+
+# in model Copyright
+class Copyright
+  many_to_one :basic_content
+
+  def after_save
+    bc1 = BasicContent.with_pk!(self.basic_content_id) # 数据库中的对象
+    bc2 = self.basic_content # 内存中的对象
+    # bc1和bc2并不完全相同
+  end
+end</code></pre>
+</div>
+<div id="sequel-uses-raw-sql" class="section level1">
+<h1>sequel uses raw sql</h1>
+<p>insert example:</p>
+<pre class="ruby"><code># generate sql
+sql = &quot;insert into tb_test (#{table.columns.join(&#39;,&#39;)}) values &quot;
+sql += records.map{|r| &quot;(&quot; + %Q[value1, null, &quot;string-value&quot;, now(), &quot;#{Time.now.strftime(&quot;%F %T&quot;)}&quot;] + &quot;)&quot;}.join(&quot;,&quot;)
+DB[sql].insert</code></pre>
+<ul>
+<li>在插入<code>datetime</code>类型时，有些mysql版本不支持这样的值<code>&quot;#{Time.now}&quot;</code>(<code>2015-07-09 11:49:41 +0800</code>这里的“+8000”mysql无法解析)，这里统一转化一下(<code>strftime(&quot;%F %T&quot;)</code>)。</li>
+<li>插入<code>null</code>和<code>now()</code>时不需要用括号引起来。</li>
+</ul>
+</div>
+<div id="sequel-virtual-row" class="section level1">
+<h1>sequel virtual row</h1>
+<p>在<a href="http://sequel.jeremyevans.net/rdoc/files/doc/virtual_rows_rdoc.html">官网</a>上有详细解释。 主要是在需要操作符和函数的时候会用到（当你不想拼sql的时候）。</p>
+<pre class="ruby"><code>dataset.where{a &gt; b(c)}
+ds.where{function(1) &gt; 1}
+dataset.where{text_mainbody_id !~ nil}</code></pre>
+<p>还有一点就是如果在sql中拼<code>null</code>的时候，应该是<code>column is null</code>而不是<code>column = null</code>。</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

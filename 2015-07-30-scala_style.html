@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Scala Style</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Hello World</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="category.html">Category</a>
+</li>
+<li>
+  <a href="tag.html">Tag</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Scala Style</h1>
+<h4 class="date"><em>2015-07-30 11:31</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a>单行表达式换行</a></li>
+<li><a>调用多参数方法</a></li>
+<li><a>命名约定</a><ul>
+<li><a href="#classtrait">Class/Trait</a></li>
+<li><a href="#object">Object</a></li>
+<li><a href="#package">package</a></li>
+<li><a href="#method">method</a><ul>
+<li><a href="#accessormutator">Accessor/Mutator</a></li>
+<li><a>括号</a></li>
+<li><a>符号式方法名</a></li>
+</ul></li>
+<li><a>类型参数（泛型）</a></li>
+</ul></li>
+<li><a href="#type">Type</a><ul>
+<li><a>推导</a><ul>
+<li><a>函数值</a></li>
+</ul></li>
+<li><a>结构型参数</a></li>
+</ul></li>
+<li><a>声明</a><ul>
+<li><a href="#class">Class</a><ul>
+<li><a>类中元素的顺序</a></li>
+<li><a>方法</a></li>
+</ul></li>
+<li><a href="#comprehensions">Comprehensions</a></li>
+<li><a>单参函数</a><ul>
+<li><a href="#-1">高阶函数</a></li>
+</ul></li>
+</ul></li>
+<li><a>文件管理</a></li>
+<li><a href="#scaladoc">ScalaDoc示例</a><ul>
+<li><a>通常如此</a></li>
+<li><a href="#package-1">package</a></li>
+<li><a>类</a></li>
+<li><a href="#object-1">object</a></li>
+</ul></li>
+</ul>
+</div>
+
+<p>本文相对于是对<a href="http://docs.scala-lang.org/style/">该目录</a>下的内容的截取翻译。 # 缩进 代码使用2个space缩进。</p>
+<pre class="scala"><code>class Foo {
+  def bar = ..
+}</code></pre>
+<div class="section level2">
+<h2>单行表达式换行</h2>
+<ul>
+<li>换行产生的行应该相对于第一行缩进2个space</li>
+<li>每个断行应该以未闭合的括号或者中缀方法结尾</li>
+</ul>
+<pre class="scala"><code>val result = 1 + 2 + 3 + 4 + 5 + 6 +
+  7 + 8 + 9 + 10 + 11 + 12 + 13 + 14 +
+  15 + 16 + 17 + 18 + 19 + 20</code></pre>
+</div>
+<div class="section level2">
+<h2>调用多参数方法</h2>
+<p>将每个参数放在一个单行，并相对于方法名缩进2个space</p>
+<pre class="scala"><code>foo(
+  someVeryLongFieldName,
+  andAnotherVeryLongFieldName,
+  &quot;this is a string&quot;,
+  3.1415)</code></pre>
+<pre class="scala"><code>val myOnerousAndLongFieldNameWithNoRealPoint = 
+  foo(
+    someVeryLongFieldName,
+    andAnotherVeryLongFieldName,
+    &quot;this is a string&quot;,
+    3.1415)</code></pre>
+</div>
+<div class="section level1">
+<h1>命名约定</h1>
+<p>Scala使用驼峰式，而下划线是非常不鼓励的，因为它在Scala语法中有特殊的含义。</p>
+<div id="classtrait" class="section level2">
+<h2>Class/Trait</h2>
+<p>驼峰式＋第一个字母大写</p>
+<pre class="scala"><code>class MyFairLady</code></pre>
+</div>
+<div id="object" class="section level2">
+<h2>Object</h2>
+<p>一般和Class的命名方式相同，除非想模仿一个package或者function。以下是特例情况：</p>
+<pre class="scala"><code>object ast {
+  sealed trait Expr
+  case class Plus(e1: Expr, e2: Expr) extends Expr
+  ...
+}
+object inc {
+  def apply(x: Int): Int = x + 1
+}</code></pre>
+</div>
+<div id="package" class="section level2">
+<h2>package</h2>
+<p>遵循java package的命名约定</p>
+<pre class="scala"><code>// wrong!
+package coolness
+// right!
+package com.novell.coolness
+// right, for package object com.novell.coolness
+package com.novell
+/**
+ * Provides classes related to coolness
+ */
+package object coolness {
+}</code></pre>
+</div>
+<div id="method" class="section level2">
+<h2>method</h2>
+<p>驼峰式</p>
+<pre class="scala"><code>def myFairMethod = ...</code></pre>
+<div id="accessormutator" class="section level3">
+<h3>Accessor/Mutator</h3>
+<p>Scala不使用set/get来表示mutator和accessor，而使用以下的约定： + 属性的访问：方法名和属性名相同 + 一般后缀<code>is</code>表示一个返回Boolean的accessor + 对于mutator，使用属性名＋后缀<code>_=</code></p>
+<pre class="scala"><code>class Foo {
+  def bar = ...
+  def bar_=(bar: Bar) {
+    ...
+  }
+  def isBaz = ...
+}
+val foo = new Foo
+foo.bar             // accessor
+foo.bar = bar2      // mutator
+foo.isBaz           // boolean property</code></pre>
+</div>
+<div class="section level3">
+<h3>括号</h3>
+<p>于Ruby不同，Scala会给声明时是否带括号的无参函数附加不同的含义。 网站上对这部分讲得并不详细，以下的内容和例子来自<a href="http://hongjiang.info/scala-parenthesis-and-apply/">此处</a>，无参函数的定义惯例是： 1. 方法没有参数 2. 方法不会改变状态（无副作用）</p>
+<p><strong>不对等：</strong></p>
+<pre class="scala"><code>def foo() = println(&quot;nl&quot;) 
+scala&gt; foo   // OK
+
+def bar = println(&quot;nl&quot;)
+scala&gt; bar()
+  error: Unit does not take parameters</code></pre>
+<p>后者报错是因为<code>bar()</code>被翻译为<code>(bar).apply()</code>，而<code>bar</code>返回<code>Unit</code>类型的值，这类值没有<code>apply</code>方法。</p>
+</div>
+<div class="section level3">
+<h3>符号式方法名</h3>
+<p>主要使用在以下两种场合：</p>
+<ul>
+<li>DSL（eg: actor ! Msg）</li>
+<li>逻辑数学运算（eg: a + b or c :: d）</li>
+</ul>
+<p>官方建议：尽量别用</p>
+</div>
+</div>
+<div class="section level2">
+<h2>类型参数（泛型）</h2>
+<p>一般而言对于简单的类型参数，一个大写字母足以（按照英文字母序），从A开始（不同于Java的以T开始）：</p>
+<pre class="scala"><code>class List[A] {
+  def map[B](f: A =&gt; B): List[B] = ...
+}</code></pre>
+<p>当类型参数有更明确的含义是，可以使用一个表述性的词（命名遵循Class的命名）：</p>
+<pre class="scala"><code>// Right
+class Map[Key, Value] {
+  def get(key: Key): Value
+  def put(key: Key, value: Value): Unit
+}
+// Also right
+class Map[K, V] {
+  def get(key: K): V
+  def put(key: K, value: V): Unit
+}
+ 
+// Wrong; don&#39;t use all-caps
+class Map[KEY, VALUE] {
+  def get(key: KEY): VALUE
+  def put(key: KEY, value: VALUE): Unit
+}</code></pre>
+<p><strong>高阶示例</strong>：</p>
+<pre class="scala"><code>class HigherOrderMap[Key[_], Value[_]] { ... }
+
+def doSomething[M[_]: Monad](m: M[Int]) = ...</code></pre>
+</div>
+</div>
+<div id="type" class="section level1">
+<h1>Type</h1>
+<div class="section level2">
+<h2>推导</h2>
+<p>在保证清晰性的前提下，尽量使用类型推导。 不该对私有属性或者本地变量标明类型，因为它们值非常明显的出卖了自己的类型。 当然对于不明确或者复杂的赋值通常还是标明类型。 所有的公开函数都都应该显式地声明类型，这样可以保证内部代码修改之后，对于调用者而言是透明的。而且这样做可以提高编译效率。</p>
+<div class="section level3">
+<h3>函数值</h3>
+<p>函数值支持一个类型推导的特例：</p>
+<pre class="scala"><code>val ls: List[String] = ...
+ls map (str =&gt; str.toInt)</code></pre>
+<p>这种情况下，Scala已经知道我们声明的函数的值，所以没必要在标明（<code>str</code>就是这样）。 ## 函数 当函数为一个参数时，可以省略括号，不会声明成这样<code>(A) =&gt; B</code></p>
+<pre class="scala"><code>def foo(f: Int =&gt; String) = ...
+def bar(f: (Boolean, Double) =&gt; List[String]) = ...
+
+// wrong!
+def foo(f: (Int) =&gt; (String) =&gt; (Boolean) =&gt; Double) = ...
+// right!
+def foo(f: Int =&gt; String =&gt; Boolean =&gt; Double) = ...</code></pre>
+</div>
+</div>
+<div class="section level2">
+<h2>结构型参数</h2>
+<p>当结构型参数比较多时，单独将其提取成一个类型：</p>
+<pre class="scala"><code>def foo(a: { def bar(a: Int, b: Int): String; val baz: List[String =&gt;
+String] }) = ...
+
+private type FooParam = {
+  val baz: List[String =&gt; String]
+  def bar(a: Int, b: Int): String
+}</code></pre>
+</div>
+</div>
+<div class="section level1">
+<h1>声明</h1>
+<div id="class" class="section level2">
+<h2>Class</h2>
+<p>当构造函数的参数太多时，将每个参数方在一个单行，并缩进4个space</p>
+<pre class="scala"><code>class Person(name: String, age: Int) {
+}
+
+class Person(
+    name: String,
+    age: Int,
+    birthdate: Date,
+    astrologicalSign: String,
+    shoeSize: Int,
+    favoriteColor: java.awt.Color) {
+  def firstMethod: Foo = ...
+}</code></pre>
+<p>如果某个Class/Object/Trait还extends了其他东西，需要将它们每个方在单行，并且缩进2个space</p>
+<pre class="scala"><code>class Person(
+    name: String,
+    age: Int,
+    birthdate: Date,
+    astrologicalSign: String,
+    shoeSize: Int,
+    favoriteColor: java.awt.Color) 
+  extends Entity
+  with Logging
+  with Identifiable
+  with Serializable {
+}</code></pre>
+<div class="section level3">
+<h3>类中元素的顺序</h3>
+<p>一般情况下属性在方法之前，特例就是有些val是用block来定义的，就需要当作方法来对待了。</p>
+<pre class="scala"><code>class Foo {
+  val bar = 42
+  val baz = &quot;Daniel&quot;
+
+  def doSomething(): Unit = { ... }
+  def add(x: Int, y: Int): Int = x + y
+  val test = {  // method-like  }
+}</code></pre>
+</div>
+<div class="section level3">
+<h3>方法</h3>
+<ol style="list-style-type: decimal">
+<li><p>一般情况</p>
+<pre class="scala"><code>def foo(bar: Baz): Bin = expr</code></pre></li>
+<li><p>带有默认参数</p>
+<pre class="scala"><code>def foo(x: Int = 6, y: Int = 7): Int = x + y</code></pre>
+<h4 id="modifiers">方法的Modifiers顺序</h4></li>
+<li>Annotations</li>
+<li>override</li>
+<li>protected, private</li>
+<li>final</li>
+<li><p>def</p>
+<pre class="scala"><code>@Transaction
+@throws(classOf[IOException])
+override protected final def foo() {
+  ...
+}</code></pre>
+<h4>方法体</h4></li>
+<li><p>单行</p>
+<pre class="scala"><code>def add(a: Int, b: Int): Int = a + b</code></pre></li>
+<li><p>两行</p>
+<pre class="scala"><code>def sum(ls: List[String]): Int =
+  ls.map(_.toInt).foldLeft(0)(_ + _)</code></pre></li>
+<li><p>多行</p>
+<pre class="scala"><code>def sum(ls: List[String]): Int = {
+  val ints = ls map (_.toInt)
+  ints.foldLeft(0)(_ + _)
+}</code></pre></li>
+<li><p>带有<code>match</code>表达式（<code>match</code>和方法名同行）</p>
+<pre class="scala"><code>def sum(ls: List[Int]): Int = ls match {
+  case hd :: tail =&gt; hd + sum(tail)
+  case Nil =&gt; 0
+}</code></pre>
+<h4>多个参数列表</h4></li>
+<li><p>可以定制自己的“control structures”</p>
+<pre class="scala"><code>def unless(exp: Boolean)(code: =&gt; Unit): Unit = if (!exp) code
+unless(x &lt; 5) { 
+  println(&quot;x was not less than five&quot;)
+}</code></pre></li>
+<li>当只想对某些参数使用<code>implicit</code>的时候，必须用多个参数列表</li>
+<li><p>只使用部分参数列表调用一个方法时，类型推导器允许以一种更简单的方法来设置其余参数列表：</p>
+<pre class="scala"><code>def foldLeft[B](z: B)(op: (A,B) =&gt; B): B
+List(&quot;&quot;).foldLeft(0)(_ + _.length)   // 不需要指定 B
+以上是标准函数
+如果我们改成以下的，就必须指定类型
+def foldLeft[B](z: B, op: (B, A) =&gt; B): B
+List(&quot;&quot;).foldLeft(0, (b: Int, a: String) =&gt; a + b.length)
+List(&quot;&quot;).foldLeft[Int](0, _ + _.length)</code></pre>
+<h4>高阶函数</h4>
+<p>当高阶函数的最后一个参数是函数并且curried时，Scala允许一种更好的语法来调用它： SML定义<code>foldl</code>方法如下：</p>
+<pre class="sml"><code>fun foldl (f: (&#39;b * &#39;a) -&gt; &#39;b)(init: &#39;b)(ls &#39;a list) = ...</code></pre>
+<p>而Scala却相反：</p>
+<pre class="scala"><code>def foldLeft[A, B](ls: List[A])(init: B)(f: (B, A) =&gt; B): B = ...</code></pre>
+<p>通过将函数型参数放到最后面，我们可以用以下方式调用：</p>
+<pre class="scala"><code>foldLeft(List(1, 2, 3, 4))(0)(_ + _)</code></pre>
+<h3 id="lazyval">lazy放在val之前</h3>
+<pre class="scala"><code>private lazy val foo = bar()</code></pre>
+<h2 id="-1">函数值</h2>
+<p>以下四种方式是等价的：</p>
+<pre class="scala"><code>val f1 = ((a: Int, b: Int) =&gt; a + b)
+val f2 = (a: Int, b: Int) =&gt; a + b
+val f3 = (_: Int) + (_: Int)
+val f4: (Int, Int) =&gt; Int = (_ + _)</code></pre>
+<p>多表达式函数：</p>
+<pre class="scala"><code>val f1 { (a: Int, b: int) =&gt;
+  val sum = a + b
+  sum
+}</code></pre>
+<h1>控制结构</h1>
+<p>所有的控制结构都应该和定义的关键字留1个space： ```scala // right! if (foo) bar else baz for (i &lt;- 0 to 10) { … } while (true) { println(“Hello, World!”) }</p></li>
+</ol>
+<p>// wrong! if(foo) bar else baz for(i &lt;- 0 to 10) { … } while(true) { println(“Hello, World!”) } ``<code>## 大括号 1.</code>if<code>：当只有一个</code>else<code>时省略大括号，其他时候都用大括号。 2.</code>while<code>：总是使用大括号。 3.</code>for<code>：当有一个</code>yield<code>时省略大括号，其他时候都用大括号。 4.</code>case<code>：总是省略</code>case`语句中的大括号。</p>
+<pre class="scala"><code>val news = if (foo)
+  goodNews()
+else
+  badNews()
+
+if (foo) {
+  println(&quot;foo was true&quot;)
+}
+
+news match {
+  case &quot;good&quot; =&gt; println(&quot;Good news!&quot;)
+  case &quot;bad&quot; =&gt; println(&quot;Bad news!&quot;)
+}</code></pre>
+</div>
+</div>
+<div id="comprehensions" class="section level2">
+<h2>Comprehensions</h2>
+<p>Scala中for-comprehensions不仅是一个生成器：</p>
+<pre class="scala"><code>// wrong!
+for (x &lt;- board.rows; y &lt;- board.files) 
+  yield (x, y)
+
+// right!
+for {
+  x &lt;- board.rows
+  y &lt;- board.files
+} yield (x, y)</code></pre>
+<p>当Comprehensions只是一个生成器时，应当使用第一种形式：<code>for (i &lt;- 0 to 10) yield i</code> 而当for-comprehensions没有<code>yield</code>时，也应当使用第一种形式：</p>
+<pre class="scala"><code>// wrong!
+for {
+  x &lt;- board.rows
+  y &lt;- board.files
+} {
+  printf(&quot;(%d, %d)&quot;, x, y)
+}
+
+// right!
+for (x &lt;- board.rows; y &lt;- board.files) {
+  printf(&quot;(%d, %d)&quot;, x, y)
+}</code></pre>
+<p>最后for-comprehensions通常会和<code>map</code>，<code>flatMap</code>，<code>filter</code>连用。 # 方法调用 ## 无参函数</p>
+<pre class="scala"><code>reply()
+// is the same as
+reply</code></pre>
+<p>当且仅当该函数没有副作用时，例如<code>queue.size</code>，而<code>println()</code>就不行。 ### 中缀形式 Scala允许无参函数的中缀形式调用：</p>
+<pre class="scala"><code>names.toList
+// is the same as
+
+names toList // Unsafe, don&#39;t use!</code></pre>
+<p>更可能会造成编译器错误：（虽然在2.11.6中并没有报错），但这种写法任然不好：</p>
+<pre class="scala"><code>names toList
+val answer = 42 </code></pre>
+</div>
+<div class="section level2">
+<h2>单参函数</h2>
+<p>两种调用形式：</p>
+<pre class="scala"><code>names.mkString(&quot;,&quot;)
+// is the same as
+names mkString &quot;,&quot;</code></pre>
+<p>中缀形式依然应该只用于无副作用的方法。</p>
+<pre class="scala"><code>// right!
+names foreach (n =&gt; println(n))
+names mkString &quot;,&quot;
+optStr getOrElse &quot;&lt;empty&gt;&quot;
+
+// wrong!
+javaList add item</code></pre>
+<div id="-1" class="section level3">
+<h3>高阶函数</h3>
+<p>类似<code>map</code>，<code>filter</code>这样的高阶函数应该使用中缀形式，虽然一下调用是合法的：</p>
+<pre class="scala"><code>names.map (_.toUpperCase)     // 并不好</code></pre>
+<p>以上调用有个缺点就是无法将方法调用串起来：</p>
+<pre class="scala"><code>names.map (_.toUpperCase).filter (_.length &gt; 5) // 并不好
+// right!
+names map (_.toUpperCase) filter (_.length &gt; 5)</code></pre>
+</div>
+</div>
+</div>
+<div class="section level1">
+<h1>文件管理</h1>
+<p>一般伴生对象和其对应的类或者trait在同一个文件中：</p>
+<pre class="scala"><code>package com.novell.coolness
+class Inbox { ... }
+// companion object
+object Inbox { ... }</code></pre>
+<p>sealed trait和多个子类在同一个文件中：</p>
+<pre><code>sealed trait Option[+A]
+case class Some[A](a: A) extends Option[A]
+case object None extends Option[Nothing]</code></pre>
+</div>
+<div id="scaladoc" class="section level1">
+<h1>ScalaDoc示例</h1>
+<div class="section level2">
+<h2>通常如此</h2>
+<pre class="scala"><code>/** This is a brief description of what&#39;s being documented.
+  *
+  * This is further documentation of what we&#39;re documenting.  It should
+  * provide more details as to how this works and what it does. 
+  */
+def myMethod = {}
+
+/** Does something very simple */
+def simple = {}</code></pre>
+</div>
+<div id="package-1" class="section level2">
+<h2>package</h2>
+<pre class="scala"><code>package parent.package.name
+
+/** This is the ScalaDoc for the package. */
+package object mypackage {
+}</code></pre>
+<p>更多文档，引用其他类时，使用方括号：</p>
+<pre class="scala"><code>package my.package
+/** Provides classes for dealing with complex numbers.  Also provides
+  * implicits for converting to and from `Int`.
+  *
+  * ==Overview==
+  * The main class to use is [[my.package.complex.Complex]], as so
+  * {{{
+  * scala&gt; val complex = Complex(4,3)
+  * complex: my.package.complex.Complex = 4 + 3i
+  * }}}
+  *
+  * If you include [[my.package.complex.ComplexConversions]], you can 
+  * convert numbers more directly
+  * {{{
+  * scala&gt; import my.package.complex.ComplexConversions._
+  * scala&gt; val complex = 4 + 3.i
+  * complex: my.package.complex.Complex = 4 + 3i
+  * }}} 
+  */
+package complex {}</code></pre>
+</div>
+<div class="section level2">
+<h2>类</h2>
+<pre class="scala"><code>/** A person who uses our application.
+  *
+  * @constructor create a new person with a name and age.
+  * @param name the person&#39;s name
+  * @param age the person&#39;s age in years 
+  */
+class Person(name: String, age: Int) {
+}</code></pre>
+</div>
+<div id="object-1" class="section level2">
+<h2>object</h2>
+<pre class="scala"><code>/** Factory for [[mypackage.Person]] instances. */
+object Person {
+  /** Creates a person with a given name and age.
+    *
+    * @param name their name
+    * @param age the age of the person to create 
+    */
+  def apply(name: String, age: Int) = {}
+  /** Creates a person with a given name and birthdate
+    *
+    * @param name their name
+    * @param birthDate the person&#39;s birthdate
+    * @return a new Person instance with the age determined by the 
+    *         birthdate and current date. 
+    */
+  def apply(name: String, birthDate: java.util.Date) = {}
+}</code></pre>
+<p>当object中有隐式转换时，应在文档中给出示例：</p>
+<pre class="scala"><code>/** Implicit conversions and helpers for [[mypackage.Complex]] instances.
+  *
+  * {{{
+  * import ComplexImplicits._
+  * val c: Complex = 4 + 3.i
+  * }}} 
+  */
+object ComplexImplicits {}</code></pre>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

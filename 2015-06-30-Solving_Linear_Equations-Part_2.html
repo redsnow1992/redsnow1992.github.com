@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Solving Linear Equations-Part 2</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Solving Linear Equations-Part 2</h1>
+<h4 class="date"><em>2015-06-30 10:16</em></h4>
+
+</div>
+
+
+<div id="rules-for-matrix-operations" class="section level1">
+<h1>Rules for Matrix Operations</h1>
+<p>When <span class="math inline">\(A\)</span> has <span class="math inline">\(m\)</span> rows and <span class="math inline">\(n\)</span> columns, it is an “<span class="math inline">\(m\)</span> by <span class="math inline">\(n\)</span>” matrix. Matrices can be added if their shapes are the same. <span class="math display">\[
+\begin{bmatrix}
+1 &amp; 2\\\\
+3 &amp; 4\\\\
+0 &amp; 0
+\end{bmatrix}+\begin{bmatrix}
+2 &amp; 2\\\\
+4 &amp; 4\\\\
+9 &amp; 9
+\end{bmatrix}=\begin{bmatrix}
+3 &amp; 4\\\\
+7 &amp; 8\\\\
+9 &amp; 9
+\end{bmatrix}\qquad and\qquad2\begin{bmatrix}
+1 &amp; 2\\\\
+3 &amp; 4\\\\
+0 &amp; 0
+\end{bmatrix}=\begin{bmatrix}2 &amp; 4\\\\
+6 &amp; 8\\\\
+0 &amp; 0
+\end{bmatrix}
+\]</span> Matrix addition is easy. The serious question is <em>matrix multiplication</em>. When can we multiply <span class="math inline">\(A\)</span> times <span class="math inline">\(B\)</span>, and what is the product <span class="math inline">\(AB\)</span>? We cannot multiply when <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are <span class="math inline">\(3\)</span> by <span class="math inline">\(2\)</span>. They don’t pass the following test: &gt; To multiply AB: If A has n columns, B must have n rows.</p>
+<p>In every case <span class="math inline">\(AB\)</span> is filled with dot products. For the top corner, the <span class="math inline">\((1,1)\)</span> entry for <span class="math inline">\(AB\)</span> is <span class="math inline">\((row\; 1\; of\; A)\cdot(column\; 1\; of\; B)\)</span>.</p>
+<p><span class="math display">\[
+\begin{bmatrix}\*\\\\
+a\_{i1} &amp; a\_{i2} &amp; \cdots &amp;  &amp; a\_{i5}\\\\
+\*\\\\
+\*
+\end{bmatrix}\begin{bmatrix}\* &amp; \* &amp; b\_{1j} &amp; \* &amp; \* &amp; \*\\\\
+ &amp;  &amp; b\_{2j}\\\\
+ &amp;  &amp; \vdots\\\\
+\\\\
+ &amp;  &amp; b\_{5j}
+\end{bmatrix}=\begin{bmatrix} &amp;  &amp; \*\\\\
+\* &amp; \* &amp; (AB)\_{ij} &amp; \* &amp; \* &amp; \*\\\\
+ &amp;  &amp; \*\\\\
+ &amp;  &amp; \*
+\end{bmatrix}
+\]</span> ## Rows and Columns of <span class="math inline">\(AB\)</span> <strong>Each column of <span class="math inline">\(AB\)</span> is a combination of the columns of <span class="math inline">\(A\)</span></strong>. That is the column picture of matrix multiplication: <span class="math display">\[\text{Matrix A times column of B}\qquad A[b_1 \cdots b_p]=[Ab_1 \cdots Ab_p]\]</span> <strong>Row picture is reversed</strong>: <span class="math display">\[\text{Row times matrix}\qquad [row\; i\; of\; A] 
+\begin{bmatrix}
+1 &amp; 2 &amp; 3\\\\
+4 &amp; 5 &amp; 6\\\\
+7 &amp; 8 &amp; 9
+\end{bmatrix} = [row \; i \; of \; AB]
+\]</span> ## The Laws for Matrix Operations ### Addition laws: <span class="math display">\[
+A+B=B+A \qquad (commutative\; law)  \\\\
+c(A+B)=cA+cB \qquad (distributive\; law)   \\\\
+A+(B+C)=(A+B)+C \qquad (associative\; law)
+\]</span> ### Multiplication laws: <span class="math display">\[
+AB\ne BA \qquad (\text{the commutative &quot;law&quot; is usually broken}) \\\\
+C(A+B)=CA+CB \qquad (\text{distributive law from the left}) \\\\
+(A+B)C=AC+BC \qquad (\text{distributive law from the right}) \\\\
+A(BC)=(AB)C \qquad (\text{associative law for ABC})
+\]</span> ## Block Matrices and Block Multiplication <span class="math display">\[
+\text{4 by 6 matrix 2 by 3 blocks} \quad
+A=\left[\begin{array}{cc|cc|cc}1 &amp; 0 &amp; 1 &amp; 0 &amp; 1 &amp; 0\\\\
+0 &amp; 1 &amp; 0 &amp; 1 &amp; 0 &amp; 1\\\\
+\hline
+1 &amp; 0 &amp; 1 &amp; 0 &amp; 1 &amp; 0\\\\
+0 &amp; 1 &amp; 0 &amp; 1 &amp; 0 &amp; 1
+\end{array}\right]
+=\begin{bmatrix}I &amp; I &amp; I\\\\
+I &amp; I &amp; I
+\end{bmatrix}
+\]</span> <strong>Block multiplication:</strong> If the cuts between columns of <span class="math inline">\(A\)</span> match the cuts between rows of <span class="math inline">\(B\)</span>, then block multiplication of <span class="math inline">\(AB\)</span> is allowed: <span class="math display">\[
+\begin{bmatrix}A\_{11} &amp; A\_{12} \\\\
+A\_{21} &amp; A\_{22}
+\end{bmatrix}=\begin{bmatrix}B\_{11} &amp; \cdots \\\\
+B\_{21} &amp; \cdots
+\end{bmatrix}=\begin{bmatrix}A\_{11}B\_{11}+A\_{21}B\_{21} &amp; \cdots \\\\
+A\_{21}B\_{11}+A\_{22}B\_{21} &amp; \cdots
+\end{bmatrix}
+\]</span> <strong>Important special case:</strong> 1. Columns times rows <span class="math display">\[
+\begin{bmatrix}| &amp;  &amp; \|\\\\
+a\_{1} &amp; \cdots &amp; a\_{n}\\\\
+\| &amp;  &amp; \|
+\end{bmatrix}\begin{bmatrix}\- &amp; b\_{1} &amp; \-\\\\
+ &amp; \vdots\\\\
+\- &amp; b\_{n} &amp; \-
+\end{bmatrix}=\begin{bmatrix}\\\\
+a\_{1}b\_{1}+\cdots+a\_{n}b\_{n}\\\\
+\\\\
+\end{bmatrix}
+\]</span> 2. Matrix add matrix <span class="math display">\[
+\begin{bmatrix}1 &amp; 4\\\\
+1 &amp; 5
+\end{bmatrix}\begin{bmatrix}3 &amp; 2\\\\
+1 &amp; 0
+\end{bmatrix}=\begin{bmatrix}1\\\\
+1
+\end{bmatrix}\begin{bmatrix}3 &amp; 2\end{bmatrix}+\begin{bmatrix}1\\\\
+1
+\end{bmatrix}\begin{bmatrix}1 &amp; 0\end{bmatrix}=\begin{bmatrix}3 &amp; 2\\\\
+3 &amp; 2
+\end{bmatrix}+\begin{bmatrix}4 &amp; 0\\\\
+5 &amp; 0
+\end{bmatrix}
+\]</span></p>
+<p><strong>Elimination by blocks:</strong> <span class="math display">\[
+\text{One at a time}\qquad
+E\_{21}=\begin{bmatrix}1 &amp; 0 &amp; 0\\\\
+-3 &amp; 1 &amp; 0\\\\
+0 &amp; 0 &amp; 1
+\end{bmatrix}\quad and\quad E\_{31}=\begin{bmatrix}1 &amp; 0 &amp; 0\\\\
+0 &amp; 1 &amp; 0\\\\
+-4 &amp; 0 &amp; 1
+\end{bmatrix}
+\]</span> The “block idea” is to do both eliminations with one matrix <span class="math inline">\(E\)</span>. That matrix clears out the whole first column of <span class="math inline">\(A\)</span> below the pivot <span class="math inline">\(a=1\)</span>: <span class="math display">\[
+E=\begin{bmatrix}1 &amp; 0 &amp; 0\\\\
+-3 &amp; 1 &amp; 0\\\\
+0 &amp; 0 &amp; 1
+\end{bmatrix}\quad multiples\quad \begin{bmatrix}1 &amp; x &amp; x\\\\
+3 &amp; x &amp; x\\\\
+4 &amp; x &amp; x
+\end{bmatrix}\quad to\; give \quad EA=\begin{bmatrix}1 &amp; x &amp; x\\\\
+0 &amp; x &amp; x\\\\
+0 &amp; x &amp; x
+\end{bmatrix} \\\\
+Block\; elimination \qquad
+\left[\begin{array}{c|c}I &amp; 0 \\\\
+\hline
+-CA^{-1} &amp; I
+\end{array}\right]
+\left[\begin{array}{c|c}A &amp; B \\\\
+\hline
+C &amp; D
+\end{array}\right]=
+\left[\begin{array}{c|c}A &amp; B \\\\
+\hline
+0 &amp; D-CA^{-1}B
+\end{array}\right]
+\]</span></p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
