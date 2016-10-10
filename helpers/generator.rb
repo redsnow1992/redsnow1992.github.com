@@ -76,7 +76,9 @@ module Generator
     #   FileUtils.mkdir_p(dir, verbose: true) unless Dir.exists?(dir)
     #   FileUtils.mv(File.join(Params::POSTS_DEST, File.basename(post.dest_path)), dir)
     # end
-    
+    Dir[File.join(Params::POSTS_DEST, "*.html")].each do |file|
+      FileUtils.cp(file, File.dirname(Params::POSTS_DEST), verbose: true)
+    end
   end
 
   def run()
@@ -85,7 +87,11 @@ module Generator
     create_category_file(posts)
     create_tag_file(posts)
 
-    system(%Q[R -e 'Sys.setenv(RSTUDIO_PANDOC="/Applications/RStudio.app/Contents/MacOS/pandoc");rmarkdown::render_site("#{Params::POSTS_HOME}")'])
+    if RUBY_PLATFORM.downcase.include?("linux")
+      system(%Q[R -e 'Sys.setenv(RSTUDIO_PANDOC="/usr/lib/rstudio/bin/pandoc");rmarkdown::render_site("#{Params::POSTS_HOME}")'])
+    else
+      system(%Q[R -e 'Sys.setenv(RSTUDIO_PANDOC="/Applications/RStudio.app/Contents/MacOS/pandoc");rmarkdown::render_site("#{Params::POSTS_HOME}")'])
+    end
     copy_htmls(posts)
   end
 end

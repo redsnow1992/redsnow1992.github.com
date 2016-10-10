@@ -1,11 +1,12 @@
 ---
 title: "Home"
 ---
-total: 47
+total: 48
 
 
-**2016(9)**
+**2016(10)**
 
+* *10-10* [About](about.html)
 * *07-28* [ssh localhost debug](2016-07-28-一次ssh_localhost.html)
 * *03-08* [吃饭钱](2016-03-08-吃饭钱.html)
 * *01-27* [我对佛理解的变化](2016-01-27-my_opinion_on_buddha.html)

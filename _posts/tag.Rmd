@@ -2,6 +2,13 @@
 title: "Tag"
 ---
 
+**pitfall(4)**
+
+* [autocomplete pitfall](2015-10-29-autocomplete_pitfall.html)
+* [H2内存数据库插入字符串的pitfall](2016-01-14-h2_sql_pitfall.html)
+* [吃饭钱](2016-03-08-吃饭钱.html)
+* [mutable pitfall](2016-01-20-mutable_pitfall.html)
+
 **design(3)**
 
 * [the design of everyday things](2015-05-10-the_design_of_everyday_things.html)
@@ -12,111 +19,105 @@ title: "Tag"
 
 * [the design of everyday things](2015-05-10-the_design_of_everyday_things.html)
 
-**undefined(9)**
-
-* [一些体会（一）](2015-05-10-一些体会（一）.html)
-* [一些方法（一）](2015-05-10-一些方法（一）.html)
-* [Keep Asking self](2015-06-03-keep-asking-self.html)
-* [个人语录](2015-07-09-个人语录.html)
-* [Linux Commands](2015-07-28-linux_commands.html)
-* [中医笔记 －－ 四气与五味](2016-01-02-中药笔记－四气与五味.html)
-* [中医笔记 －－ 归经](2016-01-02-中药笔记－归经.html)
-* [亦正亦反](2016-01-02-亦正亦反.html)
-* [ssh localhost debug](2016-07-28-一次ssh_localhost.html)
-
-**javascript(2)**
-
-* [javascript日用代码集合（一）](2015-05-11-javascript日用代码集合（一）.html)
-* [javascript日用代码集合（二）](2015-06-09-javascript日用代码集合（二）.html)
-
-**ruby(5)**
-
-* [ruby定时脚本](2015-05-11-ruby定时脚本.html)
-* [ruby Time 毫秒](2015-05-26-ruby_time注意点.html)
-* [sequel注意点](2015-07-14-sequel注意点.html)
-* [对象池、链接池](2015-11-20-object_pool.html)
-* [mutable pitfall](2016-01-20-mutable_pitfall.html)
-
-**economy(1)**
-
-* [复式记账法](2015-05-11-复式记账法.html)
-
 **scala(10)**
 
-* [scala-case Option](2015-05-15-scala-case_Option.html)
-* [scala-functional objects, nested iteration](2015-05-15-scala-functional_objects,_nested_iteration.html)
-* [scala-traits](2015-05-15-scala-traits.html)
+* [implicit笔记_Evidence_implicitNotFound_CanBuildFrom](2015-10-22-implicit笔记_Evidence_implicitNotFound_CanBuildFrom.html)
 * [scala-杂项](2015-05-15-scala-杂项.html)
+* [scala-functional objects, nested iteration](2015-05-15-scala-functional_objects,_nested_iteration.html)
+* [同事的case语句](2015-11-04-同事的case语句.html)
+* [scala-traits](2015-05-15-scala-traits.html)
+* [scala-case Option](2015-05-15-scala-case_Option.html)
+* [implicit笔记_一般常识](2015-10-20-implicit笔记_一般常识.html)
 * [scala-类型推导示例](2015-05-20-scala-类型推导示例.html)
 * [偏函数和implicit](2015-07-29-偏函数和implicit.html)
 * [Scala Style](2015-07-30-scala_style.html)
-* [implicit笔记_一般常识](2015-10-20-implicit笔记_一般常识.html)
-* [implicit笔记_Evidence_implicitNotFound_CanBuildFrom](2015-10-22-implicit笔记_Evidence_implicitNotFound_CanBuildFrom.html)
-* [同事的case语句](2015-11-04-同事的case语句.html)
-
-**english(1)**
-
-* [铁夫破词](2015-05-16-铁夫破词.html)
-
-**scheme(1)**
-
-* [优先级和lisp式前缀表达式](2015-05-21-优先级和lisp式前缀表达式.html)
-
-**linear algebra(5)**
-
-* [Linear Algebra Preface](2015-06-07-linear-algebra-preface.html)
-* [Chapter1 Introduction to Vectors](2015-06-08-Chapter_1_Introduction_to_Vectors.html)
-* [Solving Linear Equations-Part 1](2015-06-16-Solving_Linear_Equations-Part_1.html)
-* [Solving Linear Equations-Part 2](2015-06-30-Solving_Linear_Equations-Part_2.html)
-* [矩阵乘法、Pascal矩阵、有向图](2015-08-08-矩阵乘法、Pascal矩阵、有向图.html)
 
 **word(2)**
 
 * [生字](2015-06-26-生字.html)
 * [Sent vs Delivered](2016-01-13-send_vs_deliver.html)
 
+**undefined(10)**
+
+* [个人语录](2015-07-09-个人语录.html)
+* [ssh localhost debug](2016-07-28-一次ssh_localhost.html)
+* [亦正亦反](2016-01-02-亦正亦反.html)
+* [一些方法（一）](2015-05-10-一些方法（一）.html)
+* [中医笔记 －－ 归经](2016-01-02-中药笔记－归经.html)
+* [一些体会（一）](2015-05-10-一些体会（一）.html)
+* [About](about.html)
+* [Linux Commands](2015-07-28-linux_commands.html)
+* [中医笔记 －－ 四气与五味](2016-01-02-中药笔记－四气与五味.html)
+* [Keep Asking self](2015-06-03-keep-asking-self.html)
+
+**ruby(5)**
+
+* [sequel注意点](2015-07-14-sequel注意点.html)
+* [ruby定时脚本](2015-05-11-ruby定时脚本.html)
+* [ruby Time 毫秒](2015-05-26-ruby_time注意点.html)
+* [对象池、链接池](2015-11-20-object_pool.html)
+* [mutable pitfall](2016-01-20-mutable_pitfall.html)
+
+**sequel(1)**
+
+* [sequel注意点](2015-07-14-sequel注意点.html)
+
 **sql(2)**
 
-* [常用sql](2015-07-02-常用sql.html)
 * [H2内存数据库插入字符串的pitfall](2016-01-14-h2_sql_pitfall.html)
+* [常用sql](2015-07-02-常用sql.html)
+
+**economy(1)**
+
+* [复式记账法](2015-05-11-复式记账法.html)
+
+**javascript(2)**
+
+* [javascript日用代码集合（一）](2015-05-11-javascript日用代码集合（一）.html)
+* [javascript日用代码集合（二）](2015-06-09-javascript日用代码集合（二）.html)
+
+**linear algebra(5)**
+
+* [Solving Linear Equations-Part 2](2015-06-30-Solving_Linear_Equations-Part_2.html)
+* [Linear Algebra Preface](2015-06-07-linear-algebra-preface.html)
+* [矩阵乘法、Pascal矩阵、有向图](2015-08-08-矩阵乘法、Pascal矩阵、有向图.html)
+* [Chapter1 Introduction to Vectors](2015-06-08-Chapter_1_Introduction_to_Vectors.html)
+* [Solving Linear Equations-Part 1](2015-06-16-Solving_Linear_Equations-Part_1.html)
 
 **shortcuts(1)**
 
 * [Shortcuts](2015-07-09-shortcuts.html)
 
-**sequel(1)**
+**english(1)**
 
-* [sequel注意点](2015-07-14-sequel注意点.html)
+* [铁夫破词](2015-05-16-铁夫破词.html)
+
+**share(1)**
+
+* [好文分享](2015-08-16-share-doc.html)
 
 **docker(2)**
 
 * [Docker Demo](2015-07-28-docker_demo.html)
 * [Dockerfile reference](2015-07-29-dockerfile_ref.html)
 
-**implicit(2)**
-
-* [偏函数和implicit](2015-07-29-偏函数和implicit.html)
-* [implicit笔记_一般常识](2015-10-20-implicit笔记_一般常识.html)
-
-**share(1)**
-
-* [好文分享](2015-08-16-share-doc.html)
-
-**pitfall(4)**
-
-* [autocomplete pitfall](2015-10-29-autocomplete_pitfall.html)
-* [H2内存数据库插入字符串的pitfall](2016-01-14-h2_sql_pitfall.html)
-* [mutable pitfall](2016-01-20-mutable_pitfall.html)
-* [吃饭钱](2016-03-08-吃饭钱.html)
-
-**mutable(1)**
-
-* [mutable pitfall](2016-01-20-mutable_pitfall.html)
-
 **summary(1)**
 
 * [2015年总结](2016-01-24-2015年总结.html)
 
+**implicit(2)**
+
+* [implicit笔记_一般常识](2015-10-20-implicit笔记_一般常识.html)
+* [偏函数和implicit](2015-07-29-偏函数和implicit.html)
+
+**scheme(1)**
+
+* [优先级和lisp式前缀表达式](2015-05-21-优先级和lisp式前缀表达式.html)
+
 **佛(1)**
 
 * [我对佛理解的变化](2016-01-27-my_opinion_on_buddha.html)
+
+**mutable(1)**
+
+* [mutable pitfall](2016-01-20-mutable_pitfall.html)
