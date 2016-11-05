@@ -1,0 +1,8 @@
+---
+title: "mysql 中文乱码"
+author: "alfonso"
+date: "2016-11-05 08:30"
+category: linux
+tags: mysql
+---
+同事的一个后台系统出现了中文乱码，mysql中就已经是乱码了，而且通过sql的`select`语句执行若干次之后，本来没有乱码的就出现了类似这样????的乱码。网上搜到这样一片[文章](http://blog.csdn.net/luoweifu/article/details/8832492)，按照这个上面的一一对照，最后找出来是`character_set_results`这个字段没有设置，设置完之后就没问题了。故事到这里确实没有什么新奇的，但是过来几个小时，本来设置好的这个字段又变空了。而且这期间mysql服务也没有重启过（通过查uptime确定的），`my.cnf`的的配置里也确实有些不完善的地方，后面留待观察吧。

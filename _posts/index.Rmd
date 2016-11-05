@@ -1,11 +1,13 @@
 ---
 title: "Home"
 ---
-total: 48
+total: 50
 
 
-**2016(10)**
+**2016(12)**
 
+* *11-05* [报告系统及近期工作](2016-11-05-报告系统及近期工作.html)
+* *11-05* [mysql 中文乱码](2016-11-05-mysql-中文乱码.html)
 * *10-10* [About](about.html)
 * *07-28* [ssh localhost debug](2016-07-28-一次ssh_localhost.html)
 * *03-08* [吃饭钱](2016-03-08-吃饭钱.html)
