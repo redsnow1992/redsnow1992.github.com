@@ -2,7 +2,7 @@
 title: "Category"
 ---
 
-**thinking(11)**
+**thinking(12)**
 
 * [the design of everyday things](2015-05-10-the_design_of_everyday_things.html)
 * [一些体会（一）](2015-05-10-一些体会（一）.html)
@@ -15,6 +15,7 @@ title: "Category"
 * [2015年总结](2016-01-24-2015年总结.html)
 * [我对佛理解的变化](2016-01-27-my_opinion_on_buddha.html)
 * [吃饭钱](2016-03-08-吃饭钱.html)
+* [习惯和数据挖掘](2016-11-11-习惯和数据挖掘.html)
 
 **programming(22)**
 

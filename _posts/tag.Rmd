@@ -12,7 +12,7 @@ title: "Tag"
 
 * [the design of everyday things](2015-05-10-the_design_of_everyday_things.html)
 
-**undefined(11)**
+**undefined(12)**
 
 * [一些体会（一）](2015-05-10-一些体会（一）.html)
 * [一些方法（一）](2015-05-10-一些方法（一）.html)
@@ -24,6 +24,7 @@ title: "Tag"
 * [亦正亦反](2016-01-02-亦正亦反.html)
 * [ssh localhost debug](2016-07-28-一次ssh_localhost.html)
 * [报告系统及近期工作](2016-11-05-报告系统及近期工作.html)
+* [习惯和数据挖掘](2016-11-11-习惯和数据挖掘.html)
 * [About](about.html)
 
 **javascript(2)**
