@@ -1,0 +1,37 @@
+---
+title: "mysql-checklist"
+author: "alfonso"
+date: "2016-11-12 10:00"
+category: programming
+tags: 
+- mysql
+- sql
+---
+# `group by`
+```sql
+select b.name, sum(a.pv), sum(a.cli) from a left join b on a.cat_id = b.id
+group by a.cat_id
+```
+以上sql中有个问题`b.name`这个字段取出来的值并不是唯一的，会出现以下结果：
+```{r, echo=FALSE}
+library(DT)
+df <- data.frame(b.name = c("music", "music", "art"),
+                 pv = c(5, 9, 3), cli = c(2, 3, 3))
+datatable(df, autoHideNavigation = TRUE)
+```
+可以将`group by`的字段改为`b.name`，这样可以得出一条规律：
+
+    `select`出来的字段必须要出现在`group by`的字段中
+    
+# uv, ip
+当你设计的表里有统计uv,ip这样的字段，并且有大小两个粒度的时候，并不能只生成小粒度的那张表，而将大粒度的数据从小粒度的表里`sum`出来。例如：
+```sql
+city_uv_ip: province_id, city_id, uv, ip
+province_uv_ip: province, uv, ip
+```
+不能只生成`city_uv_ip`的数据，而是要两个都生成。还有一种做在一起的方法：
+```sql
+location_uv_ip: level, uv, ip
+level为1，表示city
+level为2, 表示province
+```

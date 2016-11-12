@@ -78,10 +78,11 @@ title: "Tag"
 * [生字](2015-06-26-生字.html)
 * [Sent vs Delivered](2016-01-13-send_vs_deliver.html)
 
-**sql(2)**
+**sql(3)**
 
 * [常用sql](2015-07-02-常用sql.html)
 * [H2内存数据库插入字符串的pitfall](2016-01-14-h2_sql_pitfall.html)
+* [mysql-checklist](2016-11-12-mysql-checklist.html)
 
 **shortcuts(1)**
 
@@ -124,6 +125,7 @@ title: "Tag"
 
 * [我对佛理解的变化](2016-01-27-my_opinion_on_buddha.html)
 
-**mysql(1)**
+**mysql(2)**
 
 * [mysql 中文乱码](2016-11-05-mysql-中文乱码.html)
+* [mysql-checklist](2016-11-12-mysql-checklist.html)

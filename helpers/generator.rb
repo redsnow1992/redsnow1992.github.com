@@ -79,6 +79,10 @@ module Generator
     Dir[File.join(Params::POSTS_DEST, "*.html")].each do |file|
       FileUtils.cp(file, File.dirname(Params::POSTS_DEST), verbose: true)
     end
+
+    Dir[File.join(Params::POSTS_DEST, "*/")].each do |dir|
+      FileUtils.cp_r(dir, File.dirname(Params::POSTS_DEST), verbose: true)
+    end
   end
 
   def run()

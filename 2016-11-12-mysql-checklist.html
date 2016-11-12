@@ -12,14 +12,19 @@
 <meta name="author" content="alfonso" />
 
 
-<title>习惯和数据挖掘</title>
+<title>mysql-checklist</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/htmlwidgets-0.7/htmlwidgets.js"></script>
+<script src="site_libs/datatables-binding-0.2/datatables.js"></script>
+<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.10.12/js/jquery.dataTables.min.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <link rel="stylesheet"
@@ -202,40 +207,36 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">习惯和数据挖掘</h1>
+<h1 class="title toc-ignore">mysql-checklist</h1>
 <h4 class="author"><em>alfonso</em></h4>
-<h4 class="date"><em>2016-11-11 22:30</em></h4>
+<h4 class="date"><em>2016-11-12 10:00</em></h4>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a>怎样养成一个习惯？</a></li>
+<li><a href="#group-by"><code>group by</code></a></li>
+<li><a href="#uv-ip">uv, ip</a></li>
 </ul>
 </div>
 
-<p>洗澡的时候总是能迸发出一些乱七八糟的思考。这篇就是刚才洗澡的结晶。</p>
-<div class="section level1">
-<h1>怎样养成一个习惯？</h1>
-<p>养成一个习惯只需要两点，就像数学归纳法一样：</p>
-<ol style="list-style-type: decimal">
-<li>可以开始一个习惯</li>
-<li>可以在第二天坚持下去</li>
-</ol>
-<p>但往往一个人的习惯总是很难保持下去，那我们可以看看记录下什么情况下，我们会打破自己的习惯。经过一段时间的记录，我们可以做出一个简单的柱状图，然后再对症下药。</p>
-<p>如果是不好的习惯，我们可以以相同的方式来做，只是最终的结果是不断打破坏习惯，让其不能成为一种习惯。</p>
-<pre class="r"><code>library(ggplot2)
-chinese_theme = theme(text=element_text(family=&quot;STKaiti&quot;,size=14))
-df &lt;- data.frame(reason = c(&quot;有聚会没时间&quot;, &quot;自己偷懒&quot;, &quot;太忙没时间&quot;, &quot;周末&quot;), count = c(12, 22, 18, 15))
-ggplot(df, aes(reason, count)) + geom_bar(stat=&quot;identity&quot;, fill = &quot;blue&quot;) + chinese_theme</code></pre>
-<p><img src="2016-11-11-%E4%B9%A0%E6%83%AF%E5%92%8C%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<p>以上的描述就是一个数据挖掘的过程：</p>
-<ol style="list-style-type: decimal">
-<li>先积累数据，记录关键的数据</li>
-<li>然后整合数据（加以可视化），一般可以找出问题的症结。</li>
-<li>实施制定的方案，然后再从1开始（一般都会设置测试验证的），但这个例子里测试可以和实际做在一块</li>
-</ol>
-<p>再详细一点，上述习惯的例子，记录的数据其实都是异常值，所做的分析叫做异常值分析，实施好的话这些异常值就会消失。更理论一点因为这个过程有时间的参与，所以可能和<strong>时间序列分析</strong>有关，比如每次到了周末习惯就坚持不下去。</p>
+<div id="group-by" class="section level1">
+<h1><code>group by</code></h1>
+<pre class="sql"><code>select b.name, sum(a.pv), sum(a.cli) from a left join b on a.cat_id = b.id
+group by a.cat_id</code></pre>
+<p>以上sql中有个问题<code>b.name</code>这个字段取出来的值并不是唯一的，会出现以下结果： <div id="htmlwidget-a7bc76cec2bb9f0a9305" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a7bc76cec2bb9f0a9305">{"x":{"filter":"none","autoHideNavigation":true,"data":[["1","2","3"],["music","music","art"],[5,9,3],[2,3,3]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> \u003c/th>\n      <th>b.name\u003c/th>\n      <th>pv\u003c/th>\n      <th>cli\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script> 可以将<code>group by</code>的字段改为<code>b.name</code>，这样可以得出一条规律：</p>
+<pre><code>`select`出来的字段必须要出现在`group by`的字段中</code></pre>
+</div>
+<div id="uv-ip" class="section level1">
+<h1>uv, ip</h1>
+<p>当你设计的表里有统计uv,ip这样的字段，并且有大小两个粒度的时候，并不能只生成小粒度的那张表，而将大粒度的数据从小粒度的表里<code>sum</code>出来。例如：</p>
+<pre class="sql"><code>city_uv_ip: province_id, city_id, uv, ip
+province_uv_ip: province, uv, ip</code></pre>
+<p>不能只生成<code>city_uv_ip</code>的数据，而是要两个都生成。还有一种做在一起的方法：</p>
+<pre class="sql"><code>location_uv_ip: level, uv, ip
+level为1，表示city
+level为2, 表示province</code></pre>
 </div>
 
 
