@@ -1,0 +1,93 @@
+---
+title: "极端的jar冲突"
+author: "alfonso"
+date: "2016-11-17 21:10"
+category: programming
+tags: pitfall
+---
+# 确认问题
+上周碰到一个问题，跑mapreduce的时候本地没问题，线上跑的时候报错（阿里云emr），而且报错信息很少：
+```
+16/11/16 11:03:26 INFO mapreduce.Job:  map 0% reduce 0%
+16/11/16 11:03:39 INFO mapreduce.Job:  map 10% reduce 0%
+16/11/16 11:03:39 INFO mapreduce.Job: Task Id : attempt_1470373629106_44162_m_000003_0, Status : FAILED
+Error: org.apache.hadoop.hive.ql.exec.vector.VectorizedRowBatch.getMaxSize()I
+16/11/16 11:03:39 INFO mapreduce.Job: Task Id : attempt_1470373629106_44162_m_000000_0, Status : FAILED
+Error: org.apache.hadoop.hive.ql.exec.vector.VectorizedRowBatch.getMaxSize()I
+16/11/16 11:03:40 INFO mapreduce.Job: Task Id : attempt_1470373629106_44162_m_000002_0, Status : FAILED
+Error: org.apache.hadoop.hive.ql.exec.vector.VectorizedRowBatch.getMaxSize()I
+16/11/16 11:03:40 INFO mapreduce.Job: Task Id : attempt_1470373629106_44162_m_000001_0, Status : FAILED
+Error: org.apache.hadoop.hive.ql.exec.vector.VectorizedRowBatch.getMaxSize()I
+16/11/16 11:03:40 INFO mapreduce.Job: Task Id : attempt_1470373629106_44162_m_000004_0, Status : FAILED
+Error: org.apache.hadoop.hive.ql.exec.vector.VectorizedRowBatch.getMaxSize()I
+```
+完全不知道在哪里报的，因为只有`map`过程，在`map`函数里添加了`try .. catch`也没有进去。
+job的任务是将文本文件转存成orc文件，使用了一下依赖：
+```
+<dependency>
+  <groupId>org.apache.orc</groupId>
+  <artifactId>orc-mapreduce</artifactId>
+  <version>1.2.1</version>
+</dependency>
+这个jar依赖hive-storage-api
+```
+
+尝试１：
+
+>   修改`hadoop`相关jar的版本，线上`hadoop`为`2.7.2`，jar为`2.6.0`，虽然本地的hadoop也是`2.7.2`，跑起来没问题。修改其他jar的版本也还是报错。
+
+尝试２：
+
+>   因为只有`map`，尝试去掉`job.setOutputFormatClass(OrcOutputFormat.class)`后就没报错了，当然生成的文件不是orc格式的。接着找到调用`VectorizedRowBatch.getMaxSize()`这个方法的地方，将涉及到的几个java文件全拷出来，做以下修改：
+
+```java
+// org.apache.orc.mapreduce.OrcMapreduceRecordWriter
+@Override
+  public void write(NullWritable nullWritable, V v) throws IOException {
+    // if the batch is full, write it out.
+    if (batch.size == batch.getMaxSize()) {  // 这里写死成1000
+      writer.addRowBatch(batch);
+      batch.reset();
+    }
+    ...
+  }
+```
+做了以上修改后开始报另一个错了：
+```
+16/11/15 16:41:45 INFO mapreduce.Job:  map 42% reduce 0%
+16/11/15 16:41:52 INFO mapreduce.Job:  map 43% reduce 0%
+16/11/15 16:41:58 INFO mapreduce.Job:  map 44% reduce 0%
+16/11/15 16:42:04 INFO mapreduce.Job:  map 45% reduce 0%
+16/11/15 16:42:05 INFO mapreduce.Job: Task Id : attempt_1470373629106_43864_m_000005_0, Status : FAILED
+Error: java.lang.NullPointerException
+
+16/11/15 16:42:06 INFO mapreduce.Job:  map 35% reduce 0%
+16/11/15 16:42:10 INFO mapreduce.Job: Task Id : attempt_1470373629106_43864_m_000002_0, Status : FAILED
+Error: java.lang.NullPointerException
+
+16/11/15 16:42:11 INFO mapreduce.Job:  map 25% reduce 0%
+16/11/15 16:42:12 INFO mapreduce.Job:  map 26% reduce 0%
+16/11/15 16:42:21 INFO mapreduce.Job:  map 27% reduce 0%
+```
+依旧无果
+向阿里云提交了工单，他们建议可能是jar和hadoop版本有冲突。。。。
+
+
+尝试３：
+
+>   自己本地重新建了一个干净的maven项目，只依赖了上面的一个jar，代码就可以跑了。突然不知怎么的想打开之前有错误的工程生成的jar看看，这一看就发现问题了，因为这个jar里面`VectorizedRowBatch`根本就没有`getMaxSize`这个方法。就此问题找到了。**但是**该怎么解决？到底是哪里出了问题，这个类是从哪里来的？
+        
+# 解决问题
+因为之前因为这个问题扫过hive的源码，依稀记得有这样一个类，打开一看确实是这样，没有`getMaxSize`函数，而且`VectorizedRowBatch`这个类所在的包和上面依赖的jar的这个类所在的包名是一样的。**坑就在这个地方**。接着就是把这个类所在的jar去掉。因为项目里有依赖`hive-jdbc`，有这样一条依赖链`hive-jdbc --> hive-common --> hive-storage-api`，把这个`exlude`本以为没问题了，还是不行，因为还有一个地方有这个类，下面我把这几个地方贴一下：
+```
+正版：
+https://github.com/apache/orc/blob/master/java/storage-api/src/java/org/apache/hadoop/hive/ql/exec/vector/VectorizedRowBatch.java
+
+https://github.com/apache/hive/blob/master/storage-api/src/java/org/apache/hadoop/hive/ql/exec/vector/VectorizedRowBatch.java
+
+hive-exec jar中也有org.apache.hadoop.hive.ql.exec.vector.VectorizedRowBatch
+```
+最后在`maven`打包的地方将`hive-storage-api`依赖放到了最前面，才解决了这个问题。
+
+ps:
+上面报的错误应该是：`NoSuchMethod`这样的异常，但不知道为什么只报了ERROR就完事了。
