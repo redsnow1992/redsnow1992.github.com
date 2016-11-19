@@ -22,6 +22,8 @@ ssh localhost
 sbin/start-dfs.sh
 sbin/start-yarn.sh
 sbin/mr-jobhistory-daemon.sh start historyserver
+# http://localhost:8088/cluster/scheduler
+# http://192.168.5.5:19888/jobhistory/app
 ```
 mac下起yarn要这样参看[此文](http://stackoverflow.com/questions/33968422/bin-bash-bin-java-no-such-file-or-directory)：
 ```

@@ -217,7 +217,9 @@ ssh localhost</code></pre>
 <pre class="bash"><code># in hadoop home
 sbin/start-dfs.sh
 sbin/start-yarn.sh
-sbin/mr-jobhistory-daemon.sh start historyserver</code></pre>
+sbin/mr-jobhistory-daemon.sh start historyserver
+# http://localhost:8088/cluster/scheduler
+# http://192.168.5.5:19888/jobhistory/app</code></pre>
 <p>mac下起yarn要这样参看<a href="http://stackoverflow.com/questions/33968422/bin-bash-bin-java-no-such-file-or-directory">此文</a>：</p>
 <pre><code>$HADOOP_PREFIX/sbin/yarn-daemon.sh start nodemanager;
 $HADOOP_PREFIX/sbin/yarn-daemon.sh start resourcemanager</code></pre>
