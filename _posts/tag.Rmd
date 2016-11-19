@@ -106,13 +106,14 @@ title: "Tag"
 
 * [好文分享](2015-08-16-share-doc.html)
 
-**pitfall(5)**
+**pitfall(6)**
 
 * [autocomplete pitfall](2015-10-29-autocomplete_pitfall.html)
 * [H2内存数据库插入字符串的pitfall](2016-01-14-h2_sql_pitfall.html)
 * [mutable pitfall](2016-01-20-mutable_pitfall.html)
 * [吃饭钱](2016-03-08-吃饭钱.html)
 * [极端的jar冲突](2016-11-17-极端的jar冲突.html)
+* [hive orc文件生成及一系列问题](2016-11-19-hive-orc文件生成及一系列问题.html)
 
 **mutable(1)**
 

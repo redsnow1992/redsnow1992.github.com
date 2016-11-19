@@ -224,8 +224,8 @@ $(document).ready(function () {
 <h1><code>group by</code></h1>
 <pre class="sql"><code>select b.name, sum(a.pv), sum(a.cli) from a left join b on a.cat_id = b.id
 group by a.cat_id</code></pre>
-<p>以上sql中有个问题<code>b.name</code>这个字段取出来的值并不是唯一的，会出现以下结果： <div id="htmlwidget-57c25b67cd8be5b28a62" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-57c25b67cd8be5b28a62">{"x":{"filter":"none","autoHideNavigation":true,"data":[["1","2","3"],["music","music","art"],[5,9,3],[2,3,3]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> \u003c/th>\n      <th>b.name\u003c/th>\n      <th>pv\u003c/th>\n      <th>cli\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script> 可以将<code>group by</code>的字段改为<code>b.name</code>，这样可以得出一条规律：</p>
+<p>以上sql中有个问题<code>b.name</code>这个字段取出来的值并不是唯一的，会出现以下结果： <div id="htmlwidget-c2297a168c40e8c8d044" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c2297a168c40e8c8d044">{"x":{"filter":"none","autoHideNavigation":true,"data":[["1","2","3"],["music","music","art"],[5,9,3],[2,3,3]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> \u003c/th>\n      <th>b.name\u003c/th>\n      <th>pv\u003c/th>\n      <th>cli\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script> 可以将<code>group by</code>的字段改为<code>b.name</code>，这样可以得出一条规律：</p>
 <pre><code>`select`出来的字段必须要出现在`group by`的字段中</code></pre>
 </div>
 <div id="uv-ip" class="section level1">

@@ -17,7 +17,7 @@ title: "Category"
 * [吃饭钱](2016-03-08-吃饭钱.html)
 * [习惯和数据挖掘](2016-11-11-习惯和数据挖掘.html)
 
-**programming(24)**
+**programming(25)**
 
 * [javascript日用代码集合（一）](2015-05-11-javascript日用代码集合（一）.html)
 * [ruby定时脚本](2015-05-11-ruby定时脚本.html)
@@ -43,6 +43,7 @@ title: "Category"
 * [报告系统及近期工作](2016-11-05-报告系统及近期工作.html)
 * [mysql-checklist](2016-11-12-mysql-checklist.html)
 * [极端的jar冲突](2016-11-17-极端的jar冲突.html)
+* [hive orc文件生成及一系列问题](2016-11-19-hive-orc文件生成及一系列问题.html)
 
 **undefined(4)**
 

@@ -1,0 +1,96 @@
+---
+title: "hive orc文件生成及一系列问题"
+author: "alfonso"
+date: "2016-11-19 21:30"
+category: programming
+tags: pitfall
+---
+# 生成orc，并没有完事
+[上篇文章](./2016-11-17-极端的jar冲突.html)提到这周在弄生成hive orc文件的问题，原本以为能生成orc文件就完事了，没想到和要求差距很远。
+
+生成orc文件主要是为了在列查询的时候能够更快（所以测试性能的时候不应该使用count这样的语句，我就犯了这个错，还是老大提醒了我）。
+
+生成了orc文件之后发现查询并没有变快，找原因，方法参考了[这篇文章](https://toutiao.io/posts/10jj3q/preview)，主要是看map阶段读入了多少数据。因为我本地没有用yarn来跑mapreduce，所以看不到这些东西，配置了之后才发现。
+
+# 走上正确的路
+。。。。想了很久才发现是先建立了表，然后直接把生成的数据（此时数据只有一个`row index`）和表关联了起来，如果你在表上设置了`bloom filter`，那么查询的时候就根本没法起作用。为了**快速验证**这一想法，在自己的机器上直接把文本文件的表导入orc的表：
+```
+INSERT OVERWRITE TABLE log_orc partition(dt, hr) 
+SELECT type,size,category_ids, dt, hr FROM log where dt='2016-11-07' and hr=16  DISTRIBUTE BY size sort BY size;
+```
+这个语句也有些坑，涉及到[动态分区和静态分区](https://cwiki.apache.org/confluence/display/Hive/DynamicPartitions)。然后将文件dump出来确实有`BLOOM_FILTER`的列（具体dump可以参看[此文](http://lxw1234.com/archives/2016/04/630.htm)）
+
+这样之后成功的验证了自己的想法，之前那个只是关联表和文件就以为搞定了orc的问题，真是太天真了。
+
+但是代码里面总不能把上面的那个sql写到里面去来做吧，咨询了老大之后，他很肯定的说，我使用的生成orc的jar中肯定有按照表的特性来插入数据的，我就又开始找相关代码，最后找到了：
+```java
+org.apache.orc.mapreduce.OrcOutputFormat 
+org.apache.orc.mapred.OrcOutputFormat#buildOptions
+org.apache.orc.OrcConf
+```
+从上到下就是找的过程。本来以为在hive的源码里，hive里确实有设置表属性的类，这里就不列举了，但hive源码里的`mapreduce` api都是版本1的，就没有再深入找。最后在`orc-mapreduce`中找到了。
+
+# 能写了，但是不能读
+以为终于大功告成了，没想到又遇到一个问题，生成了orc文件没问题，但是在hive里面如果查询的字段包含这个字段就会报以下错：
+```
+Caused by: java.lang.RuntimeException: java.lang.IllegalArgumentException
+	at org.apache.orc.impl.BufferChunk.sliceAndShift(BufferChunk.java:76)
+	at org.apache.orc.impl.RecordReaderUtils.getStreamBuffers(RecordReaderUtils.java:476)
+	at org.apache.orc.impl.RecordReaderImpl.createStreams(RecordReaderImpl.java:942)
+	at org.apache.orc.impl.RecordReaderImpl.readPartialDataStreams(RecordReaderImpl.java:964)
+	at org.apache.orc.impl.RecordReaderImpl.readStripe(RecordReaderImpl.java:837)
+	at org.apache.orc.impl.RecordReaderImpl.advanceStripe(RecordReaderImpl.java:977)
+	at org.apache.orc.impl.RecordReaderImpl.advanceToNextRow(RecordReaderImpl.java:1012)
+	at org.apache.orc.impl.RecordReaderImpl.<init>(RecordReaderImpl.java:212)
+	at org.apache.hadoop.hive.ql.io.orc.RecordReaderImpl.<init>(RecordReaderImpl.java:63)
+	at org.apache.hadoop.hive.ql.io.orc.ReaderImpl.rowsOptions(ReaderImpl.java:365)
+	at org.apache.hadoop.hive.ql.io.orc.OrcInputFormat.createReaderFromFile(OrcInputFormat.java:313)
+	at org.apache.hadoop.hive.ql.io.orc.OrcInputFormat$OrcRecordReader.<init>(OrcInputFormat.java:224)
+	at org.apache.hadoop.hive.ql.io.orc.OrcInputFormat.getRecordReader(OrcInputFormat.java:1651)
+	at org.apache.hadoop.hive.ql.io.CombineHiveRecordReader.<init>(CombineHiveRecordReader.java:67)
+	... 16 more
+Caused by: java.lang.IllegalArgumentException
+	at java.nio.Buffer.limit(Buffer.java:275)
+	at org.apache.orc.impl.BufferChunk.sliceAndShift(BufferChunk.java:70)
+	... 29 more
+```
+而且dump的时候也会报错：
+```
+Exception in thread "main" java.lang.RuntimeException: java.lang.IllegalArgumentException
+	at org.apache.orc.impl.BufferChunk.sliceAndShift(BufferChunk.java:76)
+	at org.apache.orc.impl.RecordReaderUtils.getStreamBuffers(RecordReaderUtils.java:476)
+	at org.apache.orc.impl.RecordReaderImpl.createStreams(RecordReaderImpl.java:942)
+	at org.apache.orc.impl.RecordReaderImpl.readPartialDataStreams(RecordReaderImpl.java:964)
+	at org.apache.orc.impl.RecordReaderImpl.readStripe(RecordReaderImpl.java:837)
+	at org.apache.orc.impl.RecordReaderImpl.advanceStripe(RecordReaderImpl.java:977)
+	at org.apache.orc.impl.RecordReaderImpl.advanceToNextRow(RecordReaderImpl.java:1012)
+	at org.apache.orc.impl.RecordReaderImpl.<init>(RecordReaderImpl.java:212)
+	at org.apache.orc.impl.ReaderImpl.rows(ReaderImpl.java:574)
+	at org.apache.orc.impl.ReaderImpl.rows(ReaderImpl.java:561)
+	at org.apache.orc.tools.FileDump.printMetaDataImpl(FileDump.java:337)
+	at org.apache.orc.tools.FileDump.printMetaData(FileDump.java:307)
+	at org.apache.orc.tools.FileDump.main(FileDump.java:154)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.hadoop.util.RunJar.run(RunJar.java:221)
+	at org.apache.hadoop.util.RunJar.main(RunJar.java:136)
+Caused by: java.lang.IllegalArgumentException
+	at java.nio.Buffer.limit(Buffer.java:275)
+	at org.apache.orc.impl.BufferChunk.sliceAndShift(BufferChunk.java:70)
+	... 18 more
+```
+卡在这个问题上有1天多，先是用生成orc的jar来读取orc文件，发现没问题，再使用[orc tool](http://orc.apache.org/docs/tools.html)（这个tool的使用不要按照文档来，使用`java -cp orc-tools-1.3.0-SNAPSHOT.jar:orc-tools-1.3.0-SNAPSHOT-uber.jar org.apache.orc.tools.FileDump -j -p ~/Downloads/part-m-00000.orc`就可以了）来dump文件，发现没有问题。那么hive的那个dump工具就有问题了。但这么怀疑也是有问题，所以就查看hive它依赖的几个jar的版本（`HIVE_PATH/lib/*.jar`重点关注`hive-orc-2.1.0.jar `和`hive-storage-api-2.1.0.jar`，当然还要看线上的版本），发现它使用的一些jar版本比较低，最后试验出一个比较好的版本。出现上面问题的原因是写使用了高版本，而读使用了低版本，一开始怎么没想到呢。到此，整个问题告一段落。
+
+
+发现自己还是没经验啊。
+
+
+
+
+
+
+
+
+
