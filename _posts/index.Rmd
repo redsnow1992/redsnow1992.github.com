@@ -1,11 +1,12 @@
 ---
 title: "Home"
 ---
-total: 54
+total: 55
 
 
-**2016(16)**
+**2016(17)**
 
+* *11-19* [mac-hadoop-mapreduce-hive备份](mac-hadoop-mapreduce-hive备份.html)
 * *11-19* [hive orc文件生成及一系列问题](2016-11-19-hive-orc文件生成及一系列问题.html)
 * *11-17* [极端的jar冲突](2016-11-17-极端的jar冲突.html)
 * *11-12* [mysql-checklist](2016-11-12-mysql-checklist.html)

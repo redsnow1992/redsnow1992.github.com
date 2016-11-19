@@ -1,0 +1,73 @@
+---
+title: "mac-hadoop-mapreduce-hive备份"
+author: "alfonso"
+date: "2016-11-19 23:00"
+category: programming
+tags:
+- pitfall
+- mac
+- hadoop
+---
+mac上hadoop环境的坑，有些不知道怎么搞的就突然好了，碰到的错误就不列举了，网上搜搜还是可以很快搞定的，仅作为备份。
+
+启动ssh：
+```
+sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
+ssh localhost
+```
+
+启动hadoop套件，常规方式：
+```bash
+# in hadoop home
+sbin/start-dfs.sh
+sbin/start-yarn.sh
+sbin/mr-jobhistory-daemon.sh start historyserver
+```
+mac下起yarn要这样参看[此文](http://stackoverflow.com/questions/33968422/bin-bash-bin-java-no-such-file-or-directory)：
+```
+$HADOOP_PREFIX/sbin/yarn-daemon.sh start nodemanager;
+$HADOOP_PREFIX/sbin/yarn-daemon.sh start resourcemanager
+```
+还有这个问题：
+```
+Exception in thread "main" java.io.IOException: Mkdirs failed to create /var/folders/vq/j0q0rr3x7gg91n_gbks6l2z00000gn/T/hadoop-unjar5762729210584301725/META-INF/license
+	at org.apache.hadoop.util.RunJar.ensureDirectory(RunJar.java:128)
+	at org.apache.hadoop.util.RunJar.unJar(RunJar.java:104)
+	at org.apache.hadoop.util.RunJar.unJar(RunJar.java:81)
+	at org.apache.hadoop.util.RunJar.run(RunJar.java:209)
+	at org.apache.hadoop.util.RunJar.main(RunJar.java:136)
+```
+[解决方法](http://stackoverflow.com/questions/10522835/hadoop-java-io-ioexception-mkdirs-failed-to-create-some-path)，pom中添加：
+```
+ <plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-shade-plugin</artifactId>
+  <version>2.0</version>
+  <configuration>
+    <shadedArtifactAttached>true</shadedArtifactAttached>
+  </configuration>
+  <executions>
+    <execution>
+      <phase>package</phase>
+      <goals>
+        <goal>shade</goal>
+      </goals>
+      <configuration>
+        <filters>
+          <filter>
+            <artifact>*:*</artifact>
+            <excludes>
+              <exclude>META-INF/*.SF</exclude>
+              <exclude>META-INF/*.DSA</exclude>
+              <exclude>META-INF/*.RSA</exclude>
+              <exclude>META-INF/LICENSE*</exclude>
+              <exclude>license/*</exclude>
+            </excludes>
+          </filter>
+        </filters>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>
+```
+也有这样的[方法](http://www.cnblogs.com/herrymbidium/p/5759034.html)，这个我没试。

@@ -12,19 +12,14 @@
 <meta name="author" content="alfonso" />
 
 
-<title>mysql-checklist</title>
+<title>mac-hadoop-mapreduce-hive备份</title>
 
-<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/htmlwidgets-0.7/htmlwidgets.js"></script>
-<script src="site_libs/datatables-binding-0.2/datatables.js"></script>
-<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="site_libs/dt-core-1.10.12/js/jquery.dataTables.min.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <link rel="stylesheet"
@@ -207,37 +202,64 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">mysql-checklist</h1>
+<h1 class="title toc-ignore">mac-hadoop-mapreduce-hive备份</h1>
 <h4 class="author"><em>alfonso</em></h4>
-<h4 class="date"><em>2016-11-12 10:00</em></h4>
+<h4 class="date"><em>2016-11-19 23:00</em></h4>
 
 </div>
 
-<div id="TOC">
-<ul>
-<li><a href="#group-by"><code>group by</code></a></li>
-<li><a href="#uv-ip">uv, ip</a></li>
-</ul>
-</div>
 
-<div id="group-by" class="section level1">
-<h1><code>group by</code></h1>
-<pre class="sql"><code>select b.name, sum(a.pv), sum(a.cli) from a left join b on a.cat_id = b.id
-group by a.cat_id</code></pre>
-<p>以上sql中有个问题<code>b.name</code>这个字段取出来的值并不是唯一的，会出现以下结果： <div id="htmlwidget-714fbc1dabeb6e069ed1" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-714fbc1dabeb6e069ed1">{"x":{"filter":"none","autoHideNavigation":true,"data":[["1","2","3"],["music","music","art"],[5,9,3],[2,3,3]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> \u003c/th>\n      <th>b.name\u003c/th>\n      <th>pv\u003c/th>\n      <th>cli\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script> 可以将<code>group by</code>的字段改为<code>b.name</code>，这样可以得出一条规律：</p>
-<pre><code>`select`出来的字段必须要出现在`group by`的字段中</code></pre>
-</div>
-<div id="uv-ip" class="section level1">
-<h1>uv, ip</h1>
-<p>当你设计的表里有统计uv,ip这样的字段，并且有大小两个粒度的时候，并不能只生成小粒度的那张表，而将大粒度的数据从小粒度的表里<code>sum</code>出来。例如：</p>
-<pre class="sql"><code>city_uv_ip: province_id, city_id, uv, ip
-province_uv_ip: province, uv, ip</code></pre>
-<p>不能只生成<code>city_uv_ip</code>的数据，而是要两个都生成。还有一种做在一起的方法：</p>
-<pre class="sql"><code>location_uv_ip: level, uv, ip
-level为1，表示city
-level为2, 表示province</code></pre>
-</div>
+<p>mac上hadoop环境的坑，有些不知道怎么搞的就突然好了，碰到的错误就不列举了，网上搜搜还是可以很快搞定的，仅作为备份。</p>
+<p>启动ssh：</p>
+<pre><code>sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
+ssh localhost</code></pre>
+<p>启动hadoop套件，常规方式：</p>
+<pre class="bash"><code># in hadoop home
+sbin/start-dfs.sh
+sbin/start-yarn.sh
+sbin/mr-jobhistory-daemon.sh start historyserver</code></pre>
+<p>mac下起yarn要这样参看<a href="http://stackoverflow.com/questions/33968422/bin-bash-bin-java-no-such-file-or-directory">此文</a>：</p>
+<pre><code>$HADOOP_PREFIX/sbin/yarn-daemon.sh start nodemanager;
+$HADOOP_PREFIX/sbin/yarn-daemon.sh start resourcemanager</code></pre>
+<p>还有这个问题：</p>
+<pre><code>Exception in thread &quot;main&quot; java.io.IOException: Mkdirs failed to create /var/folders/vq/j0q0rr3x7gg91n_gbks6l2z00000gn/T/hadoop-unjar5762729210584301725/META-INF/license
+    at org.apache.hadoop.util.RunJar.ensureDirectory(RunJar.java:128)
+    at org.apache.hadoop.util.RunJar.unJar(RunJar.java:104)
+    at org.apache.hadoop.util.RunJar.unJar(RunJar.java:81)
+    at org.apache.hadoop.util.RunJar.run(RunJar.java:209)
+    at org.apache.hadoop.util.RunJar.main(RunJar.java:136)</code></pre>
+<p><a href="http://stackoverflow.com/questions/10522835/hadoop-java-io-ioexception-mkdirs-failed-to-create-some-path">解决方法</a>，pom中添加：</p>
+<pre><code> &lt;plugin&gt;
+  &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+  &lt;artifactId&gt;maven-shade-plugin&lt;/artifactId&gt;
+  &lt;version&gt;2.0&lt;/version&gt;
+  &lt;configuration&gt;
+    &lt;shadedArtifactAttached&gt;true&lt;/shadedArtifactAttached&gt;
+  &lt;/configuration&gt;
+  &lt;executions&gt;
+    &lt;execution&gt;
+      &lt;phase&gt;package&lt;/phase&gt;
+      &lt;goals&gt;
+        &lt;goal&gt;shade&lt;/goal&gt;
+      &lt;/goals&gt;
+      &lt;configuration&gt;
+        &lt;filters&gt;
+          &lt;filter&gt;
+            &lt;artifact&gt;*:*&lt;/artifact&gt;
+            &lt;excludes&gt;
+              &lt;exclude&gt;META-INF/*.SF&lt;/exclude&gt;
+              &lt;exclude&gt;META-INF/*.DSA&lt;/exclude&gt;
+              &lt;exclude&gt;META-INF/*.RSA&lt;/exclude&gt;
+              &lt;exclude&gt;META-INF/LICENSE*&lt;/exclude&gt;
+              &lt;exclude&gt;license/*&lt;/exclude&gt;
+            &lt;/excludes&gt;
+          &lt;/filter&gt;
+        &lt;/filters&gt;
+      &lt;/configuration&gt;
+    &lt;/execution&gt;
+  &lt;/executions&gt;
+&lt;/plugin&gt;</code></pre>
+<p>也有这样的<a href="http://www.cnblogs.com/herrymbidium/p/5759034.html">方法</a>，这个我没试。</p>
 
 
 

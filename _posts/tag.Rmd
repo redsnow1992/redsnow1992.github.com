@@ -106,7 +106,7 @@ title: "Tag"
 
 * [好文分享](2015-08-16-share-doc.html)
 
-**pitfall(6)**
+**pitfall(7)**
 
 * [autocomplete pitfall](2015-10-29-autocomplete_pitfall.html)
 * [H2内存数据库插入字符串的pitfall](2016-01-14-h2_sql_pitfall.html)
@@ -114,6 +114,7 @@ title: "Tag"
 * [吃饭钱](2016-03-08-吃饭钱.html)
 * [极端的jar冲突](2016-11-17-极端的jar冲突.html)
 * [hive orc文件生成及一系列问题](2016-11-19-hive-orc文件生成及一系列问题.html)
+* [mac-hadoop-mapreduce-hive备份](mac-hadoop-mapreduce-hive备份.html)
 
 **mutable(1)**
 
@@ -131,3 +132,11 @@ title: "Tag"
 
 * [mysql 中文乱码](2016-11-05-mysql-中文乱码.html)
 * [mysql-checklist](2016-11-12-mysql-checklist.html)
+
+**mac(1)**
+
+* [mac-hadoop-mapreduce-hive备份](mac-hadoop-mapreduce-hive备份.html)
+
+**hadoop(1)**
+
+* [mac-hadoop-mapreduce-hive备份](mac-hadoop-mapreduce-hive备份.html)
