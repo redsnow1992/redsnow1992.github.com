@@ -20,7 +20,7 @@ SELECT type,size,category_ids, dt, hr FROM log where dt='2016-11-07' and hr=16  
 ```
 这个语句也有些坑，涉及到[动态分区和静态分区](https://cwiki.apache.org/confluence/display/Hive/DynamicPartitions)。然后将文件dump出来确实有`BLOOM_FILTER`的列（具体dump可以参看[此文](http://lxw1234.com/archives/2016/04/630.htm)）
 
-这样之后成功的验证了自己的想法，之前那个只是关联表和文件就以为搞定了orc的问题，真是太天真了。
+这样之后成功的验证了自己的想法，之前那个只是关联表和文件就以为搞定了orc的问题，真是太天真了。（之后才发觉表的schema只是一个参考，可以用以上插入的方式导入数据，还可以关联数据，具体还是得看orc里面的设置，schema和数据是可以完全隔离开的）
 
 但是代码里面总不能把上面的那个sql写到里面去来做吧，咨询了老大之后，他很肯定的说，我使用的生成orc的jar中肯定有按照表的特性来插入数据的，我就又开始找相关代码，最后找到了：
 ```java
