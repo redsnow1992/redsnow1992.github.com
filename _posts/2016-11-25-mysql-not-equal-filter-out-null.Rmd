@@ -1,0 +1,13 @@
+---
+title: "mysql not equal filter out null"
+author: "alfonso"
+date: "2016-11-25 21:50"
+category: programming
+tags:
+- sql
+- pitfall
+---
+```sql
+select * from table where name != "he"
+```
+以上sql除了过滤掉`name='he'`的记录，还会过滤掉`name is null`的记录，因为`null`的比较不能用`!=`而应该用`is not null`，以前总是抱怨为什么要这么特殊对待`null`，现在知道这个`null`并不是一个值，表示的是一种未知状态。这些细节还是要多注意。

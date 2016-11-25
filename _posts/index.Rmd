@@ -1,11 +1,13 @@
 ---
 title: "Home"
 ---
-total: 55
+total: 57
 
 
-**2016(17)**
+**2016(19)**
 
+* *11-25* [统计指标的字段选取](2016-11-25-统计指标的字段选取.html)
+* *11-25* [mysql not equal filter out null](2016-11-25-mysql-not-equal-filter-out-null.html)
 * *11-19* [mac-hadoop-mapreduce-hive备份](mac-hadoop-mapreduce-hive备份.html)
 * *11-19* [hive orc文件生成及一系列问题](2016-11-19-hive-orc文件生成及一系列问题.html)
 * *11-17* [极端的jar冲突](2016-11-17-极端的jar冲突.html)

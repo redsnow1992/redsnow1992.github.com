@@ -12,19 +12,14 @@
 <meta name="author" content="alfonso" />
 
 
-<title>mysql-checklist</title>
+<title>统计指标的字段选取</title>
 
-<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/htmlwidgets-0.7/htmlwidgets.js"></script>
-<script src="site_libs/datatables-binding-0.2/datatables.js"></script>
-<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="site_libs/dt-core-1.10.12/js/jquery.dataTables.min.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <link rel="stylesheet"
@@ -207,37 +202,28 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">mysql-checklist</h1>
+<h1 class="title toc-ignore">统计指标的字段选取</h1>
 <h4 class="author"><em>alfonso</em></h4>
-<h4 class="date"><em>2016-11-12 10:00</em></h4>
+<h4 class="date"><em>2016-11-25 21:55</em></h4>
 
 </div>
 
-<div id="TOC">
-<ul>
-<li><a href="#group-by"><code>group by</code></a></li>
-<li><a href="#uv-ip">uv, ip</a></li>
-</ul>
-</div>
 
-<div id="group-by" class="section level1">
-<h1><code>group by</code></h1>
-<pre class="sql"><code>select b.name, sum(a.pv), sum(a.cli) from a left join b on a.cat_id = b.id
-group by a.cat_id</code></pre>
-<p>以上sql中有个问题<code>b.name</code>这个字段取出来的值并不是唯一的，会出现以下结果： <div id="htmlwidget-3df2e8f84e4ef3c0c7ba" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3df2e8f84e4ef3c0c7ba">{"x":{"filter":"none","autoHideNavigation":true,"data":[["1","2","3"],["music","music","art"],[5,9,3],[2,3,3]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> \u003c/th>\n      <th>b.name\u003c/th>\n      <th>pv\u003c/th>\n      <th>cli\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script> 可以将<code>group by</code>的字段改为<code>b.name</code>，这样可以得出一条规律：</p>
-<pre><code>`select`出来的字段必须要出现在`group by`的字段中</code></pre>
-</div>
-<div id="uv-ip" class="section level1">
-<h1>uv, ip</h1>
-<p>当你设计的表里有统计uv,ip这样的字段，并且有大小两个粒度的时候，并不能只生成小粒度的那张表，而将大粒度的数据从小粒度的表里<code>sum</code>出来。例如：</p>
-<pre class="sql"><code>city_uv_ip: province_id, city_id, uv, ip
-province_uv_ip: province, uv, ip</code></pre>
-<p>不能只生成<code>city_uv_ip</code>的数据，而是要两个都生成。还有一种做在一起的方法：</p>
-<pre class="sql"><code>location_uv_ip: level, uv, ip
-level为1，表示city
-level为2, 表示province</code></pre>
-</div>
+<p>这周出了一个报表来表示各个平台（PC，移动）上的请求量，统计下来是PC多，而移动少，而老大们说应该是移动多，PC少。所以我就开始找原因，最后找到了，原来是选择的统计字段有问题。</p>
+<p>一开始使用的是设备类型这样一个字段，将数据按照字段的取值统计如下：</p>
+<pre><code>未知：10w
+PC:   2w
+IOS:  1w
+Android: 2w</code></pre>
+<p>而我只是把IOS和Android的量标成了移动，则剩下的自然就成了PC，这时候未知那部分就被归到了PC中，导致PC的量多了起来。</p>
+<p>后来另外选择了一个表示操作系统的字段，各个字段统计如下：</p>
+<pre><code>未知:4k
+PC: 2w
+IOS: 5w
+Android: 5w</code></pre>
+<p>上面可以很明显地看到是移动的量多，而且这个字段的数据没有问题（因为未知的量较少），上面那个表示设备类型的字段有问题。这样可以反推出可能是开发在记录字段的时候有问题。</p>
+<p>本来一个不起眼的问题（最初以为），真正找到原因之后，还是会有些收获的。</p>
+<p>数据这个东西有时候不小心会得到相反的结果，还是得多熟悉数据。</p>
 
 
 
