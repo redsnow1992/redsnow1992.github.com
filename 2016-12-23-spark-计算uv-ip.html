@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="alfonso" />
+
+
+<title>spark-计算uv-ip</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlight/default.css"
+      type="text/css" />
+<script src="site_libs/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Hello World</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="category.html">Category</a>
+</li>
+<li>
+  <a href="tag.html">Tag</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">spark-计算uv-ip</h1>
+<h4 class="author"><em>alfonso</em></h4>
+<h4 class="date"><em>2016-12-23 20:30</em></h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a>任务要求</a></li>
+<li><a>实现过程</a></li>
+<li><a href="#uvip">新方法计算uv，ip</a></li>
+<li><a>接下来</a></li>
+</ul>
+</div>
+
+<p>这两周在尝试将mapreduce任务改写成spark任务。 最直接的方式是使用如下对应关系：</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">mapreduce</th>
+<th align="left">spark</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">map</td>
+<td align="left">map/flatMapToPair</td>
+</tr>
+<tr class="even">
+<td align="left">reduce</td>
+<td align="left">groupByKey().mapValues()</td>
+</tr>
+</tbody>
+</table>
+<p>可惜数据量上来的时候OOM就出现了，原因在于 <code>groupByKey</code> 没有在map端合并数据，导致数据shuffle到executor上的时候非常多，导致了OOM。在写mapreduce的时候这个问题是不会出现的。 网上常见的解决方法就是使用可以在map端合并的函数，比如 <code>reduceByKey, combineByKey</code> 等。</p>
+<div class="section level1">
+<h1>任务要求</h1>
+<p>根据日志来输出key（可能是多个字段组合，形成的key）的统计信息（比如pv，cli，uv，ip）。 开发机配置：4核16g，数据量4 * 10 个gzip文件，每个40~50M，一共1,800,000条记录。</p>
+</div>
+<div class="section level1">
+<h1>实现过程</h1>
+<p>一开始使用的是一个自定义的数据结构将这些信息存储起来，然后使用 <code>combineByKey</code>，每次combine的时候修改该结构中的字段值，但很快便出现了OOM，spark-submit使用默认配置。</p>
+<p>修改过spark-submit几个参数之后依旧出现，遂弃用自定义数据结构。但弃用之后一个问题来了，如果使用<code>reduceByKey</code>没法在同时计算uv,ip这样的指标，就只能再加一步来计算uv，ip。</p>
+<p>计算可加性的指标使用如下Pair：</p>
+<pre><code>key1 pv-num|cli-num
+key1 pv-num|cli-num
+key2 pv-num|cli-num</code></pre>
+<p>之后再 <code>reduceByKey</code>，对应位置相加。代码跑起来之后没有问题。</p>
+<p>而计算uv，ip则使用 <code>PairRDD#countApproxDistinctByKey</code>，但是在统计的时候出现了 <code>Thread 81 spilling in-memory map of 132.8 MB to disk (1 time so far)</code> ，shuffle不够往内存放，溢写到磁盘了，一下子慢下来了。 调整参数也不能消除这个溢写的问题。苦想了近两天，想出了一个新的方法。</p>
+</div>
+<div id="uvip" class="section level1">
+<h1>新方法计算uv，ip</h1>
+<p>依然使用 <code>reduceByKey</code> 这个方法，因为这个方法性能最好。但是改变Pair（之所以不用单个key是为了和前面计算其他指标使用相同的结构）的设计：</p>
+<pre><code># value 留空
+key1|uv|id1 &quot;&quot;
+key1|uv|id1 &quot;&quot;
+key1|ip|1.1.1.1 &quot;&quot;
+key1|ip|1.1.1.1 &quot;&quot;
+key1|ip|1.1.1.2 &quot;&quot;</code></pre>
+<p>对于上述的Pair使用 <code>reduceByKey</code> 形成以下Pair：</p>
+<pre><code>key1|uv|id1 &quot;&quot;
+key1|ip|1.1.1.1 &quot;&quot;
+key1|ip|1.1.1.2 &quot;&quot;</code></pre>
+<p>再map成以下Pair：</p>
+<pre><code>key1  1|0
+key1  0|1
+key1  0|1</code></pre>
+<p>之后再 <code>reduceByKey</code>，类似于计算其他指标。 具体代码如下：</p>
+<pre class="scala"><code>.reduceByKey((a, b) -&gt; &quot;&quot;).keys()
+    .mapToPair(key -&gt; {
+        int i = key.lastIndexOf(&quot;|&quot;);
+        String value;
+        if (&quot;uv&quot;.equals(key.substring(i-2, i))) {
+            value = &quot;1|0&quot;;
+        } else {
+            value = &quot;0|1&quot;;
+        }
+        return new Tuple2&lt;&gt;(key.substring(0, i-3), value);
+    }).reduceByKey(...)</code></pre>
+<p>这样下来的代码依旧是有溢写到磁盘的现象，虽然多了一个Stage，但比使用 <code>countApproxDistinctByKey</code> 要快一些，具体的比较可以自己试以下。 以下是DAG和Stage的耗时和详细图：</p>
+<p><img src="img/spark-calc-uv-ip/spark_uv_ip_method1.png" alt="method1" /> <img src="img/spark-calc-uv-ip/spark_uv_ip_method1_stage_0.png" alt="method1_stage_0" /> <img src="img/spark-calc-uv-ip/spark_uv_ip_method1_stage_1.png" alt="method1_stage_1" /></p>
+<p>令人头疼的spill还是会出现，接下来就看看有没有办法消灭这个。看了很多博客，也没有头绪，一天早上忽然试了一下 在 <code>reduceByKey</code> 之前先把数据分区一下：</p>
+<pre class="scala"><code>.partitionBy(new Partitioner() {
+    private int num = 100;
+    @Override
+    public int numPartitions() {
+        return num;
+    }
+    @Override
+    public int getPartition(Object key) {
+        if (null == key) {
+            return 0;
+        } else {
+            int i = key.toString().lastIndexOf(&quot;|&quot;);
+            return Utils.nonNegativeMod(key.toString().substring(0, i-3).hashCode(), this.num);
+        }
+    })
+.reduceByKey((a, b) -&gt; &quot;&quot;) ....</code></pre>
+<p>这样跑下来速度果然快了很多，在读取文件阶段快了近3倍，但是在最后一个 <code>reduceByKey</code> 的时候还是出现了溢写磁盘，而且出现了数据倾斜。 以下是DAG和Stage的耗时和详细图：</p>
+<p><img src="img/spark-calc-uv-ip/spark_uv_ip_method2.png" alt="method2" /> <img src="img/spark-calc-uv-ip/spark_uv_ip_method2_stage_0.png" alt="method2_stage_0" /> <img src="img/spark-calc-uv-ip/spark_uv_ip_method2_stage_1.png" alt="method2_stage_1" /></p>
+<p>今天在看spark源码的时候，注意到这种计算uv,ip的方法其实在spark源码里有体现，但估计不会有人注意到：</p>
+<pre class="scala"><code>def distinct(numPartitions: Int)(implicit ord: Ordering[T] = null): RDD[T] = withScope {
+    map(x =&gt; (x, null)).reduceByKey((x, y) =&gt; x, numPartitions).map(_._1)
+}</code></pre>
+<p>上面这个去重方法使用的思想和我这个方法是一致的。</p>
+</div>
+<div class="section level1">
+<h1>接下来</h1>
+<p>虽然加了分区，性能好了一些，但是数据倾斜却没法避免，还得找找办法。 mapreduce使用spark来改写了，性能确实是有提高，目前提高了30%，我觉得时间缩短主要在spark任务调度延迟低，而且我配的资源比mapreduce要多一些，mapreduce使用了比较高级的数据结构会比较慢点。因为本来这个任务只是把日志读一遍，然后统计一下数据，不会有更多的内存计算在里面，所以改用spark性能提升不会太多，当然这只是我的观点。但30%还是有些不够看，估计还有得改进。</p>
+<p>参考博客：</p>
+<ul>
+<li><a href="http://tech.meituan.com/spark-tuning-basic.html" class="uri">http://tech.meituan.com/spark-tuning-basic.html</a></li>
+<li><a href="http://tech.meituan.com/spark-tuning-pro.html" class="uri">http://tech.meituan.com/spark-tuning-pro.html</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
