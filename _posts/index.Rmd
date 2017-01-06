@@ -1,10 +1,10 @@
 ---
 title: "Home"
 ---
-total: 58
+total: 43
 
 
-**2016(20)**
+**2016(16)**
 
 * *12-23* [spark-计算uv-ip](2016-12-23-spark-计算uv-ip.html)
 * *11-25* [统计指标的字段选取](2016-11-25-统计指标的字段选取.html)
@@ -18,16 +18,12 @@ total: 58
 * *11-05* [mysql 中文乱码](2016-11-05-mysql-中文乱码.html)
 * *10-10* [About](about.html)
 * *07-28* [ssh localhost debug](2016-07-28-一次ssh_localhost.html)
-* *03-08* [吃饭钱](2016-03-08-吃饭钱.html)
-* *01-27* [我对佛理解的变化](2016-01-27-my_opinion_on_buddha.html)
 * *01-24* [2015年总结](2016-01-24-2015年总结.html)
 * *01-20* [mutable pitfall](2016-01-20-mutable_pitfall.html)
 * *01-14* [H2内存数据库插入字符串的pitfall](2016-01-14-h2_sql_pitfall.html)
 * *01-13* [Sent vs Delivered](2016-01-13-send_vs_deliver.html)
-* *01-02* [中医笔记 －－ 归经](2016-01-02-中药笔记－归经.html)
-* *01-02* [中医笔记 －－ 四气与五味](2016-01-02-中药笔记－四气与五味.html)
 
-**2015(38)**
+**2015(27)**
 
 * *11-20* [对象池、链接池](2015-11-20-object_pool.html)
 * *11-04* [同事的case语句](2015-11-04-同事的case语句.html)
@@ -35,7 +31,6 @@ total: 58
 * *10-22* [implicit笔记_Evidence_implicitNotFound_CanBuildFrom](2015-10-22-implicit笔记_Evidence_implicitNotFound_CanBuildFrom.html)
 * *10-20* [implicit笔记_一般常识](2015-10-20-implicit笔记_一般常识.html)
 * *08-16* [好文分享](2015-08-16-share-doc.html)
-* *08-08* [矩阵乘法、Pascal矩阵、有向图](2015-08-08-矩阵乘法、Pascal矩阵、有向图.html)
 * *07-30* [Scala Style](2015-07-30-scala_style.html)
 * *07-29* [偏函数和implicit](2015-07-29-偏函数和implicit.html)
 * *07-29* [Dockerfile reference](2015-07-29-dockerfile_ref.html)
@@ -43,27 +38,17 @@ total: 58
 * *07-28* [Linux Commands](2015-07-28-linux_commands.html)
 * *07-14* [sequel注意点](2015-07-14-sequel注意点.html)
 * *07-09* [Shortcuts](2015-07-09-shortcuts.html)
-* *07-09* [个人语录](2015-07-09-个人语录.html)
 * *07-02* [常用sql](2015-07-02-常用sql.html)
-* *06-30* [Solving Linear Equations-Part 2](2015-06-30-Solving_Linear_Equations-Part_2.html)
 * *06-26* [生字](2015-06-26-生字.html)
-* *06-16* [Solving Linear Equations-Part 1](2015-06-16-Solving_Linear_Equations-Part_1.html)
 * *06-09* [javascript日用代码集合（二）](2015-06-09-javascript日用代码集合（二）.html)
-* *06-08* [Chapter1 Introduction to Vectors](2015-06-08-Chapter_1_Introduction_to_Vectors.html)
-* *06-07* [Linear Algebra Preface](2015-06-07-linear-algebra-preface.html)
-* *06-03* [Keep Asking self](2015-06-03-keep-asking-self.html)
 * *05-26* [ruby Time 毫秒](2015-05-26-ruby_time注意点.html)
 * *05-21* [优先级和lisp式前缀表达式](2015-05-21-优先级和lisp式前缀表达式.html)
 * *05-20* [scala-类型推导示例](2015-05-20-scala-类型推导示例.html)
-* *05-17* [亦正亦反](2016-01-02-亦正亦反.html)
 * *05-16* [铁夫破词](2015-05-16-铁夫破词.html)
 * *05-15* [scala-case Option](2015-05-15-scala-case_Option.html)
 * *05-15* [scala-functional objects, nested iteration](2015-05-15-scala-functional_objects,_nested_iteration.html)
 * *05-15* [scala-traits](2015-05-15-scala-traits.html)
 * *05-15* [scala-杂项](2015-05-15-scala-杂项.html)
 * *05-11* [javascript日用代码集合（一）](2015-05-11-javascript日用代码集合（一）.html)
-* *05-11* [复式记账法](2015-05-11-复式记账法.html)
 * *05-11* [ruby定时脚本](2015-05-11-ruby定时脚本.html)
 * *05-10* [the design of everyday things](2015-05-10-the_design_of_everyday_things.html)
-* *05-10* [一些方法（一）](2015-05-10-一些方法（一）.html)
-* *05-10* [一些体会（一）](2015-05-10-一些体会（一）.html)

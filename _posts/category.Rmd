@@ -2,19 +2,11 @@
 title: "Category"
 ---
 
-**thinking(12)**
+**thinking(4)**
 
 * [the design of everyday things](2015-05-10-the_design_of_everyday_things.html)
-* [一些体会（一）](2015-05-10-一些体会（一）.html)
-* [一些方法（一）](2015-05-10-一些方法（一）.html)
-* [复式记账法](2015-05-11-复式记账法.html)
-* [Keep Asking self](2015-06-03-keep-asking-self.html)
-* [个人语录](2015-07-09-个人语录.html)
 * [好文分享](2015-08-16-share-doc.html)
-* [亦正亦反](2016-01-02-亦正亦反.html)
 * [2015年总结](2016-01-24-2015年总结.html)
-* [我对佛理解的变化](2016-01-27-my_opinion_on_buddha.html)
-* [吃饭钱](2016-03-08-吃饭钱.html)
 * [习惯和数据挖掘](2016-11-11-习惯和数据挖掘.html)
 
 **programming(28)**
@@ -56,14 +48,6 @@ title: "Category"
 * [统计指标的字段选取](2016-11-25-统计指标的字段选取.html)
 * [About](about.html)
 
-**math(5)**
-
-* [Linear Algebra Preface](2015-06-07-linear-algebra-preface.html)
-* [Chapter1 Introduction to Vectors](2015-06-08-Chapter_1_Introduction_to_Vectors.html)
-* [Solving Linear Equations-Part 1](2015-06-16-Solving_Linear_Equations-Part_1.html)
-* [Solving Linear Equations-Part 2](2015-06-30-Solving_Linear_Equations-Part_2.html)
-* [矩阵乘法、Pascal矩阵、有向图](2015-08-08-矩阵乘法、Pascal矩阵、有向图.html)
-
 **linux(5)**
 
 * [Docker Demo](2015-07-28-docker_demo.html)
@@ -71,11 +55,6 @@ title: "Category"
 * [Dockerfile reference](2015-07-29-dockerfile_ref.html)
 * [ssh localhost debug](2016-07-28-一次ssh_localhost.html)
 * [mysql 中文乱码](2016-11-05-mysql-中文乱码.html)
-
-**中医(2)**
-
-* [中医笔记 －－ 四气与五味](2016-01-02-中药笔记－四气与五味.html)
-* [中医笔记 －－ 归经](2016-01-02-中药笔记－归经.html)
 
 **english(1)**
 

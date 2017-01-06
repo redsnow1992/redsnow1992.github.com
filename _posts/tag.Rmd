@@ -2,30 +2,14 @@
 title: "Tag"
 ---
 
-**design(3)**
+**design(2)**
 
 * [the design of everyday things](2015-05-10-the_design_of_everyday_things.html)
-* [复式记账法](2015-05-11-复式记账法.html)
 * [对象池、链接池](2015-11-20-object_pool.html)
 
 **digest(1)**
 
 * [the design of everyday things](2015-05-10-the_design_of_everyday_things.html)
-
-**undefined(12)**
-
-* [一些体会（一）](2015-05-10-一些体会（一）.html)
-* [一些方法（一）](2015-05-10-一些方法（一）.html)
-* [Keep Asking self](2015-06-03-keep-asking-self.html)
-* [个人语录](2015-07-09-个人语录.html)
-* [Linux Commands](2015-07-28-linux_commands.html)
-* [中医笔记 －－ 四气与五味](2016-01-02-中药笔记－四气与五味.html)
-* [中医笔记 －－ 归经](2016-01-02-中药笔记－归经.html)
-* [亦正亦反](2016-01-02-亦正亦反.html)
-* [ssh localhost debug](2016-07-28-一次ssh_localhost.html)
-* [报告系统及近期工作](2016-11-05-报告系统及近期工作.html)
-* [习惯和数据挖掘](2016-11-11-习惯和数据挖掘.html)
-* [About](about.html)
 
 **javascript(2)**
 
@@ -39,10 +23,6 @@ title: "Tag"
 * [sequel注意点](2015-07-14-sequel注意点.html)
 * [对象池、链接池](2015-11-20-object_pool.html)
 * [mutable pitfall](2016-01-20-mutable_pitfall.html)
-
-**economy(1)**
-
-* [复式记账法](2015-05-11-复式记账法.html)
 
 **scala(10)**
 
@@ -64,14 +44,6 @@ title: "Tag"
 **scheme(1)**
 
 * [优先级和lisp式前缀表达式](2015-05-21-优先级和lisp式前缀表达式.html)
-
-**linear algebra(5)**
-
-* [Linear Algebra Preface](2015-06-07-linear-algebra-preface.html)
-* [Chapter1 Introduction to Vectors](2015-06-08-Chapter_1_Introduction_to_Vectors.html)
-* [Solving Linear Equations-Part 1](2015-06-16-Solving_Linear_Equations-Part_1.html)
-* [Solving Linear Equations-Part 2](2015-06-30-Solving_Linear_Equations-Part_2.html)
-* [矩阵乘法、Pascal矩阵、有向图](2015-08-08-矩阵乘法、Pascal矩阵、有向图.html)
 
 **word(2)**
 
@@ -98,6 +70,14 @@ title: "Tag"
 * [Docker Demo](2015-07-28-docker_demo.html)
 * [Dockerfile reference](2015-07-29-dockerfile_ref.html)
 
+**undefined(5)**
+
+* [Linux Commands](2015-07-28-linux_commands.html)
+* [ssh localhost debug](2016-07-28-一次ssh_localhost.html)
+* [报告系统及近期工作](2016-11-05-报告系统及近期工作.html)
+* [习惯和数据挖掘](2016-11-11-习惯和数据挖掘.html)
+* [About](about.html)
+
 **implicit(2)**
 
 * [偏函数和implicit](2015-07-29-偏函数和implicit.html)
@@ -107,12 +87,11 @@ title: "Tag"
 
 * [好文分享](2015-08-16-share-doc.html)
 
-**pitfall(9)**
+**pitfall(8)**
 
 * [autocomplete pitfall](2015-10-29-autocomplete_pitfall.html)
 * [H2内存数据库插入字符串的pitfall](2016-01-14-h2_sql_pitfall.html)
 * [mutable pitfall](2016-01-20-mutable_pitfall.html)
-* [吃饭钱](2016-03-08-吃饭钱.html)
 * [极端的jar冲突](2016-11-17-极端的jar冲突.html)
 * [hive orc文件生成及一系列问题](2016-11-19-hive-orc文件生成及一系列问题.html)
 * [mac-hadoop-mapreduce-hive备份](2016-11-19-mac-hadoop-mapreduce-hive备份.html)
@@ -126,10 +105,6 @@ title: "Tag"
 **summary(1)**
 
 * [2015年总结](2016-01-24-2015年总结.html)
-
-**佛(1)**
-
-* [我对佛理解的变化](2016-01-27-my_opinion_on_buddha.html)
 
 **mysql(2)**
 
